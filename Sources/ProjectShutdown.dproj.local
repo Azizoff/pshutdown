@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="..\..\NewShutDown_SuperClass"/>
+    <File Path="..\Icons"/>
+    <File Path="..\Icons\NewShutDown.ico"/>
+    <File Path="Managers"/>
+    <File Path="Managers\MNGAlarm.pas"/>
+    <File Path="Managers\MNGDisplay.pas"/>
+    <File Path="Managers\MNGExecuting.pas"/>
+    <File Path="Managers\MNGHibernate.pas"/>
+    <File Path="Managers\MNGMessage.pas"/>
+    <File Path="Managers\MNGPlugins.pas"/>
+    <File Path="Managers\MNGShutDown.pas"/>
+    <File Path="AboutFormShutdown.pas"/>
+    <File Path="AboutFormShutdown.dfm"/>
+    <File Path="CounterClass.pas"/>
+    <File Path="GCAV.pas"/>
+    <File Path="MainFormShutdown.pas"/>
+    <File Path="MainFormShutdown.dfm"/>
+    <File Path="MainFrame.pas"/>
+    <File Path="MessageTextFormShutdown.pas"/>
+    <File Path="MessageTextFormShutdown.dfm"/>
+    <File Path="MultiLocalizer.pas"/>
+    <File Path="PluginListManager.pas"/>
+    <File Path="SelectPluginFormShutdown.pas"/>
+    <File Path="SelectPluginFormShutdown.dfm"/>
+    <File Path="SelectSoundFormShutdown.pas"/>
+    <File Path="SelectSoundFormShutdown.dfm"/>
+    <File Path="SelectProgramFormShutdown.pas"/>
+    <File Path="SelectProgramFormShutdown.dfm"/>
+    <File Path="SettingsFormShutdown.pas"/>
+    <File Path="SettingsFormShutdown.dfm"/>
+    <File Path="SharedTypes.pas"/>
+  </ProjectSortOrder>
+</BorlandProject>

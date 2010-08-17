@@ -1,0 +1,60 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{CF6AFA7E-FE62-49B8-8C1D-80E531CC7487}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="ProjectShutdown.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="PluginsSRS\BeeBeeper.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="PluginsSRS\Beeper.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="ProjectShutdown">
+			<MSBuild Projects="ProjectShutdown.dproj"/>
+		</Target>
+		<Target Name="ProjectShutdown:Clean">
+			<MSBuild Targets="Clean" Projects="ProjectShutdown.dproj"/>
+		</Target>
+		<Target Name="ProjectShutdown:Make">
+			<MSBuild Targets="Make" Projects="ProjectShutdown.dproj"/>
+		</Target>
+		<Target Name="BeeBeeper">
+			<MSBuild Projects="PluginsSRS\BeeBeeper.dproj"/>
+		</Target>
+		<Target Name="BeeBeeper:Clean">
+			<MSBuild Targets="Clean" Projects="PluginsSRS\BeeBeeper.dproj"/>
+		</Target>
+		<Target Name="BeeBeeper:Make">
+			<MSBuild Targets="Make" Projects="PluginsSRS\BeeBeeper.dproj"/>
+		</Target>
+		<Target Name="Beeper">
+			<MSBuild Projects="PluginsSRS\Beeper.dproj"/>
+		</Target>
+		<Target Name="Beeper:Clean">
+			<MSBuild Targets="Clean" Projects="PluginsSRS\Beeper.dproj"/>
+		</Target>
+		<Target Name="Beeper:Make">
+			<MSBuild Targets="Make" Projects="PluginsSRS\Beeper.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="ProjectShutdown;BeeBeeper;Beeper"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="ProjectShutdown:Clean;BeeBeeper:Clean;Beeper:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="ProjectShutdown:Make;BeeBeeper:Make;Beeper:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>
