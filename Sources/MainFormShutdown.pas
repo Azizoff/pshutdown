@@ -960,16 +960,9 @@ end;
 
 procedure TMainFormSD.mniSaveAsLangFileClick(Sender: TObject);
 var
-  F: TextFile;
   Localizer: TMultiLocalizer;
   I: Integer;
 begin
-  AssignFile(F, gvApplicationPath + 'Rus1.ini');
-  try
-    Rewrite(F);
-  finally
-    CloseFile(F);
-  end;
   I := 0;
   while FileExists(gvApplicationPath + 'Lang_' + IntToStr(I) + '.ini') do
   Inc(I);
