@@ -16,6 +16,7 @@ type
     lblAboutAuhtorDescription: TLabel;
     lblAboutEmail: TLabel;
     lblAboutEmailDescription: TLabel;
+    imgAbout: TImage;
     procedure lblAboutEmailDescriptionClick(Sender: TObject);
     procedure lblAboutEmailDescriptionMouseEnter(Sender: TObject);
     procedure lblAboutEmailDescriptionMouseLeave(Sender: TObject);
