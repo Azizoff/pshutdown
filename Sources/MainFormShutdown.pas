@@ -230,6 +230,7 @@ begin
       else
         Counter.SetFields(0, StrToInt(EHourEvery.Text),
           StrToInt(EMinuteEvery.Text), StrToInt(ESecondEvery.Text));
+
     end;
   end;
 
@@ -558,7 +559,7 @@ begin
   end;
   if (Actor <> nil) and (IsOK) then
   begin
-    Actor.DoAction;
+  Actor.DoAction;
   end;
   Result := True;
 end;

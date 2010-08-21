@@ -943,7 +943,7 @@ object About: TAbout
   end
   object lblAboutDescription: TLabel
     Left = 119
-    Top = 35
+    Top = 42
     Width = 201
     Height = 14
     Caption = #1042#1099#1087#1086#1083#1085#1077#1085#1080#1077' '#1076#1077#1081#1089#1090#1074#1080#1081' '#1087#1086' '#1090#1072#1081#1084#1077#1088#1091'.'
@@ -956,7 +956,7 @@ object About: TAbout
   end
   object lblAboutAuthor: TLabel
     Left = 119
-    Top = 61
+    Top = 65
     Width = 43
     Height = 14
     Caption = #1040#1074#1090#1086#1088':'
@@ -969,7 +969,7 @@ object About: TAbout
   end
   object lblAboutAuhtorDescription: TLabel
     Left = 175
-    Top = 61
+    Top = 65
     Width = 132
     Height = 14
     Caption = #1040#1079#1080#1079#1086#1074' '#1048#1083#1100#1076#1072#1088' [Azizoff]'

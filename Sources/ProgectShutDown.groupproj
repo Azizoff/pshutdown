@@ -12,6 +12,9 @@
 			<Projects Include="PluginsSRS\Beeper.dproj">
 				<Dependencies/>
 			</Projects>
+			<Projects Include="PluginsSRS\LampSample\Lamp.dproj">
+				<Dependencies/>
+			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
 			<Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
 		<Target Name="Beeper:Make">
 			<MSBuild Targets="Make" Projects="PluginsSRS\Beeper.dproj"/>
 		</Target>
+		<Target Name="Lamp">
+			<MSBuild Projects="PluginsSRS\LampSample\Lamp.dproj"/>
+		</Target>
+		<Target Name="Lamp:Clean">
+			<MSBuild Targets="Clean" Projects="PluginsSRS\LampSample\Lamp.dproj"/>
+		</Target>
+		<Target Name="Lamp:Make">
+			<MSBuild Targets="Make" Projects="PluginsSRS\LampSample\Lamp.dproj"/>
+		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="ProjectShutdown;BeeBeeper;Beeper"/>
+			<CallTarget Targets="ProjectShutdown;BeeBeeper;Beeper;Lamp"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="ProjectShutdown:Clean;BeeBeeper:Clean;Beeper:Clean"/>
+			<CallTarget Targets="ProjectShutdown:Clean;BeeBeeper:Clean;Beeper:Clean;Lamp:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="ProjectShutdown:Make;BeeBeeper:Make;Beeper:Make"/>
+			<CallTarget Targets="ProjectShutdown:Make;BeeBeeper:Make;Beeper:Make;Lamp:Make"/>
 		</Target>
 		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 	</Project>

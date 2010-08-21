@@ -1821,7 +1821,7 @@ object MainFormSD: TMainFormSD
         OnClick = RBAtClick
       end
       object BStart: TButton
-        Left = 207
+        Left = 210
         Top = 257
         Width = 112
         Height = 29
