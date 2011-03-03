@@ -15,6 +15,9 @@
 			<Projects Include="PluginsSRS\LampSample\Lamp.dproj">
 				<Dependencies/>
 			</Projects>
+			<Projects Include="PluginsSRS\FileMove\PFileMove.dproj">
+				<Dependencies/>
+			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
 			<Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -59,14 +62,23 @@
 		<Target Name="Lamp:Make">
 			<MSBuild Targets="Make" Projects="PluginsSRS\LampSample\Lamp.dproj"/>
 		</Target>
+		<Target Name="PFileMove">
+			<MSBuild Projects="PluginsSRS\FileMove\PFileMove.dproj"/>
+		</Target>
+		<Target Name="PFileMove:Clean">
+			<MSBuild Targets="Clean" Projects="PluginsSRS\FileMove\PFileMove.dproj"/>
+		</Target>
+		<Target Name="PFileMove:Make">
+			<MSBuild Targets="Make" Projects="PluginsSRS\FileMove\PFileMove.dproj"/>
+		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="ProjectShutdown;BeeBeeper;Beeper;Lamp"/>
+			<CallTarget Targets="ProjectShutdown;BeeBeeper;Beeper;Lamp;PFileMove"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="ProjectShutdown:Clean;BeeBeeper:Clean;Beeper:Clean;Lamp:Clean"/>
+			<CallTarget Targets="ProjectShutdown:Clean;BeeBeeper:Clean;Beeper:Clean;Lamp:Clean;PFileMove:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="ProjectShutdown:Make;BeeBeeper:Make;Beeper:Make;Lamp:Make"/>
+			<CallTarget Targets="ProjectShutdown:Make;BeeBeeper:Make;Beeper:Make;Lamp:Make;PFileMove:Make"/>
 		</Target>
 		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 	</Project>

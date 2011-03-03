@@ -1,4 +1,4 @@
-unit GCAV;
+п»їunit GCAV;
 
 interface
 
@@ -29,44 +29,44 @@ const
   LANGUAGE_PATH = 'Languages\';
   NEW_LINE = #13 + #10;
   {
-    Наименование переменных: [gvs]
+    РќР°РёРјРµРЅРѕРІР°РЅРёРµ РїРµСЂРµРјРµРЅРЅС‹С…: [gvs]
     [gv] - (Global Value)
-    [s] - (Settings) Переменные, отвечающие за настройки программы
+    [s] - (Settings) РџРµСЂРµРјРµРЅРЅС‹Рµ, РѕС‚РІРµС‡Р°СЋС‰РёРµ Р·Р° РЅР°СЃС‚СЂРѕР№РєРё РїСЂРѕРіСЂР°РјРјС‹
     }
 var
 
   MainFormHandle: Cardinal;
 
-  mbtext_AreYouShoreWantTo: string = 'Вы действительно хотите ';
-  mbtext_ThisPluginHasNoSettings: string = 'У данного плагина нет настроек.';
-  mbtext_UnableToSaveSettings: string = 'Невозможно сохранить настройки.';
-  mbtext_FileIsWriteProtected: string = 'Файл защищен от записи.';
-  mbtext_ChoosePlugin: string = 'Выбрать плагин';
+  mbtext_AreYouShoreWantTo: string = 'Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ ';
+  mbtext_ThisPluginHasNoSettings: string = 'РЈ РґР°РЅРЅРѕРіРѕ РїР»Р°РіРёРЅР° РЅРµС‚ РЅР°СЃС‚СЂРѕРµРє.';
+  mbtext_UnableToSaveSettings: string = 'РќРµРІРѕР·РјРѕР¶РЅРѕ СЃРѕС…СЂР°РЅРёС‚СЊ РЅР°СЃС‚СЂРѕР№РєРё.';
+  mbtext_FileIsWriteProtected: string = 'Р¤Р°Р№Р» Р·Р°С‰РёС‰РµРЅ РѕС‚ Р·Р°РїРёСЃРё.';
+  mbtext_ChoosePlugin: string = 'Р’С‹Р±СЂР°С‚СЊ РїР»Р°РіРёРЅ';
 
   gvMainWindowHandle: LongWord;
-  { [Настройки] }
-  gvFilePath: string; // Путь запускаемого файла
-  gvParameters: string = ''; // Параметры запускаемого файла
-  gvSoundPath: string = ''; // Путь аудио файла
+  { [РќР°СЃС‚СЂРѕР№РєРё] }
+  gvFilePath: string; // РџСѓС‚СЊ Р·Р°РїСѓСЃРєР°РµРјРѕРіРѕ С„Р°Р№Р»Р°
+  gvParameters: string = ''; // РџР°СЂР°РјРµС‚СЂС‹ Р·Р°РїСѓСЃРєР°РµРјРѕРіРѕ С„Р°Р№Р»Р°
+  gvSoundPath: string = ''; // РџСѓС‚СЊ Р°СѓРґРёРѕ С„Р°Р№Р»Р°
   gvSoundLoop: boolean = False;
-  gvTextMessage: string = ''; // Текст сообщения
+  gvTextMessage: string = ''; // РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ
 
   { GENERAL }
   gvsShowMessageIfNow: boolean = True;
-  // Выводить запрос при выполнении функции немедленно
+  // Р’С‹РІРѕРґРёС‚СЊ Р·Р°РїСЂРѕСЃ РїСЂРё РІС‹РїРѕР»РЅРµРЅРёРё С„СѓРЅРєС†РёРё РЅРµРјРµРґР»РµРЅРЅРѕ
   gvsShowMessageOnlyForCrytical: boolean = False;
-  // Выводить запрос подтвержднеия только для критических заданий }
+  // Р’С‹РІРѕРґРёС‚СЊ Р·Р°РїСЂРѕСЃ РїРѕРґС‚РІРµСЂР¶РґРЅРµРёСЏ С‚РѕР»СЊРєРѕ РґР»СЏ РєСЂРёС‚РёС‡РµСЃРєРёС… Р·Р°РґР°РЅРёР№ }
   gvsForceAction: boolean = False;
-  // True = компьютер будет выключаться принудительно, даже если не отвечают программы
+  // True = РєРѕРјРїСЊСЋС‚РµСЂ Р±СѓРґРµС‚ РІС‹РєР»СЋС‡Р°С‚СЊСЃСЏ РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕ, РґР°Р¶Рµ РµСЃР»Рё РЅРµ РѕС‚РІРµС‡Р°СЋС‚ РїСЂРѕРіСЂР°РјРјС‹
   gvsBeepLastTen: boolean = False;
   gvsBeepOnB: boolean = False;
-  // Выводить звуковой сигнал в минуты кратные {gvsBeepOnI}
-  gvsBeepOnI: Integer = 2; // Единица измерения минуты
+  // Р’С‹РІРѕРґРёС‚СЊ Р·РІСѓРєРѕРІРѕР№ СЃРёРіРЅР°Р» РІ РјРёРЅСѓС‚С‹ РєСЂР°С‚РЅС‹Рµ {gvsBeepOnI}
+  gvsBeepOnI: Integer = 2; // Р•РґРёРЅРёС†Р° РёР·РјРµСЂРµРЅРёСЏ РјРёРЅСѓС‚С‹
   gvsAskIfClose: boolean = True;
 
   { INTERFACE }
-  gvsMinimizeToTray: boolean = False; // True = Сворачивать окно в трей
-  gvsMinimizeOnEscape: boolean = False; // True = Сворачивать по ESCAPE
+  gvsMinimizeToTray: boolean = False; // True = РЎРІРѕСЂР°С‡РёРІР°С‚СЊ РѕРєРЅРѕ РІ С‚СЂРµР№
+  gvsMinimizeOnEscape: boolean = False; // True = РЎРІРѕСЂР°С‡РёРІР°С‚СЊ РїРѕ ESCAPE
   gvsLanguageFile: string;
   { PASSWORD }
 

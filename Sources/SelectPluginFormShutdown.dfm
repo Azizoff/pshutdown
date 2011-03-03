@@ -3,7 +3,7 @@ object SelectPlugin: TSelectPlugin
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = #1054#1073#1079#1086#1088' '#1087#1083#1072#1075#1080#1085#1086#1074
+  Caption = 'Plugins Browser'
   ClientHeight = 360
   ClientWidth = 418
   Color = clBtnFace
@@ -56,16 +56,16 @@ object SelectPlugin: TSelectPlugin
   object lblAvailablePlugins: TLabel
     Left = 8
     Top = 8
-    Width = 107
+    Width = 83
     Height = 13
-    Caption = #1044#1086#1089#1090#1091#1087#1085#1099#1077' '#1087#1083#1072#1075#1080#1085#1099':'
+    Caption = 'Available plugins:'
   end
   object lblPluginDescription: TLabel
     Left = 8
     Top = 191
-    Width = 97
+    Width = 87
     Height = 13
-    Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1087#1083#1072#1075#1080#1085#1072':'
+    Caption = 'Plugin description:'
   end
   object MPluginInfo: TMemo
     Left = 8
@@ -80,7 +80,7 @@ object SelectPlugin: TSelectPlugin
     Top = 327
     Width = 105
     Height = 30
-    Caption = #1054#1050
+    Caption = 'OK'
     ModalResult = 1
     TabOrder = 2
     OnClick = BOKClick
@@ -90,7 +90,7 @@ object SelectPlugin: TSelectPlugin
     Top = 327
     Width = 105
     Height = 30
-    Caption = #1054#1090#1084#1077#1085#1072
+    Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 3
   end
@@ -109,7 +109,7 @@ object SelectPlugin: TSelectPlugin
     Top = 327
     Width = 179
     Height = 30
-    Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080' '#1087#1083#1072#1075#1080#1085#1072
+    Caption = 'Plugin settings'
     TabOrder = 1
     OnClick = BPluginSettingsClick
   end
@@ -120,17 +120,17 @@ object SelectPlugin: TSelectPlugin
     Height = 158
     Columns = <
       item
-        Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Caption = 'Name'
         Width = 210
       end
       item
         Alignment = taCenter
-        Caption = #1052#1086#1076#1091#1083#1100
+        Caption = 'Plugin'
         Width = 120
       end
       item
         Alignment = taCenter
-        Caption = #1042#1077#1088#1089#1080#1103
+        Caption = 'Version'
         Width = 65
       end>
     ColumnClick = False

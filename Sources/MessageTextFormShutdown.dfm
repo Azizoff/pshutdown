@@ -1,9 +1,9 @@
-object MessageText: TMessageText
+﻿object MessageText: TMessageText
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = #1058#1077#1082#1089#1090' '#1089#1086#1086#1073#1097#1077#1085#1080#1103
+  Caption = 'Message Text'
   ClientHeight = 179
   ClientWidth = 418
   Color = clBtnFace
@@ -56,9 +56,9 @@ object MessageText: TMessageText
   object Label1: TLabel
     Left = 8
     Top = 5
-    Width = 88
+    Width = 67
     Height = 13
-    Caption = #1058#1077#1082#1089#1090' '#1089#1086#1086#1073#1097#1077#1085#1080#1103
+    Caption = 'Text Message'
   end
   object MMessageText: TMemo
     Left = 8
@@ -73,7 +73,7 @@ object MessageText: TMessageText
     Top = 144
     Width = 105
     Height = 30
-    Caption = #1054#1050
+    Caption = 'OK'
     ModalResult = 1
     TabOrder = 1
     OnClick = BOKClick
@@ -83,7 +83,7 @@ object MessageText: TMessageText
     Top = 144
     Width = 105
     Height = 30
-    Caption = #1054#1090#1084#1077#1085#1072
+    Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 2
   end

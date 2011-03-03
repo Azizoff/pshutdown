@@ -1,4 +1,4 @@
-unit MainFrameClass;
+﻿unit MainFrameClass;
 
 interface
 

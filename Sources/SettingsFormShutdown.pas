@@ -1,4 +1,4 @@
-unit SettingsFormShutdown;
+﻿unit SettingsFormShutdown;
 
 interface
 
@@ -23,8 +23,6 @@ type
     GroupBox3: TGroupBox;
     CBSShowMessageOnlyForCrytical: TCheckBox;
     CBBeepLastTen: TCheckBox;
-    CBBeepOn: TCheckBox;
-    EBeepOn: TEdit;
     PanelInterface: TPanel;
     GroupBox4: TGroupBox;
     CBMinimizeToTray: TCheckBox;
@@ -38,7 +36,6 @@ type
     procedure BApplyClick(Sender: TObject);
     procedure ChangeSetting(Sender: TObject);
     procedure BCancelClick(Sender: TObject);
-    procedure EBeepOnExit(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure LVLanguageChange(Sender: TObject; Item: TListItem;
@@ -75,15 +72,6 @@ begin
   vsSettingsChanged := True;
   BApply.Enabled := vsSettingsChanged;
   CBSShowMessageOnlyForCrytical.Enabled := CBSShowMessageIfNow.Checked;
-  EBeepOn.Enabled := CBBeepOn.Checked;
-end;
-
-procedure TSettings.EBeepOnExit(Sender: TObject);
-begin
-  if (Length(EBeepOn.Text) = 0) or (StrToInt(EBeepOn.Text) = 0) then
-  begin
-    EBeepOn.Text := IntTostr(gvsBeepOnI);
-  end;
 end;
 
 procedure TSettings.BApplyClick(Sender: TObject);
@@ -148,9 +136,6 @@ begin
   CBSShowMessageOnlyForCrytical.Checked := gvsShowMessageOnlyForCrytical;
   CBAskIfClose.Checked := gvsAskIfClose;
   CBBeepLastTen.Checked := gvsBeepLastTen;
-  CBBeepOn.Checked := gvsBeepOnB;
-  EBeepOn.Text := IntTostr(gvsBeepOnI);
-  EBeepOn.Enabled := CBBeepOn.Checked;
   CBMinimizeToTray.Checked := gvsMinimizeToTray;
   CBMinimizeOnEscape.Checked := gvsMinimizeOnEscape;
   BApply.Enabled := vsSettingsChanged;
@@ -172,8 +157,6 @@ begin
   gvsShowMessageIfNow := CBSShowMessageIfNow.Checked;
   gvsShowMessageOnlyForCrytical := CBSShowMessageOnlyForCrytical.Checked;
   gvsBeepLastTen := CBBeepLastTen.Checked;
-  gvsBeepOnB := CBBeepOn.Checked;
-  gvsBeepOnI := StrToInt(EBeepOn.Text);
   gvsMinimizeToTray := CBMinimizeToTray.Checked;
   gvsMinimizeOnEscape := CBMinimizeOnEscape.Checked;
   gvsAskIfClose := CBAskIfClose.Checked;

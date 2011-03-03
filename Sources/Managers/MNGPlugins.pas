@@ -28,16 +28,16 @@ constructor TManagerOfPlugin.Create(const PluginPath: string;
   var IsValidModule: Boolean);
 begin
   IsValidModule := False;
-  // загрузка
+  // Р·Р°РіСЂСѓР·РєР°
   FHandle := LoadLibrary(PChar(PluginPath));
   if (FHandle > 0) then
   begin
-    // получение адресов функций плагина
+    // РїРѕР»СѓС‡РµРЅРёРµ Р°РґСЂРµСЃРѕРІ С„СѓРЅРєС†РёР№ РїР»Р°РіРёРЅР°
     FGetPluginInfo := GetProcAddress(FHandle, 'GetPluginInfo');
     FDoAction := GetProcAddress(FHandle, 'DoAction');
     FShowSettings := GetProcAddress(FHandle, 'ShowSettings');
     FPluginFile := ExtractFileName(PluginPath);
-    // начальные действия
+    // РЅР°С‡Р°Р»СЊРЅС‹Рµ РґРµР№СЃС‚РІРёСЏ
     FPluginInfo := GetPluginInfo;
     IsValidModule := True;
   end;

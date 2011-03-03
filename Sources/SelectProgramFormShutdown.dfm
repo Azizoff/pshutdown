@@ -1,9 +1,9 @@
-object SelectProgramm: TSelectProgramm
+﻿object SelectProgramm: TSelectProgramm
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = #1042#1099#1073#1086#1088' '#1087#1088#1086#1075#1088#1072#1084#1084#1099' '#1076#1083#1103' '#1079#1072#1087#1091#1089#1082#1072
+  Caption = 'Select the program to launch'
   ClientHeight = 148
   ClientWidth = 418
   Color = clBtnFace
@@ -19,16 +19,16 @@ object SelectProgramm: TSelectProgramm
   object Label1: TLabel
     Left = 8
     Top = 8
-    Width = 94
+    Width = 26
     Height = 13
-    Caption = #1055#1091#1090#1100' '#1082' '#1087#1088#1086#1075#1088#1072#1084#1084#1077':'
+    Caption = 'Path:'
   end
   object Label2: TLabel
     Left = 8
     Top = 51
-    Width = 151
+    Width = 59
     Height = 13
-    Caption = #1044#1086#1087#1086#1083#1085#1080#1090#1077#1083#1100#1085#1099#1077' '#1087#1072#1088#1072#1084#1077#1090#1088#1099':'
+    Caption = 'Parameters:'
   end
   object eFilePath: TEdit
     Left = 8
@@ -59,7 +59,7 @@ object SelectProgramm: TSelectProgramm
     Top = 110
     Width = 105
     Height = 30
-    Caption = #1054#1050
+    Caption = 'OK'
     ModalResult = 1
     TabOrder = 3
     OnClick = BOKClick
@@ -69,7 +69,7 @@ object SelectProgramm: TSelectProgramm
     Top = 110
     Width = 105
     Height = 30
-    Caption = #1054#1090#1084#1077#1085#1072
+    Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 4
   end

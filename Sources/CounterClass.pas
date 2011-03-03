@@ -1,4 +1,4 @@
-unit CounterClass;
+﻿unit CounterClass;
 
 interface
 

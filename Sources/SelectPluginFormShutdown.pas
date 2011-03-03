@@ -1,4 +1,4 @@
-unit SelectPluginFormShutdown;
+﻿unit SelectPluginFormShutdown;
 
 interface
 

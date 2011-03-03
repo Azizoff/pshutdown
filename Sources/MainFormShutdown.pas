@@ -1,4 +1,4 @@
-unit MainFormShutdown;
+п»їunit MainFormShutdown;
 
 interface
 
@@ -33,7 +33,8 @@ uses
   MNGAlarm,
   MNGHibernate,
   MNGPlugins,
-  MNGMessage;
+  MNGMessage,
+  ULogger;
 
 type
   TMainFormSD = class(TForm)
@@ -94,6 +95,8 @@ type
     UDSecondEvery: TUpDown;
     mniSaveAsLangFile: TMenuItem;
     pmPluginChoise: TPopupMenu;
+    mniNotAvaliableYet1: TMenuItem;
+    mniN1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure RGActionListClick(Sender: TObject);
     procedure BRigthNowClick(Sender: TObject);
@@ -175,6 +178,7 @@ type
     procedure LoadPlugIns();
     procedure OnTimeChange(var Message: TWMTimeChange); message WM_TIMECHANGE;
     procedure OnSelectPlugin(var Msg: TMessage); message WMU_PLUGIN_SELECTED;
+    procedure WMQueryEndSession(var Message: TWMQueryEndSession); message WM_QUERYENDSESSION;
     { Private declarations }
   public
     { Public declarations }
@@ -189,6 +193,7 @@ var
   LangLoaded: Boolean = False;
   ShowMessageOnes: Boolean = False;
   pbHintLabel: TLabel;
+  CloseProgramm:Boolean  = False;
 const
   ShiftWeek: array[0..6] of Byte = (6, 0, 1, 2, 3, 4, 5);
   DBG_MODE = False;
@@ -352,7 +357,7 @@ begin
   end
   else
   begin
-    MessageBox(handle, 'Установите таймер', 'PShutDown',
+    MessageBox(handle, 'РЈСЃС‚Р°РЅРѕРІРёС‚Рµ С‚Р°Р№РјРµСЂ', 'PShutDown',
       MB_OK or MB_ICONINFORMATION);
   end;
 
@@ -531,9 +536,13 @@ begin
   end;
   case RGActionList.ItemIndex of
     0:
+    begin
       Actor := TManagerOfShutDown.Create(sdShutdown, gvsForceAction);
+    end;
     1:
+    begin
       Actor := TManagerOfShutDown.Create(sdReboot, gvsForceAction);
+    end;
     2:
       Actor := TManagerOfShutDown.Create(sdLogOff, gvsForceAction);
     3:
@@ -557,9 +566,13 @@ begin
   else
     Beep;
   end;
+
   if (Actor <> nil) and (IsOK) then
   begin
-  Actor.DoAction;
+  Actor.DoAction ;
+  end
+  else
+  begin
   end;
   Result := True;
 end;
@@ -751,6 +764,13 @@ begin
     inherited;
 end;
 
+procedure TMainFormSD.WMQueryEndSession(var Message: TWMQueryEndSession);
+begin
+  CloseProgramm := True;
+  Message.Result := 1;
+inherited;
+end;
+
 procedure TMainFormSD.FormClose(Sender: TObject; var Action: TCloseAction);
 var I:Integer;
 begin
@@ -772,11 +792,15 @@ procedure TMainFormSD.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 var
   Answ: Integer;
 begin
-  if gvsAskIfClose then
+  if (gvsAskIfClose) and (not CloseProgramm) then
   begin
-    Answ := MessageBox(handle, PChar(mbtext_AreYouShoreWantTo + 'закрыть PShutDown?'),
+    Answ := MessageBox(handle, PChar(mbtext_AreYouShoreWantTo + 'Р·Р°РєСЂС‹С‚СЊ PShutDown?'),
       'PShutDown', MB_YESNO or MB_ICONQUESTION);
     CanClose := Answ = mrYes;
+  end
+  else
+  begin
+   CanClose := True;
   end;
 end;
 
@@ -869,7 +893,7 @@ var
 begin
   CenterModal(Settings.handle);
   OldLang := gvsLanguageFile;
-  Settings.ShowModal;
+  IntToStr(Settings.ShowModal);
   if OldLang <> gvsLanguageFile then
   begin
     MainFormSD.ChangeLanguage();
@@ -920,8 +944,8 @@ begin
       if not ShowMessageOnes then
       begin
         ShowMessageOnes := True;
-        mbAnswer := MessageBox(Handle, 'Системное время изменилось' + NEW_LINE +
-        'Обновить данные?', 'PShutDown', MB_YESNO + MB_ICONQUESTION);
+        mbAnswer := MessageBox(Handle, 'РЎРёСЃС‚РµРјРЅРѕРµ РІСЂРµРјСЏ РёР·РјРµРЅРёР»РѕСЃСЊ' + NEW_LINE +
+        'РћР±РЅРѕРІРёС‚СЊ РґР°РЅРЅС‹Рµ?', 'PShutDown', MB_YESNO + MB_ICONQUESTION);
         if mbAnswer = mrYes then
         begin
           BPause.Click;
@@ -950,8 +974,8 @@ end;
 
 procedure TMainFormSD.mniAboutClick(Sender: TObject);
 begin
-  CenterModal(About.handle);
-  About.ShowModal;
+CenterModal(About.handle);
+About.ShowModal;
 end;
 
 procedure TMainFormSD.mniExitClick(Sender: TObject);

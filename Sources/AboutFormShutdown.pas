@@ -1,4 +1,4 @@
-unit AboutFormShutdown;
+п»їunit AboutFormShutdown;
 
 interface
 
@@ -11,12 +11,12 @@ type
     Panel1: TPanel;
     BClose: TButton;
     lblAboutProgramName: TLabel;
-    lblAboutDescription: TLabel;
     lblAboutAuthor: TLabel;
     lblAboutAuhtorDescription: TLabel;
     lblAboutEmail: TLabel;
     lblAboutEmailDescription: TLabel;
     imgAbout: TImage;
+    mmoAboutDescription: TMemo;
     procedure lblAboutEmailDescriptionClick(Sender: TObject);
     procedure lblAboutEmailDescriptionMouseEnter(Sender: TObject);
     procedure lblAboutEmailDescriptionMouseLeave(Sender: TObject);
@@ -39,7 +39,7 @@ implementation
 procedure TAbout.lblAboutEmailDescriptionClick(Sender: TObject);
 begin
   ShellExecute(Handle, nil, 'mailto:AzizovReg@Gmail.com?subject=PShutDown',
-    nil, nil, SW_RESTORE); // написать мне письмо
+    nil, nil, SW_RESTORE); // РЅР°РїРёСЃР°С‚СЊ РјРЅРµ РїРёСЃСЊРјРѕ
 end;
 
 procedure TAbout.lblAboutEmailDescriptionMouseEnter(Sender: TObject);

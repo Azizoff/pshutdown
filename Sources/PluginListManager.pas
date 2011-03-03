@@ -1,4 +1,4 @@
-unit PluginListManager;
+﻿unit PluginListManager;
 
 interface
 

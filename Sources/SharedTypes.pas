@@ -1,4 +1,4 @@
-unit SharedTypes;
+﻿unit SharedTypes;
 
 interface
 

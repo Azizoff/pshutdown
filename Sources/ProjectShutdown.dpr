@@ -1,6 +1,4 @@
-program ProjectShutdown;
-
-
+﻿program ProjectShutdown;
 
 {$R *.dres}
 
@@ -25,7 +23,8 @@ uses
   MNGHibernate in 'Managers\MNGHibernate.pas',
   MNGPlugins in 'Managers\MNGPlugins.pas',
   MNGMessage in 'Managers\MNGMessage.pas',
-  MainFrame in 'MainFrame.pas';
+  MainFrame in 'MainFrame.pas',
+  ULogger in 'ULogger.pas';
 
 {$R *.res}
 

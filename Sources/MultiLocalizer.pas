@@ -1,4 +1,4 @@
-unit MultiLocalizer;
+﻿unit MultiLocalizer;
 
 interface
 
@@ -14,22 +14,22 @@ type
   TForms = record
     fForm: TForm;
     fExcludeIfClear: Boolean;
-    fExcludeComponents: array of string;
-    procedure AddExcludeFilter(const ComponentName: string);
-    function IsFiltered(const ComponentName: string): Boolean;
+    fExcludeComponents: array of UnicodeString;
+    procedure AddExcludeFilter(const ComponentName: UnicodeString);
+    function IsFiltered(const ComponentName: UnicodeString): Boolean;
   end;
 
 type
   TMultiLocalizer = class
   private
-    fFilePath: string;
+    fFilePath: UnicodeString;
     fFormsList: array of TForms;
     fFormsCount: Cardinal;
   public
-    constructor Create(const lFilePath: string);
+    constructor Create(const lFilePath: UnicodeString);
     function AddForm(const lForm: TForm; const lExcludeClear: Boolean = True)
       : Integer;
-    procedure AddFilter(const lIndex: Integer; const lFilter: string);
+    procedure AddFilter(const lIndex: Integer; const lFilter: UnicodeString);
     procedure SaveToFile();
     procedure LoadFromFile();
   end;
@@ -39,7 +39,7 @@ implementation
 { TMultiLocalizer }
 
 procedure TMultiLocalizer.AddFilter(const lIndex: Integer;
-  const lFilter: string);
+  const lFilter: UnicodeString);
 begin
   fFormsList[lIndex].AddExcludeFilter(lFilter);
 end;
@@ -53,7 +53,7 @@ begin
   Inc(fFormsCount);
 end;
 
-constructor TMultiLocalizer.Create(const lFilePath: string);
+constructor TMultiLocalizer.Create(const lFilePath: UnicodeString);
 begin
   fFilePath := lFilePath;
   fFormsCount := 0;
@@ -80,6 +80,14 @@ begin
             (Components[J] as TButton).Caption :=
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
               (Components[J] as TButton).Name, (Components[J] as TButton).Caption);
+          end;
+          {$ENDREGION}
+          {$REGION 'TMemo'}
+          if Components[J] is TMemo then
+          begin
+            (Components[J] as TMemo).Text :=
+              LngFile.ReadString(Name + '_' + Components[J].ClassName,
+              (Components[J] as TMemo).Name, (Components[J] as TMemo).Text);
           end;
           {$ENDREGION}
           {$REGION 'TCheckBox'}
@@ -346,7 +354,7 @@ end;
 
 { TForms }
 
-procedure TForms.AddExcludeFilter(const ComponentName: string);
+procedure TForms.AddExcludeFilter(const ComponentName: UnicodeString);
 var
   ECLen: Integer;
 begin
@@ -355,7 +363,7 @@ begin
   fExcludeComponents[ECLen] := ComponentName;
 end;
 
-function TForms.IsFiltered(const ComponentName: string): Boolean;
+function TForms.IsFiltered(const ComponentName: UnicodeString): Boolean;
 var
   ECLen: Integer;
 begin

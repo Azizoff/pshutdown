@@ -1,4 +1,4 @@
-object SelectSound: TSelectSound
+﻿object SelectSound: TSelectSound
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
@@ -56,9 +56,9 @@ object SelectSound: TSelectSound
   object Label1: TLabel
     Left = 8
     Top = 8
-    Width = 73
+    Width = 26
     Height = 13
-    Caption = #1055#1091#1090#1100' '#1082' '#1092#1072#1081#1083#1091':'
+    Caption = 'Path:'
   end
   object ESoundPath: TEdit
     Left = 8
@@ -80,9 +80,9 @@ object SelectSound: TSelectSound
   object CBSoundLoop: TCheckBox
     Left = 8
     Top = 57
-    Width = 113
+    Width = 81
     Height = 17
-    Caption = #1055#1086#1074#1090#1086#1088#1103#1102#1097#1080#1081#1089#1103
+    Caption = 'Loop Sound'
     TabOrder = 2
   end
   object BOK: TButton
@@ -90,7 +90,7 @@ object SelectSound: TSelectSound
     Top = 89
     Width = 105
     Height = 30
-    Caption = #1054#1050
+    Caption = 'OK'
     ModalResult = 1
     TabOrder = 3
     OnClick = BOKClick
@@ -100,7 +100,7 @@ object SelectSound: TSelectSound
     Top = 89
     Width = 105
     Height = 30
-    Caption = #1054#1090#1084#1077#1085#1072
+    Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 4
   end

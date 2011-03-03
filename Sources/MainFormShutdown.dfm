@@ -1516,24 +1516,24 @@ object MainFormSD: TMainFormSD
     ActivePage = TSOnTimer
     TabOrder = 0
     object TSOnTimer: TTabSheet
-      Caption = #1055#1086' '#1090#1072#1081#1084#1077#1088#1091
+      Caption = 'Timer'
       object RGActionList: TRadioGroup
         Left = 3
         Top = 3
         Width = 198
         Height = 283
-        Caption = #1044#1077#1081#1089#1090#1074#1080#1077
+        Caption = 'Action'
         ItemIndex = 0
         Items.Strings = (
-          #1042#1099#1082#1083#1102#1095#1080#1090#1100' '#1082#1086#1084#1087#1100#1102#1090#1077#1088
-          #1055#1077#1088#1077#1079#1072#1075#1088#1091#1079#1080#1090#1100' '#1082#1086#1084#1087#1100#1102#1090#1077#1088
-          #1047#1072#1074#1077#1088#1096#1080#1090#1100' '#1089#1077#1072#1085#1089
-          #1055#1077#1088#1077#1081#1090#1080' '#1074' '#1089#1087#1103#1097#1080#1081' '#1088#1077#1078#1080#1084
-          #1042#1099#1082#1083#1102#1095#1080#1090#1100' '#1084#1086#1085#1080#1090#1086#1088
-          #1047#1072#1087#1091#1089#1090#1080#1090#1100' '#1087#1088#1086#1075#1088#1072#1084#1084#1091
-          #1042#1082#1083#1102#1095#1080#1090#1100' '#1073#1091#1076#1080#1083#1100#1085#1080#1082
-          #1042#1099#1074#1077#1089#1090#1080' '#1089#1086#1086#1073#1097#1077#1085#1080#1077
-          #1042#1099#1073#1088#1072#1090#1100' '#1087#1083#1072#1075#1080#1085)
+          'Shutdown Computer'
+          'Reboot Computer'
+          'Logoff'
+          'Sleeping Mode'
+          'Switch off Monitor'
+          'Run Program'
+          'Run Alarm'
+          'Show Message'
+          'Choose Plugin')
         TabOrder = 0
         OnClick = RGActionListClick
       end
@@ -1546,30 +1546,30 @@ object MainFormSD: TMainFormSD
         object lblDaysAfter: TLabel
           Left = 9
           Top = 15
-          Width = 26
+          Width = 24
           Height = 13
-          Caption = #1044#1085#1077#1081
+          Caption = 'Days'
         end
         object LHourAfter: TLabel
           Left = 64
           Top = 15
-          Width = 30
+          Width = 28
           Height = 13
-          Caption = #1063#1072#1089#1086#1074
+          Caption = 'Hours'
         end
         object LSecondAfter: TLabel
           Left = 176
           Top = 15
-          Width = 38
+          Width = 40
           Height = 13
-          Caption = #1057#1077#1082#1091#1085#1076
+          Caption = 'Seconds'
         end
         object LMinuteAfter: TLabel
           Left = 118
           Top = 15
-          Width = 32
+          Width = 37
           Height = 13
-          Caption = #1052#1080#1085#1091#1090
+          Caption = 'Minutes'
         end
         object CBDaysAfter: TComboBox
           Left = 9
@@ -1694,23 +1694,23 @@ object MainFormSD: TMainFormSD
         object LHourAt: TLabel
           Left = 9
           Top = 39
-          Width = 30
+          Width = 28
           Height = 13
-          Caption = #1063#1072#1089#1086#1074
+          Caption = 'Hours'
         end
         object LMinuteAt: TLabel
           Left = 83
           Top = 39
-          Width = 32
+          Width = 37
           Height = 13
-          Caption = #1052#1080#1085#1091#1090
+          Caption = 'Minutes'
         end
         object LSecondAt: TLabel
           Left = 157
           Top = 39
-          Width = 38
+          Width = 40
           Height = 13
-          Caption = #1057#1077#1082#1091#1085#1076
+          Caption = 'Seconds'
         end
         object EHourAt: TEdit
           Left = 9
@@ -1743,15 +1743,15 @@ object MainFormSD: TMainFormSD
           Style = csDropDownList
           ItemIndex = 0
           TabOrder = 0
-          Text = #1055#1086#1085#1077#1076#1077#1083#1100#1085#1080#1082
+          Text = 'Monday'
           Items.Strings = (
-            #1055#1086#1085#1077#1076#1077#1083#1100#1085#1080#1082
-            #1042#1090#1086#1088#1085#1080#1082
-            #1057#1088#1077#1076#1072
-            #1063#1077#1090#1074#1077#1088#1075
-            #1055#1103#1090#1085#1080#1094#1072
-            #1057#1091#1073#1073#1086#1090#1072
-            #1042#1086#1089#1082#1088#1077#1089#1077#1085#1100#1077)
+            'Monday'
+            'Tuesday'
+            'Wednesday'
+            'Thursday'
+            'Friday'
+            'Saturday'
+            'Sunday')
         end
         object EMinuteAt: TEdit
           Left = 83
@@ -1805,7 +1805,7 @@ object MainFormSD: TMainFormSD
         Top = 4
         Width = 55
         Height = 17
-        Caption = #1063#1077#1088#1077#1079':'
+        Caption = 'After:'
         Checked = True
         TabOrder = 5
         TabStop = True
@@ -1816,7 +1816,7 @@ object MainFormSD: TMainFormSD
         Top = 77
         Width = 31
         Height = 17
-        Caption = #1042':'
+        Caption = 'At:'
         TabOrder = 7
         OnClick = RBAtClick
       end
@@ -1825,7 +1825,7 @@ object MainFormSD: TMainFormSD
         Top = 257
         Width = 112
         Height = 29
-        Caption = #1057#1090#1072#1088#1090
+        Caption = 'Start'
         TabOrder = 11
         OnClick = BStartClick
       end
@@ -1834,7 +1834,7 @@ object MainFormSD: TMainFormSD
         Top = 257
         Width = 112
         Height = 29
-        Caption = #1055#1072#1091#1079#1072
+        Caption = 'Pause'
         Enabled = False
         TabOrder = 12
         OnClick = BPauseClick
@@ -1844,7 +1844,7 @@ object MainFormSD: TMainFormSD
         Top = 292
         Width = 198
         Height = 29
-        Caption = #1053#1077#1084#1077#1076#1083#1077#1085#1085#1086
+        Caption = 'DoIt'
         TabOrder = 13
         OnClick = BRigthNowClick
       end
@@ -1877,7 +1877,7 @@ object MainFormSD: TMainFormSD
         Top = 292
         Width = 233
         Height = 29
-        Caption = #1057#1090#1086#1087' '#1073#1091#1076#1080#1083#1100#1085#1080#1082
+        Caption = 'Stop Alarm'
         TabOrder = 14
         OnClick = BStopAlarmClick
       end
@@ -1917,23 +1917,23 @@ object MainFormSD: TMainFormSD
         object LHourEvery: TLabel
           Left = 9
           Top = 15
-          Width = 30
+          Width = 28
           Height = 13
-          Caption = #1063#1072#1089#1086#1074
+          Caption = 'Hours'
         end
         object LMinuteEvery: TLabel
           Left = 83
           Top = 15
-          Width = 32
+          Width = 37
           Height = 13
-          Caption = #1052#1080#1085#1091#1090
+          Caption = 'Minutes'
         end
         object LSecondEvery: TLabel
           Left = 158
           Top = 15
-          Width = 38
+          Width = 40
           Height = 13
-          Caption = #1057#1077#1082#1091#1085#1076
+          Caption = 'Seconds'
         end
         object EHourEvery: TEdit
           Left = 10
@@ -2004,7 +2004,7 @@ object MainFormSD: TMainFormSD
         Top = 173
         Width = 68
         Height = 17
-        Caption = #1050#1072#1078#1076#1099#1077
+        Caption = 'Every:'
         TabOrder = 9
         OnClick = RBEveryClick
       end
@@ -2026,26 +2026,26 @@ object MainFormSD: TMainFormSD
     Left = 64
     Top = 344
     object mniFile: TMenuItem
-      Caption = #1060#1072#1081#1083
+      Caption = 'File'
       object mniSettings: TMenuItem
-        Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
+        Caption = 'Settings'
         ShortCut = 16464
         OnClick = mniSettingsClick
       end
       object mniAbout: TMenuItem
-        Caption = #1054' '#1087#1088#1086#1075#1088#1072#1084#1084#1077
+        Caption = 'About'
         ShortCut = 112
         OnClick = mniAboutClick
       end
       object mniSaveAsLangFile: TMenuItem
-        Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1103#1079#1099#1082#1086#1074#1086#1081' '#1092#1072#1081#1083
+        Caption = 'Save Language File'
         OnClick = mniSaveAsLangFileClick
       end
       object N4: TMenuItem
         Caption = '-'
       end
       object mniExit: TMenuItem
-        Caption = #1042#1099#1093#1086#1076
+        Caption = 'Exit'
         OnClick = mniExitClick
       end
     end
@@ -2058,5 +2058,12 @@ object MainFormSD: TMainFormSD
   object pmPluginChoise: TPopupMenu
     Left = 136
     Top = 344
+    object mniNotAvaliableYet1: TMenuItem
+      Caption = 'Not Avaliable Yet'
+      Enabled = False
+    end
+    object mniN1: TMenuItem
+      Caption = '-'
+    end
   end
 end

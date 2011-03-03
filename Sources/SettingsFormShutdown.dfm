@@ -3,7 +3,7 @@ object Settings: TSettings
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
+  Caption = 'Settings'
   ClientHeight = 404
   ClientWidth = 592
   Color = clBtnFace
@@ -68,14 +68,14 @@ object Settings: TSettings
       Top = 8
       Width = 385
       Height = 81
-      Caption = #1057#1080#1089#1090#1077#1084#1085#1099#1081' '#1083#1086#1090#1086#1082
+      Caption = 'System Tray'
       TabOrder = 0
       object CBMinimizeToTray: TCheckBox
         Left = 16
         Top = 47
         Width = 121
         Height = 17
-        Caption = #1057#1074#1086#1088#1072#1095#1080#1074#1072#1090#1100' '#1074' '#1090#1088#1077#1081
+        Caption = 'Minimize to tray'
         TabOrder = 1
         OnClick = ChangeSetting
       end
@@ -84,7 +84,7 @@ object Settings: TSettings
         Top = 24
         Width = 185
         Height = 17
-        Caption = #1057#1074#1086#1088#1072#1095#1080#1074#1072#1090#1100' '#1087#1086' '#1085#1072#1078#1072#1090#1080#1102' Escape'
+        Caption = 'Minimize on Escape'
         TabOrder = 0
         OnClick = ChangeSetting
       end
@@ -94,14 +94,14 @@ object Settings: TSettings
       Top = 101
       Width = 385
       Height = 146
-      Caption = #1071#1079#1099#1082
+      Caption = 'Language'
       TabOrder = 1
       object Label2: TLabel
         Left = 16
         Top = 18
-        Width = 64
+        Width = 70
         Height = 13
-        Caption = #1060#1072#1081#1083' '#1103#1079#1099#1082#1072':'
+        Caption = 'Language File:'
       end
       object LVLanguage: TListView
         Left = 16
@@ -110,15 +110,15 @@ object Settings: TSettings
         Height = 100
         Columns = <
           item
-            Caption = #1054#1087#1080#1089#1072#1085#1080#1077
+            Caption = 'Description'
             Width = 150
           end
           item
-            Caption = #1060#1072#1081#1083
+            Caption = 'File'
             Width = 98
           end
           item
-            Caption = #1040#1074#1090#1086#1088
+            Caption = 'Author'
             Width = 98
           end>
         ColumnClick = False
@@ -144,32 +144,32 @@ object Settings: TSettings
       Top = 8
       Width = 385
       Height = 105
-      Caption = #1042#1099#1074#1086#1076' '#1089#1086#1086#1073#1097#1077#1085#1080#1081
+      Caption = 'Messaging'
       TabOrder = 0
       object CBSShowMessageIfNow: TCheckBox
         Left = 16
         Top = 24
-        Width = 265
+        Width = 185
         Height = 17
-        Caption = #1057#1087#1088#1072#1096#1080#1074#1072#1090#1100' '#1087#1077#1088#1077#1076' '#1074#1099#1087#1086#1083#1085#1077#1085#1080#1077#1084' "'#1053#1077#1084#1077#1076#1083#1077#1085#1085#1086'"'
+        Caption = 'Ask before running "Immediately"'
         TabOrder = 0
         OnClick = ChangeSetting
       end
       object CBSShowMessageOnlyForCrytical: TCheckBox
         Left = 32
         Top = 47
-        Width = 201
+        Width = 121
         Height = 17
-        Caption = #1058#1086#1083#1100#1082#1086' '#1076#1083#1103' '#1082#1088#1080#1090#1080#1095#1077#1089#1082#1080#1093' '#1076#1077#1081#1089#1090#1074#1080#1081
+        Caption = 'Only for critical action'
         TabOrder = 1
         OnClick = ChangeSetting
       end
       object CBAskIfClose: TCheckBox
         Left = 16
         Top = 70
-        Width = 217
+        Width = 153
         Height = 17
-        Caption = #1057#1087#1088#1072#1096#1080#1074#1072#1090#1100' '#1087#1088#1080' '#1079#1072#1082#1088#1099#1090#1080#1080' '#1087#1088#1086#1075#1088#1072#1084#1084#1099
+        Caption = 'Ask when Programm closing'
         TabOrder = 2
         OnClick = ChangeSetting
       end
@@ -179,14 +179,14 @@ object Settings: TSettings
       Top = 119
       Width = 385
       Height = 58
-      Caption = #1059#1087#1088#1072#1074#1083#1077#1085#1080#1077' '#1087#1080#1090#1072#1085#1080#1077#1084
+      Caption = 'Power Management'
       TabOrder = 1
       object CBSForceAction: TCheckBox
         Left = 16
         Top = 24
-        Width = 281
+        Width = 201
         Height = 17
-        Caption = #1055#1088#1080#1085#1091#1076#1080#1090#1077#1083#1100#1085#1086#1077' '#1079#1072#1074#1077#1088#1096#1077#1085#1080#1077' '#1088#1072#1073#1086#1090#1099' '#1087#1088#1080#1083#1086#1078#1077#1085#1080#1081
+        Caption = 'Forcing the completion of applications'
         TabOrder = 0
         OnClick = ChangeSetting
       end
@@ -195,39 +195,17 @@ object Settings: TSettings
       Left = 8
       Top = 183
       Width = 385
-      Height = 82
-      Caption = #1047#1074#1091#1082#1086#1074#1072#1103' '#1089#1080#1075#1085#1072#1083#1080#1079#1072#1094#1080#1103
+      Height = 55
+      Caption = 'Sound Beeping'
       TabOrder = 2
       object CBBeepLastTen: TCheckBox
         Left = 16
         Top = 24
-        Width = 329
+        Width = 121
         Height = 17
-        Caption = #1054#1079#1074#1091#1095#1080#1074#1072#1090#1100' '#1087#1086#1089#1083#1077#1076#1085#1080#1077' 10 '#1089#1077#1082#1091#1085#1076' '#1076#1086' '#1074#1099#1087#1086#1083#1085#1077#1085#1080#1103' '#1076#1077#1081#1089#1090#1074#1080#1103
+        Caption = 'Beep last 10 seconds'
         TabOrder = 0
         OnClick = ChangeSetting
-      end
-      object CBBeepOn: TCheckBox
-        Left = 16
-        Top = 47
-        Width = 241
-        Height = 17
-        Caption = #1055#1080#1097#1072#1090#1100' '#1076#1080#1085#1072#1084#1080#1082#1086#1084' '#1074' '#1084#1080#1085#1091#1090#1099' '#1082#1088#1072#1090#1085#1099#1077' '
-        TabOrder = 1
-        OnClick = ChangeSetting
-      end
-      object EBeepOn: TEdit
-        Left = 232
-        Top = 47
-        Width = 25
-        Height = 21
-        Alignment = taCenter
-        MaxLength = 2
-        NumbersOnly = True
-        TabOrder = 2
-        Text = '2'
-        OnChange = ChangeSetting
-        OnExit = EBeepOnExit
       end
     end
   end
@@ -251,17 +229,17 @@ object Settings: TSettings
     TabOrder = 0
     OnChange = TVCategoriesChange
     Items.NodeData = {
-      0302000000280000000000000000000000FFFFFFFFFFFFFFFF00000000000000
-      000000000001051E043104490438043504300000000000000001000000FFFFFF
-      FFFFFFFFFF000000000000000000000000010918043D04420435044004440435
-      0439044104}
+      03020000002C0000000000000001000000FFFFFFFFFFFFFFFF00000000000000
+      00000000000107470065006E006500720061006C003000000000000000010000
+      00FFFFFFFFFFFFFFFF000000000000000000000000010949006E007400650072
+      006600610063006500}
   end
   object BOK: TButton
     Left = 256
     Top = 368
     Width = 105
     Height = 30
-    Caption = #1054#1050
+    Caption = 'OK'
     ModalResult = 1
     TabOrder = 4
     OnClick = BOKClick
@@ -271,7 +249,7 @@ object Settings: TSettings
     Top = 368
     Width = 105
     Height = 30
-    Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
+    Caption = 'Apply'
     Enabled = False
     TabOrder = 6
     OnClick = BApplyClick
@@ -281,7 +259,7 @@ object Settings: TSettings
     Top = 368
     Width = 105
     Height = 30
-    Caption = #1054#1090#1084#1077#1085#1072
+    Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 5
     OnClick = BCancelClick

@@ -1,4 +1,4 @@
-unit MessageTextFormShutdown;
+﻿unit MessageTextFormShutdown;
 
 interface
 

@@ -1,11 +1,11 @@
-object About: TAbout
+﻿object About: TAbout
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = #1054' '#1087#1088#1086#1075#1088#1072#1084#1084#1077
-  ClientHeight = 154
-  ClientWidth = 372
+  Caption = 'About'
+  ClientHeight = 198
+  ClientWidth = 395
   Color = clBtnHighlight
   DockSite = True
   Font.Charset = DEFAULT_CHARSET
@@ -941,25 +941,12 @@ object About: TAbout
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object lblAboutDescription: TLabel
-    Left = 119
-    Top = 42
-    Width = 201
-    Height = 14
-    Caption = #1042#1099#1087#1086#1083#1085#1077#1085#1080#1077' '#1076#1077#1081#1089#1090#1074#1080#1081' '#1087#1086' '#1090#1072#1081#1084#1077#1088#1091'.'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
   object lblAboutAuthor: TLabel
     Left = 119
-    Top = 65
-    Width = 43
+    Top = 105
+    Width = 44
     Height = 14
-    Caption = #1040#1074#1090#1086#1088':'
+    Caption = 'Author'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
@@ -969,10 +956,10 @@ object About: TAbout
   end
   object lblAboutAuhtorDescription: TLabel
     Left = 175
-    Top = 65
-    Width = 132
+    Top = 105
+    Width = 109
     Height = 14
-    Caption = #1040#1079#1080#1079#1086#1074' '#1048#1083#1100#1076#1072#1088' [Azizoff]'
+    Caption = 'Azizov Ildar [Azizoff]'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
@@ -982,7 +969,7 @@ object About: TAbout
   end
   object lblAboutEmail: TLabel
     Left = 119
-    Top = 87
+    Top = 127
     Width = 40
     Height = 14
     Caption = 'E-Mail:'
@@ -995,7 +982,7 @@ object About: TAbout
   end
   object lblAboutEmailDescription: TLabel
     Left = 175
-    Top = 87
+    Top = 127
     Width = 120
     Height = 14
     Caption = 'AzizovReg@Gmail.com'
@@ -1013,8 +1000,8 @@ object About: TAbout
   end
   object Panel1: TPanel
     Left = 8
-    Top = 112
-    Width = 356
+    Top = 152
+    Width = 379
     Height = 2
     BevelEdges = [beTop]
     BevelKind = bkTile
@@ -1022,12 +1009,25 @@ object About: TAbout
     TabOrder = 0
   end
   object BClose: TButton
-    Left = 259
-    Top = 119
+    Left = 282
+    Top = 160
     Width = 105
     Height = 30
-    Caption = #1047#1072#1082#1088#1099#1090#1100
+    Caption = 'Close'
     ModalResult = 1
     TabOrder = 1
+  end
+  object mmoAboutDescription: TMemo
+    Left = 119
+    Top = 40
+    Width = 268
+    Height = 59
+    Lines.Strings = (
+      'PShutDown is a small, very easy to use '
+      'application specially designed to help you '
+      'schedule various actions.')
+    ReadOnly = True
+    ScrollBars = ssVertical
+    TabOrder = 2
   end
 end

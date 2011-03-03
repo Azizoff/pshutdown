@@ -4,7 +4,11 @@
 			<MainSource>ProjectShutdown.dpr</MainSource>
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
-			<ProjectVersion>12.0</ProjectVersion>
+			<ProjectVersion>12.2</ProjectVersion>
+			<Base>True</Base>
+			<Platform>Win32</Platform>
+			<AppType>Application</AppType>
+			<FrameworkType>VCL</FrameworkType>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
 			<Base>true</Base>
@@ -20,10 +24,11 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_UsePackage>vclx;vcl;VclSmp;rtl;vclimg;svnui;svn;bdertl;TeeUI;TeeDB;Tee;vclactnband;vcldb;dbrtl;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;vclib;ibxpress;adortl;IndyCore;IndySystem;IndyProtocols;vclie;inet;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;vclribbon;dbexpress;DbxCommonDriver;DataSnapIndy10ServerTransport;DataSnapProviderClient;DbxClientDriver;DataSnapClient;dbxcds;DataSnapServer;AzureCloud;DBXInterBaseDriver;DBXMySQLDriver;DBXFirebirdDriver;DBXSybaseASEDriver;DBXSybaseASADriver;DBXOracleDriver;DBXMSSQLDriver;DBXInformixDriver;DBXDb2Driver;sdf</DCC_UsePackage>
 			<DCC_ExeOutput>..\Binaries\</DCC_ExeOutput>
 			<DCC_DependencyCheckOutputName>..\Binaries\ProjectShutdown.exe</DCC_DependencyCheckOutputName>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
-			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;$(DCC_UnitAlias)</DCC_UnitAlias>
+			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
 			<DCC_Platform>x86</DCC_Platform>
 			<DCC_E>false</DCC_E>
 			<DCC_N>false</DCC_N>
@@ -38,6 +43,7 @@
 			<DCC_DebugInformation>false</DCC_DebugInformation>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<BRCC_EnableMultiByte>true</BRCC_EnableMultiByte>
 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
 		</PropertyGroup>
 		<ItemGroup>
@@ -45,28 +51,28 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="MainFormShutdown.pas">
-				<Form> MainFormSD </Form>
+				<Form>MainFormSD</Form>
 			</DCCReference>
 			<DCCReference Include="GCAV.pas"/>
 			<DCCReference Include="SelectProgramFormShutdown.pas">
-				<Form> SelectProgramm </Form>
+				<Form>SelectProgramm</Form>
 			</DCCReference>
 			<DCCReference Include="SettingsFormShutdown.pas">
-				<Form> Settings </Form>
+				<Form>Settings</Form>
 			</DCCReference>
 			<DCCReference Include="AboutFormShutdown.pas">
-				<Form> About </Form>
+				<Form>About</Form>
 			</DCCReference>
 			<DCCReference Include="CounterClass.pas"/>
 			<DCCReference Include="SelectSoundFormShutdown.pas">
-				<Form> SelectSound </Form>
+				<Form>SelectSound</Form>
 			</DCCReference>
 			<DCCReference Include="SelectPluginFormShutdown.pas">
-				<Form> SelectPlugin </Form>
+				<Form>SelectPlugin</Form>
 			</DCCReference>
 			<DCCReference Include="PluginListManager.pas"/>
 			<DCCReference Include="MessageTextFormShutdown.pas">
-				<Form> MessageText </Form>
+				<Form>MessageText</Form>
 			</DCCReference>
 			<DCCReference Include="SharedTypes.pas"/>
 			<DCCReference Include="MultiLocalizer.pas"/>
@@ -78,23 +84,25 @@
 			<DCCReference Include="Managers\MNGPlugins.pas"/>
 			<DCCReference Include="Managers\MNGMessage.pas"/>
 			<DCCReference Include="MainFrame.pas"/>
+			<DCCReference Include="ULogger.pas"/>
 			<RcItem Include="..\Icons\NewShutDown.ico">
 				<ResourceType>Icon</ResourceType>
 				<ResourceId>Icon_1</ResourceId>
 			</RcItem>
-			<BuildConfiguration Include="Base">
-				<Key>Base</Key>
-			</BuildConfiguration>
 			<BuildConfiguration Include="Debug">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
 			</BuildConfiguration>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_1</Key>
 				<CfgParent>Base</CfgParent>
 			</BuildConfiguration>
 		</ItemGroup>
-		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj"/>
 		<ProjectExtensions>
 			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
 			<Borland.ProjectType>VCLApplication</Borland.ProjectType>
@@ -103,11 +111,7 @@
 					<Source>
 						<Source Name="MainSource">ProjectShutdown.dpr</Source>
 					</Source>
-					<Parameters>
-						<Parameters Name="UseLauncher">False</Parameters>
-						<Parameters Name="LoadAllSymbols">True</Parameters>
-						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
-					</Parameters>
+					<Parameters/>
 					<VersionInfo>
 						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
 						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
@@ -135,7 +139,14 @@
 						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k150.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclofficexp150.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
 				</Delphi.Personality>
+				<Platforms>
+					<Platform value="Win32">True</Platform>
+				</Platforms>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>
