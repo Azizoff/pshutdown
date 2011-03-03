@@ -34,14 +34,13 @@ const
     [s] - (Settings) Переменные, отвечающие за настройки программы
     }
 var
-
   MainFormHandle: Cardinal;
 
-  mbtext_AreYouShoreWantTo: string = 'Вы действительно хотите ';
-  mbtext_ThisPluginHasNoSettings: string = 'У данного плагина нет настроек.';
-  mbtext_UnableToSaveSettings: string = 'Невозможно сохранить настройки.';
-  mbtext_FileIsWriteProtected: string = 'Файл защищен от записи.';
-  mbtext_ChoosePlugin: string = 'Выбрать плагин';
+  mbtext_AreYouShoreWantTo: string = 'Do you really want ';
+  mbtext_ThisPluginHasNoSettings: string = 'This plugin has no settings.';
+  mbtext_UnableToSaveSettings: string = 'Can''t save the settings.';
+  mbtext_FileIsWriteProtected: string = 'Can''t rewrite file.';
+  mbtext_ChoosePlugin: string = 'Shoose plugin';
 
   gvMainWindowHandle: LongWord;
   { [Настройки] }

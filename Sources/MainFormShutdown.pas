@@ -794,7 +794,7 @@ var
 begin
   if (gvsAskIfClose) and (not CloseProgramm) then
   begin
-    Answ := MessageBox(handle, PChar(mbtext_AreYouShoreWantTo + 'закрыть PShutDown?'),
+    Answ := MessageBox(handle, PChar(mbtext_AreYouShoreWantTo + 'close PShutDown?'),
       'PShutDown', MB_YESNO or MB_ICONQUESTION);
     CanClose := Answ = mrYes;
   end
@@ -944,8 +944,8 @@ begin
       if not ShowMessageOnes then
       begin
         ShowMessageOnes := True;
-        mbAnswer := MessageBox(Handle, 'Системное время изменилось' + NEW_LINE +
-        'Обновить данные?', 'PShutDown', MB_YESNO + MB_ICONQUESTION);
+        mbAnswer := MessageBox(Handle, 'System time was changed' + NEW_LINE +
+        'Update timer?', 'PShutDown', MB_YESNO + MB_ICONQUESTION);
         if mbAnswer = mrYes then
         begin
           BPause.Click;
