@@ -795,7 +795,7 @@ var
 begin
   if (gvsAskIfClose) and (not CloseProgramm) then
   begin
-    Answ := MessageBox(handle, PChar(langs[0] + langs[7]), 'PShutDown',
+    Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]), 'PShutDown',
       MB_YESNO or MB_ICONQUESTION);
     CanClose := Answ = mrYes;
   end

@@ -103,7 +103,7 @@ var
   I: Integer;
 begin
   for I := Low(langs) to high(langs) do
-    langs[I] := Ini.ReadString('Messages', 'Item_' + IntToStr(I), langs[I]);
+    langs[I] := Trim(Ini.ReadString('Messages', 'Item_' + IntToStr(I), langs[I]));
   Result := False;
 end;
 
