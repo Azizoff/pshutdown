@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.pas,C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\LampSample\Unit1.pas=C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\LampSample\ULampForm.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\LampSample\Unit1.dfm=C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\LampSample\ULampForm.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dproj,C:\Users\Azizoff\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\LampSample\Lamp.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

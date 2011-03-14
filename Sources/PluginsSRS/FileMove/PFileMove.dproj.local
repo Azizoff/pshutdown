@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.pas,C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\FileMove\Unit1.pas=C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\FileMove\FileMoveSettings.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\FileMove\Unit1.dfm=C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\FileMove\FileMoveSettings.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dproj,C:\Users\Azizoff\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\FileMove\PFileMove.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\FileMove\Unit1.pas=C:\Users\Azizoff\Documents\RAD Studio\Projects\NewShutDown_SuperClass\Sources\PluginsSRS\FileMove\GV.pas</Transaction>
+  </Transactions>
+</BorlandProject>
