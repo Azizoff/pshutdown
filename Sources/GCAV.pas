@@ -2,7 +2,14 @@
 
 interface
 
-uses SharedTypes;
+uses
+  SharedTypes,
+  Classes,
+  IniFiles,
+  SysUtils;
+
+type
+  TUserFunc = function(Ini: TIniFile): Boolean;
 
 type
   TPluginsList = record
@@ -19,7 +26,6 @@ const
   WMU_2 = WMU_DEFAULT + 3;
   WMU_3 = WMU_DEFAULT + 4;
 
-
   SECONDS_IN_DAY = 86400;
   SECONDS_IN_HOUR = 3600;
   SECONDS_IN_MINUTE = 60;
@@ -28,44 +34,38 @@ const
   PLUGIN_PATH = 'Plugins\';
   LANGUAGE_PATH = 'Languages\';
   NEW_LINE = #13 + #10;
+
   {
     Наименование переменных: [gvs]
     [gv] - (Global Value)
     [s] - (Settings) Переменные, отвечающие за настройки программы
-    }
+  }
 var
   MainFormHandle: Cardinal;
-
-  mbtext_AreYouShoreWantTo: string = 'Do you really want ';
-  mbtext_ThisPluginHasNoSettings: string = 'This plugin has no settings.';
-  mbtext_UnableToSaveSettings: string = 'Can''t save the settings.';
-  mbtext_FileIsWriteProtected: string = 'Can''t rewrite file.';
-  mbtext_ChoosePlugin: string = 'Shoose plugin';
-
   gvMainWindowHandle: LongWord;
   { [Настройки] }
   gvFilePath: string; // Путь запускаемого файла
   gvParameters: string = ''; // Параметры запускаемого файла
   gvSoundPath: string = ''; // Путь аудио файла
-  gvSoundLoop: boolean = False;
+  gvSoundLoop: Boolean = False;
   gvTextMessage: string = ''; // Текст сообщения
 
   { GENERAL }
-  gvsShowMessageIfNow: boolean = True;
+  gvsShowMessageIfNow: Boolean = True;
   // Выводить запрос при выполнении функции немедленно
-  gvsShowMessageOnlyForCrytical: boolean = False;
+  gvsShowMessageOnlyForCrytical: Boolean = False;
   // Выводить запрос подтвержднеия только для критических заданий }
-  gvsForceAction: boolean = False;
+  gvsForceAction: Boolean = False;
   // True = компьютер будет выключаться принудительно, даже если не отвечают программы
-  gvsBeepLastTen: boolean = False;
-  gvsBeepOnB: boolean = False;
+  gvsBeepLastTen: Boolean = False;
+  gvsBeepOnB: Boolean = False;
   // Выводить звуковой сигнал в минуты кратные {gvsBeepOnI}
   gvsBeepOnI: Integer = 2; // Единица измерения минуты
-  gvsAskIfClose: boolean = True;
+  gvsAskIfClose: Boolean = True;
 
   { INTERFACE }
-  gvsMinimizeToTray: boolean = False; // True = Сворачивать окно в трей
-  gvsMinimizeOnEscape: boolean = False; // True = Сворачивать по ESCAPE
+  gvsMinimizeToTray: Boolean = False; // True = Сворачивать окно в трей
+  gvsMinimizeOnEscape: Boolean = False; // True = Сворачивать по ESCAPE
   gvsLanguageFile: string;
   { PASSWORD }
 
@@ -73,6 +73,47 @@ var
   gvLanguagesPath: string = '';
   gvPluginsPath: string = '';
 
+  // mbtext_AreYouShoreWantTo: string = 'Do you really want ';
+  // mbtext_ThisPluginHasNoSettings: string = 'This plugin has no settings.';
+  // mbtext_UnableToSaveSettings: string = 'Can''t save the settings.';
+  // mbtext_FileIsWriteProtected: string = 'Can''t rewrite file.';
+  // mbtext_ChoosePlugin: string = 'Shoose plugin';
+  // mbtext_SysTimeChanged: string = 'System time was changed';
+  // update_timer: string = 'Update timer?';
+  // close_pshutdown: string = 'close PShutDown?';
+
+  langs: array [0 .. 8] of string = (
+    'Do you really want',
+    'This plugin has no settings.',
+    'Can''t save the settings.',
+    'Can''t rewrite file.',
+    'Shoose plugin',
+    'System time was changed',
+    'Update timer?',
+    'close PShutDown?',
+    'Set the Timer'
+  );
+function LoadArray(Ini: TIniFile): Boolean;
+function SaveArray(Ini: TIniFile): Boolean;
+
 implementation
+
+function LoadArray(Ini: TIniFile): Boolean;
+var
+  I: Integer;
+begin
+  for I := Low(langs) to high(langs) do
+    langs[I] := Ini.ReadString('Messages', 'Item_' + IntToStr(I), langs[I]);
+  Result := False;
+end;
+
+function SaveArray(Ini: TIniFile): Boolean;
+var
+  I: Integer;
+begin
+  for I := Low(langs) to high(langs) do
+    Ini.WriteString('Messages', 'Item_' + IntToStr(I), langs[I]);
+  Result := False;
+end;
 
 end.

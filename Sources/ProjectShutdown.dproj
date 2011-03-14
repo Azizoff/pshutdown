@@ -24,6 +24,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_OutputDRCFile>true</DCC_OutputDRCFile>
 			<DCC_UsePackage>vclx;vcl;VclSmp;rtl;vclimg;svnui;svn;bdertl;TeeUI;TeeDB;Tee;vclactnband;vcldb;dbrtl;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;vclib;ibxpress;adortl;IndyCore;IndySystem;IndyProtocols;vclie;inet;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;vclribbon;dbexpress;DbxCommonDriver;DataSnapIndy10ServerTransport;DataSnapProviderClient;DbxClientDriver;DataSnapClient;dbxcds;DataSnapServer;AzureCloud;DBXInterBaseDriver;DBXMySQLDriver;DBXFirebirdDriver;DBXSybaseASEDriver;DBXSybaseASADriver;DBXOracleDriver;DBXMSSQLDriver;DBXInformixDriver;DBXDb2Driver;sdf</DCC_UsePackage>
 			<DCC_ExeOutput>..\Binaries\</DCC_ExeOutput>
 			<DCC_DependencyCheckOutputName>..\Binaries\ProjectShutdown.exe</DCC_DependencyCheckOutputName>
@@ -143,6 +144,24 @@
 						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k150.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
 						<Excluded_Packages Name="$(BDSBIN)\dclofficexp150.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
 					</Excluded_Packages>
+					<Language>
+						<Language Name="ProjectLang">$00000419</Language>
+						<Language Name="ActiveLang">ENG</Language>
+					</Language>
+					<Resource_DLL_Projects>
+						<Resource_DLL_Projects Name="Item0">Английский (Великобритания)*$00000809*ENG*ENG</Resource_DLL_Projects>
+						<Resource_DLL_Projects Name="Item1">Русский (Россия)*$00000419*RUS*RUS</Resource_DLL_Projects>
+					</Resource_DLL_Projects>
+					<RDP_Source_Files>
+						<RDP_Source_Files Name="Item0">MainFormShutdown.dfm</RDP_Source_Files>
+						<RDP_Source_Files Name="Item1">SelectProgramFormShutdown.dfm</RDP_Source_Files>
+						<RDP_Source_Files Name="Item2">SettingsFormShutdown.dfm</RDP_Source_Files>
+						<RDP_Source_Files Name="Item3">AboutFormShutdown.dfm</RDP_Source_Files>
+						<RDP_Source_Files Name="Item4">SelectSoundFormShutdown.dfm</RDP_Source_Files>
+						<RDP_Source_Files Name="Item5">SelectPluginFormShutdown.dfm</RDP_Source_Files>
+						<RDP_Source_Files Name="Item6">MessageTextFormShutdown.dfm</RDP_Source_Files>
+						<RDP_Source_Files Name="Item7">..\Binaries\ProjectShutdown.drc</RDP_Source_Files>
+					</RDP_Source_Files>
 				</Delphi.Personality>
 				<Platforms>
 					<Platform value="Win32">True</Platform>

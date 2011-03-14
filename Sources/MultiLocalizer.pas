@@ -8,28 +8,31 @@ uses Forms,
   ExtCtrls,
   SysUtils,
   Menus,
-  ComCtrls;
+  ComCtrls,
+  GCAV;
 
 type
   TForms = record
     fForm: TForm;
     fExcludeIfClear: Boolean;
-    fExcludeComponents: array of UnicodeString;
-    procedure AddExcludeFilter(const ComponentName: UnicodeString);
-    function IsFiltered(const ComponentName: UnicodeString): Boolean;
+    fExcludeComponents: array of string;
+    procedure AddExcludeFilter(const ComponentName: string);
+    function IsFiltered(const ComponentName: string): Boolean;
   end;
 
 type
   TMultiLocalizer = class
   private
-    fFilePath: UnicodeString;
+    fFilePath: string;
     fFormsList: array of TForms;
     fFormsCount: Cardinal;
   public
-    constructor Create(const lFilePath: UnicodeString);
+    UserLoad: TUserFunc;
+    UserSave: TUserFunc;
+    constructor Create(const lFilePath: string);
     function AddForm(const lForm: TForm; const lExcludeClear: Boolean = True)
       : Integer;
-    procedure AddFilter(const lIndex: Integer; const lFilter: UnicodeString);
+    procedure AddFilter(const lIndex: Integer; const lFilter: string);
     procedure SaveToFile();
     procedure LoadFromFile();
   end;
@@ -39,7 +42,7 @@ implementation
 { TMultiLocalizer }
 
 procedure TMultiLocalizer.AddFilter(const lIndex: Integer;
-  const lFilter: UnicodeString);
+  const lFilter: string);
 begin
   fFormsList[lIndex].AddExcludeFilter(lFilter);
 end;
@@ -53,7 +56,7 @@ begin
   Inc(fFormsCount);
 end;
 
-constructor TMultiLocalizer.Create(const lFilePath: UnicodeString);
+constructor TMultiLocalizer.Create(const lFilePath: string);
 begin
   fFilePath := lFilePath;
   fFormsCount := 0;
@@ -212,6 +215,8 @@ begin
         end;
       end;
     end;
+    if (@UserLoad <> nil) then
+      UserLoad(LngFile);
   finally
     FreeAndNil(LngFile);
   end;
@@ -343,10 +348,13 @@ begin
               end;
             end;
             {$ENDREGION}
+
           end; // if Filtered
         end; // for J
       end; // with
     end; // for I
+      if (@UserSave <> nil) then
+      UserSave(LngFile);
   finally
     FreeAndNil(LngFile);
   end;
@@ -354,7 +362,7 @@ end;
 
 { TForms }
 
-procedure TForms.AddExcludeFilter(const ComponentName: UnicodeString);
+procedure TForms.AddExcludeFilter(const ComponentName: string);
 var
   ECLen: Integer;
 begin
@@ -363,7 +371,7 @@ begin
   fExcludeComponents[ECLen] := ComponentName;
 end;
 
-function TForms.IsFiltered(const ComponentName: UnicodeString): Boolean;
+function TForms.IsFiltered(const ComponentName: string): Boolean;
 var
   ECLen: Integer;
 begin

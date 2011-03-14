@@ -183,7 +183,7 @@ begin
       WriteString('Interface', 'LanguageFile', gvsLanguageFile);
     end;
   except
-    MessageBox(Handle,  PChar(mbtext_UnableToSaveSettings + NEW_LINE + mbtext_FileIsWriteProtected), 'PShutDown',
+    MessageBox(Handle,  PChar(langs[2] + NEW_LINE + langs[3]), 'PShutDown',
       MB_ICONINFORMATION);
   end;
   FreeAndNil(SettingFile);

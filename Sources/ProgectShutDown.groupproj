@@ -12,9 +12,6 @@
 			<Projects Include="PluginsSRS\Beeper.dproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="PluginsSRS\LampSample\Lamp.dproj">
-				<Dependencies/>
-			</Projects>
 			<Projects Include="PluginsSRS\FileMove\PFileMove.dproj">
 				<Dependencies/>
 			</Projects>
@@ -30,55 +27,46 @@
 			<MSBuild Projects="ProjectShutdown.dproj"/>
 		</Target>
 		<Target Name="ProjectShutdown:Clean">
-			<MSBuild Targets="Clean" Projects="ProjectShutdown.dproj"/>
+			<MSBuild Projects="ProjectShutdown.dproj" Targets="Clean"/>
 		</Target>
 		<Target Name="ProjectShutdown:Make">
-			<MSBuild Targets="Make" Projects="ProjectShutdown.dproj"/>
+			<MSBuild Projects="ProjectShutdown.dproj" Targets="Make"/>
 		</Target>
 		<Target Name="BeeBeeper">
 			<MSBuild Projects="PluginsSRS\BeeBeeper.dproj"/>
 		</Target>
 		<Target Name="BeeBeeper:Clean">
-			<MSBuild Targets="Clean" Projects="PluginsSRS\BeeBeeper.dproj"/>
+			<MSBuild Projects="PluginsSRS\BeeBeeper.dproj" Targets="Clean"/>
 		</Target>
 		<Target Name="BeeBeeper:Make">
-			<MSBuild Targets="Make" Projects="PluginsSRS\BeeBeeper.dproj"/>
+			<MSBuild Projects="PluginsSRS\BeeBeeper.dproj" Targets="Make"/>
 		</Target>
 		<Target Name="Beeper">
 			<MSBuild Projects="PluginsSRS\Beeper.dproj"/>
 		</Target>
 		<Target Name="Beeper:Clean">
-			<MSBuild Targets="Clean" Projects="PluginsSRS\Beeper.dproj"/>
+			<MSBuild Projects="PluginsSRS\Beeper.dproj" Targets="Clean"/>
 		</Target>
 		<Target Name="Beeper:Make">
-			<MSBuild Targets="Make" Projects="PluginsSRS\Beeper.dproj"/>
-		</Target>
-		<Target Name="Lamp">
-			<MSBuild Projects="PluginsSRS\LampSample\Lamp.dproj"/>
-		</Target>
-		<Target Name="Lamp:Clean">
-			<MSBuild Targets="Clean" Projects="PluginsSRS\LampSample\Lamp.dproj"/>
-		</Target>
-		<Target Name="Lamp:Make">
-			<MSBuild Targets="Make" Projects="PluginsSRS\LampSample\Lamp.dproj"/>
+			<MSBuild Projects="PluginsSRS\Beeper.dproj" Targets="Make"/>
 		</Target>
 		<Target Name="PFileMove">
 			<MSBuild Projects="PluginsSRS\FileMove\PFileMove.dproj"/>
 		</Target>
 		<Target Name="PFileMove:Clean">
-			<MSBuild Targets="Clean" Projects="PluginsSRS\FileMove\PFileMove.dproj"/>
+			<MSBuild Projects="PluginsSRS\FileMove\PFileMove.dproj" Targets="Clean"/>
 		</Target>
 		<Target Name="PFileMove:Make">
-			<MSBuild Targets="Make" Projects="PluginsSRS\FileMove\PFileMove.dproj"/>
+			<MSBuild Projects="PluginsSRS\FileMove\PFileMove.dproj" Targets="Make"/>
 		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="ProjectShutdown;BeeBeeper;Beeper;Lamp;PFileMove"/>
+			<CallTarget Targets="ProjectShutdown;BeeBeeper;Beeper;PFileMove"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="ProjectShutdown:Clean;BeeBeeper:Clean;Beeper:Clean;Lamp:Clean;PFileMove:Clean"/>
+			<CallTarget Targets="ProjectShutdown:Clean;BeeBeeper:Clean;Beeper:Clean;PFileMove:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="ProjectShutdown:Make;BeeBeeper:Make;Beeper:Make;Lamp:Make;PFileMove:Make"/>
+			<CallTarget Targets="ProjectShutdown:Make;BeeBeeper:Make;Beeper:Make;PFileMove:Make"/>
 		</Target>
-		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
 	</Project>

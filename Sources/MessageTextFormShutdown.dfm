@@ -1,4 +1,4 @@
-﻿object MessageText: TMessageText
+object MessageText: TMessageText
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]

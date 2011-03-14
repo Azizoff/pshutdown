@@ -1,4 +1,4 @@
-﻿program ProjectShutdown;
+program ProjectShutdown;
 
 {$R *.dres}
 

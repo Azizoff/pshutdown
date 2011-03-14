@@ -165,7 +165,7 @@ type
       var MouseActivate: TMouseActivate);
     procedure RBEveryClick(Sender: TObject);
     procedure mniSaveAsLangFileClick(Sender: TObject);
-        procedure PluginMenuOnClick(Sender: TObject);
+    procedure PluginMenuOnClick(Sender: TObject);
   private
     function DoAction(): Boolean;
     procedure SetEnabledMode();
@@ -178,7 +178,8 @@ type
     procedure LoadPlugIns();
     procedure OnTimeChange(var Message: TWMTimeChange); message WM_TIMECHANGE;
     procedure OnSelectPlugin(var Msg: TMessage); message WMU_PLUGIN_SELECTED;
-    procedure WMQueryEndSession(var Message: TWMQueryEndSession); message WM_QUERYENDSESSION;
+    procedure WMQueryEndSession(var Message: TWMQueryEndSession);
+      message WM_QUERYENDSESSION;
     { Private declarations }
   public
     { Public declarations }
@@ -193,9 +194,10 @@ var
   LangLoaded: Boolean = False;
   ShowMessageOnes: Boolean = False;
   pbHintLabel: TLabel;
-  CloseProgramm:Boolean  = False;
+  CloseProgramm: Boolean = False;
+
 const
-  ShiftWeek: array[0..6] of Byte = (6, 0, 1, 2, 3, 4, 5);
+  ShiftWeek: array [0 .. 6] of Byte = (6, 0, 1, 2, 3, 4, 5);
   DBG_MODE = False;
 procedure TimerProc(uTimerID, uMessage: UINT; dwUser, dw1, dw2: DWORD); stdcall;
 
@@ -203,7 +205,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TimerProc(uTimerID, uMessage: UINT; dwUser, dw1, dw2: DWORD) stdcall;
+procedure TimerProc(uTimerID, uMessage: UINT; dwUser, dw1, dw2: DWORD)stdcall;
 begin
   Counter.Decrement;
 
@@ -223,7 +225,8 @@ begin
   begin
     CBDaysAfter.ItemIndex := StrToInt(Counter.sDays);
     pbTotalProgress.StepIt;
-    pbHintLabel.Caption := Format('%.1f %%',[(pbTotalProgress.Position / pbTotalProgress.Max) * 100]);
+    pbHintLabel.Caption := Format('%.1f %%',
+      [(pbTotalProgress.Position / pbTotalProgress.Max) * 100]);
     EHourAfter.Text := Counter.sHours;
     EMinuteAfter.Text := Counter.sMinutes;
     ESecondAfter.Text := Counter.sSeconds;
@@ -245,8 +248,8 @@ procedure TMainFormSD.LoadPlugIns;
 var
   SearchRec: TSearchRec;
 begin
-  if (FindFirst(gvPluginsPath + '*.dll',
-    faAnyFile and not faDirectory, SearchRec) = 0) then
+  if (FindFirst(gvPluginsPath + '*.dll', faAnyFile and not faDirectory,
+    SearchRec) = 0) then
   begin
     PluginList.AddPlugin(gvPluginsPath + SearchRec.Name);
     while FindNext(SearchRec) = 0 do
@@ -264,8 +267,8 @@ begin
     with SettingFile do
     begin
       gvsShowMessageIfNow := ReadBool('General', 'SHowMessageIfNow', False);
-      gvsShowMessageOnlyForCrytical := ReadBool('General',
-        'ShowMessageOnlyForCrytical', False);
+      gvsShowMessageOnlyForCrytical :=
+        ReadBool('General', 'ShowMessageOnlyForCrytical', False);
       gvsAskIfClose := ReadBool('General', 'AskIfClose', True);
       gvsForceAction := ReadBool('General', 'ForceAction', False);
       gvsBeepLastTen := ReadBool('General', 'BeepLastTen', False);
@@ -308,9 +311,8 @@ begin
       lLocalTime.wHour := 24;
     end;
 
-    lLocalTimeAsSeconds :=
-      (lLocalTime.wHour * SECONDS_IN_HOUR + lLocalTime.wMinute *
-      SECONDS_IN_MINUTE + lLocalTime.wSecond);
+    lLocalTimeAsSeconds := (lLocalTime.wHour * SECONDS_IN_HOUR +
+      lLocalTime.wMinute * SECONDS_IN_MINUTE + lLocalTime.wSecond);
     lHour := StrToInt(EHourAt.Text);
     lMinute := StrToInt(EMinuteAt.Text);
     lSecond := StrToInt(ESecondAt.Text);
@@ -329,24 +331,23 @@ begin
 
     if (CBDaysAt.ItemIndex < ShiftWeek[lLocalTime.wDayOfWeek]) then
     begin
-      lSetupTime := lSetupTime +
-        (7 - ShiftWeek[lLocalTime.wDayOfWeek] + CBDaysAt.ItemIndex)
-        * SECONDS_IN_DAY;
+      lSetupTime := lSetupTime + (7 - ShiftWeek[lLocalTime.wDayOfWeek] +
+        CBDaysAt.ItemIndex) * SECONDS_IN_DAY;
     end;
 
     if (CBDaysAt.ItemIndex > ShiftWeek[lLocalTime.wDayOfWeek]) then
     begin
       lSetupTime := lSetupTime +
-        (CBDaysAt.ItemIndex - ShiftWeek[lLocalTime.wDayOfWeek])
-        * SECONDS_IN_DAY;
+        (CBDaysAt.ItemIndex - ShiftWeek[lLocalTime.wDayOfWeek]) *
+        SECONDS_IN_DAY;
     end;
     Counter.SetFields(lSetupTime - lLocalTimeAsSeconds);
   end;
 
   if RBEvery.Checked then
   begin
-    Counter.SetFields(0, StrToInt(EHourEvery.Text),
-      StrToInt(EMinuteEvery.Text), StrToInt(ESecondEvery.Text));
+    Counter.SetFields(0, StrToInt(EHourEvery.Text), StrToInt(EMinuteEvery.Text),
+      StrToInt(ESecondEvery.Text));
   end;
 
   if Counter.TotalSeconds > 0 then
@@ -357,7 +358,7 @@ begin
   end
   else
   begin
-    MessageBox(handle, 'Установите таймер', 'PShutDown',
+    MessageBox(handle, PWideChar(langs[8]), 'PShutDown',
       MB_OK or MB_ICONINFORMATION);
   end;
 
@@ -418,10 +419,11 @@ procedure TMainFormSD.ChangeLanguage;
 var
   Localizer: TMultiLocalizer;
 begin
-  if FileExists(gvLanguagesPath + gvsLanguageFile)
-    then
+  if FileExists(gvLanguagesPath + gvsLanguageFile) then
   begin
     Localizer := TMultiLocalizer.Create(gvLanguagesPath + gvsLanguageFile);
+    Localizer.UserLoad := @LoadArray;
+    Localizer.UserSave := @SaveArray;
     try
       Localizer.AddForm(MainFormSD);
       Localizer.AddForm(About);
@@ -479,12 +481,11 @@ begin
   begin
     if gvsShowMessageOnlyForCrytical then
     begin
-      if RGActionList.ItemIndex in [0..3] then
+      if RGActionList.ItemIndex in [0 .. 3] then
       begin
-        if (MessageBox(handle,
-          PWideChar(mbtext_AreYouShoreWantTo + NEW_LINE + RGActionList.Items
-          [RGActionList.ItemIndex] + '?'), 'PShutDown',
-          MB_YESNO or MB_ICONQUESTION) = mrYes) then
+        if (MessageBox(handle, PWideChar(langs[0] + NEW_LINE +
+          RGActionList.Buttons[RGActionList.ItemIndex].Caption + '?'),
+          'PShutDown', MB_YESNO or MB_ICONQUESTION) = mrYes) then
         begin
           DoAction;
         end;
@@ -496,10 +497,9 @@ begin
     end
     else
     begin
-      if (MessageBox(handle,
-        PWideChar(mbtext_AreYouShoreWantTo + NEW_LINE + RGActionList.Items
-        [RGActionList.ItemIndex] + '?'), 'PShutDown',
-        MB_YESNO or MB_ICONQUESTION) = mrYes) then
+      if (MessageBox(handle, PWideChar(langs[0] + NEW_LINE +
+        RGActionList.Buttons[RGActionList.ItemIndex].Caption + '?'),
+        'PShutDown', MB_YESNO or MB_ICONQUESTION) = mrYes) then
       begin
         DoAction;
       end;
@@ -513,7 +513,7 @@ end;
 
 procedure TMainFormSD.BBrowsePluginClick(Sender: TObject);
 begin
-  CenterModal(SelectPlugin.Handle);
+  CenterModal(SelectPlugin.handle);
   SelectPlugin.ShowModal;
 end;
 
@@ -531,18 +531,18 @@ begin
   IsOK := True;
   if Actor <> nil then
   begin
-    if not (Actor is TManagerOfPlugin) then
+    if not(Actor is TManagerOfPlugin) then
       FreeAndNil(Actor);
   end;
   case RGActionList.ItemIndex of
     0:
-    begin
-      Actor := TManagerOfShutDown.Create(sdShutdown, gvsForceAction);
-    end;
+      begin
+        Actor := TManagerOfShutDown.Create(sdShutdown, gvsForceAction);
+      end;
     1:
-    begin
-      Actor := TManagerOfShutDown.Create(sdReboot, gvsForceAction);
-    end;
+      begin
+        Actor := TManagerOfShutDown.Create(sdReboot, gvsForceAction);
+      end;
     2:
       Actor := TManagerOfShutDown.Create(sdLogOff, gvsForceAction);
     3:
@@ -550,8 +550,8 @@ begin
     4:
       Actor := TManagerOfDisplay.Create(handle, True);
     5:
-      Actor := TManagerOfExecuting.Create(handle, gvFilePath, gvParameters,
-        IsOK);
+      Actor := TManagerOfExecuting.Create(handle, gvFilePath,
+        gvParameters, IsOK);
     6:
       begin
         Actor := TManagerOfAlarm.Create(handle, gvSoundPath, gvSoundLoop, IsOK);
@@ -569,7 +569,7 @@ begin
 
   if (Actor <> nil) and (IsOK) then
   begin
-  Actor.DoAction ;
+    Actor.DoAction;
   end
   else
   begin
@@ -768,18 +768,19 @@ procedure TMainFormSD.WMQueryEndSession(var Message: TWMQueryEndSession);
 begin
   CloseProgramm := True;
   Message.Result := 1;
-inherited;
+  inherited;
 end;
 
 procedure TMainFormSD.FormClose(Sender: TObject; var Action: TCloseAction);
-var I:Integer;
+var
+  I: Integer;
 begin
   timeKillEvent(TimerID);
-  if not (Actor is TManagerOfPlugin) then
+  if not(Actor is TManagerOfPlugin) then
     FreeAndNil(Actor);
   FreeAndNil(PluginList);
   FreeAndNil(Counter);
-  I:= pmPluginChoise.Items.Count - 1;
+  I := pmPluginChoise.Items.Count - 1;
   while (I >= 0) do
   begin
     pmPluginChoise.Items[I].Free;
@@ -794,13 +795,13 @@ var
 begin
   if (gvsAskIfClose) and (not CloseProgramm) then
   begin
-    Answ := MessageBox(handle, PChar(mbtext_AreYouShoreWantTo + 'close PShutDown?'),
-      'PShutDown', MB_YESNO or MB_ICONQUESTION);
+    Answ := MessageBox(handle, PChar(langs[0] + langs[7]), 'PShutDown',
+      MB_YESNO or MB_ICONQUESTION);
     CanClose := Answ = mrYes;
   end
   else
   begin
-   CanClose := True;
+    CanClose := True;
   end;
 end;
 
@@ -809,7 +810,7 @@ var
   I: Integer;
   NewMenuItem: TMenuItem;
 begin
-  MainFormHandle := Handle;
+  MainFormHandle := handle;
   gvApplicationPath := ExtractFilePath(ParamStr(0));
   gvLanguagesPath := gvApplicationPath + LANGUAGE_PATH;
   gvPluginsPath := gvApplicationPath + PLUGIN_PATH;
@@ -838,12 +839,9 @@ begin
   pbHintLabel.SetParentComponent(pbTotalProgress);
   pbHintLabel.Font.Size := 10;
   pbHintLabel.Font.Color := RGB(70, 80, 70);
-  pbHintLabel.SetBounds(
-  (pbTotalProgress.Width div 2) -
-  (pbHintLabel.Width div 2),
-  (pbTotalProgress.Height div 2) -
-  (pbHintLabel.Height div 2)
-  ,0,0);
+  pbHintLabel.SetBounds((pbTotalProgress.Width div 2) -
+    (pbHintLabel.Width div 2), (pbTotalProgress.Height div 2) -
+    (pbHintLabel.Height div 2), 0, 0);
 end;
 
 procedure TMainFormSD.FormKeyDown(Sender: TObject; var Key: Word;
@@ -863,7 +861,7 @@ begin
     MainFormSD.ChangeLanguage();
     LangLoaded := True;
   end;
-  gvMainWindowHandle := MainFormSD.Handle;
+  gvMainWindowHandle := MainFormSD.handle;
   pbTotalProgress.Step := 1;
   FormatText(EHourAfter);
   FormatText(EHourAt);
@@ -914,20 +912,20 @@ end;
 
 procedure TMainFormSD.OnSelectPlugin(var Msg: TMessage);
 var
-  I:Integer;
+  I: Integer;
 begin
-  if (Msg.WParam>-1) then
+  if (Msg.WParam > -1) then
   begin
-    pmPluginChoise.Items[Msg.WParam].Checked  := True;
+    pmPluginChoise.Items[Msg.WParam].Checked := True;
     RGActionList.Buttons[8].Caption := PluginList.SelectedItem.PluginInfo.Name
   end
   else
   begin
-  RGActionList.Buttons[8].Caption := mbtext_ChoosePlugin;
+    RGActionList.Buttons[8].Caption := langs[4];
     I := pmPluginChoise.Items.Count - 1;
     while (I >= 0) do
     begin
-      pmPluginChoise.Items[I].Checked  := False;
+      pmPluginChoise.Items[I].Checked := False;
       Dec(I);
     end;
   end;
@@ -944,8 +942,8 @@ begin
       if not ShowMessageOnes then
       begin
         ShowMessageOnes := True;
-        mbAnswer := MessageBox(Handle, 'System time was changed' + NEW_LINE +
-        'Update timer?', 'PShutDown', MB_YESNO + MB_ICONQUESTION);
+        mbAnswer := MessageBox(handle, PWideChar(langs[5] + NEW_LINE + langs[6]
+          ), 'PShutDown', MB_YESNO + MB_ICONQUESTION);
         if mbAnswer = mrYes then
         begin
           BPause.Click;
@@ -963,19 +961,18 @@ begin
   (Sender as TMenuItem).Checked := True;
   if PluginList.Selected > -1 then
   begin
-    RGActionList.Buttons[8].Caption :=
-    PluginList.SelectedItem.PluginInfo.Name;
+    RGActionList.Buttons[8].Caption := PluginList.SelectedItem.PluginInfo.Name;
   end
   else
   begin
-    RGActionList.Buttons[8].Caption := mbtext_ChoosePlugin;
+    RGActionList.Buttons[8].Caption := langs[4];
   end;
 end;
 
 procedure TMainFormSD.mniAboutClick(Sender: TObject);
 begin
-CenterModal(About.handle);
-About.ShowModal;
+  CenterModal(About.handle);
+  About.ShowModal;
 end;
 
 procedure TMainFormSD.mniExitClick(Sender: TObject);
@@ -990,8 +987,11 @@ var
 begin
   I := 0;
   while FileExists(gvApplicationPath + 'Lang_' + IntToStr(I) + '.ini') do
-  Inc(I);
-  Localizer := TMultiLocalizer.Create(gvApplicationPath + 'Lang_' + IntToStr(I) + '.ini');
+    Inc(I);
+  Localizer := TMultiLocalizer.Create(gvApplicationPath + 'Lang_' + IntToStr(I)
+    + '.ini');
+  Localizer.UserLoad := @LoadArray;
+  Localizer.UserSave := @SaveArray;
   try
     I := Localizer.AddForm(MainFormSD);
     Localizer.AddFilter(I, 'CBDaysAfter');
@@ -1041,8 +1041,7 @@ var
   SettingFile: TIniFile;
 begin
   Result := True;
-  SettingFile := TIniFile.Create(gvApplicationPath
-    + DEF_SETTINGS_FILE);
+  SettingFile := TIniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE);
   try
     with SettingFile do
     begin
@@ -1052,9 +1051,7 @@ begin
       WriteBool('Other', 'SoundLoop', gvSoundLoop);
     end;
   except
-    MessageBox(handle,
-      PChar(mbtext_UnableToSaveSettings + NEW_LINE +
-      mbtext_FileIsWriteProtected), 'PShutDown',
+    MessageBox(handle, PChar(langs[2] + NEW_LINE + langs[3]), 'PShutDown',
       MB_ICONINFORMATION);
   end;
   BBrowseProgramm.Hint := gvFilePath;
@@ -1086,4 +1083,5 @@ begin
     end;
   end;
 end;
+
 end.

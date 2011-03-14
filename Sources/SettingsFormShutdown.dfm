@@ -149,16 +149,18 @@ object Settings: TSettings
       object CBSShowMessageIfNow: TCheckBox
         Left = 16
         Top = 24
-        Width = 185
+        Width = 345
         Height = 17
         Caption = 'Ask before running "Immediately"'
+        DoubleBuffered = False
+        ParentDoubleBuffered = False
         TabOrder = 0
         OnClick = ChangeSetting
       end
       object CBSShowMessageOnlyForCrytical: TCheckBox
         Left = 32
         Top = 47
-        Width = 121
+        Width = 329
         Height = 17
         Caption = 'Only for critical action'
         TabOrder = 1
@@ -167,7 +169,7 @@ object Settings: TSettings
       object CBAskIfClose: TCheckBox
         Left = 16
         Top = 70
-        Width = 153
+        Width = 345
         Height = 17
         Caption = 'Ask when Programm closing'
         TabOrder = 2
@@ -184,7 +186,7 @@ object Settings: TSettings
       object CBSForceAction: TCheckBox
         Left = 16
         Top = 24
-        Width = 201
+        Width = 345
         Height = 17
         Caption = 'Forcing the completion of applications'
         TabOrder = 0
@@ -201,7 +203,7 @@ object Settings: TSettings
       object CBBeepLastTen: TCheckBox
         Left = 16
         Top = 24
-        Width = 121
+        Width = 345
         Height = 17
         Caption = 'Beep last 10 seconds'
         TabOrder = 0
