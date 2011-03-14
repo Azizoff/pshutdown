@@ -1,4 +1,4 @@
-﻿object SelectSound: TSelectSound
+object SelectSound: TSelectSound
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
@@ -80,7 +80,7 @@
   object CBSoundLoop: TCheckBox
     Left = 8
     Top = 57
-    Width = 81
+    Width = 185
     Height = 17
     Caption = 'Loop Sound'
     TabOrder = 2

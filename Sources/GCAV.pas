@@ -9,9 +9,6 @@ uses
   SysUtils;
 
 type
-  TUserFunc = function(Ini: TIniFile): Boolean;
-
-type
   TPluginsList = record
     PluginFile: string;
     PluginDesription: TPluginInfo;

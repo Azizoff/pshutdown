@@ -11,6 +11,10 @@ uses Forms,
   ComCtrls,
   GCAV;
 
+
+type
+  TUserFunc = function(Ini: TIniFile): Boolean;
+
 type
   TForms = record
     fForm: TForm;

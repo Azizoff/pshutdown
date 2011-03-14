@@ -2021,9 +2021,10 @@ object MainFormSD: TMainFormSD
     ParentShowHint = False
     ShowHint = False
     TabOrder = 1
+    ExplicitLeft = -8
   end
   object MainMenu: TMainMenu
-    Left = 64
+    Left = 72
     Top = 344
     object mniFile: TMenuItem
       Caption = 'File'
@@ -2051,12 +2052,13 @@ object MainFormSD: TMainFormSD
     end
   end
   object TrayIcon: TTrayIcon
+    PopupMenu = pmPopup
     OnDblClick = TrayIconDblClick
     Left = 8
     Top = 344
   end
   object pmPluginChoise: TPopupMenu
-    Left = 136
+    Left = 144
     Top = 344
     object mniNotAvaliableYet1: TMenuItem
       Caption = 'Not Avaliable Yet'
@@ -2064,6 +2066,21 @@ object MainFormSD: TMainFormSD
     end
     object mniN1: TMenuItem
       Caption = '-'
+    end
+  end
+  object pmPopup: TPopupMenu
+    Left = 216
+    Top = 344
+    object pmniShow: TMenuItem
+      Caption = 'Show'
+      OnClick = TrayIconDblClick
+    end
+    object mniBreak: TMenuItem
+      Caption = '-'
+    end
+    object pmniExit: TMenuItem
+      Caption = 'Exit'
+      OnClick = mniExitClick
     end
   end
 end

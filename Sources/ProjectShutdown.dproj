@@ -2,7 +2,7 @@
 		<PropertyGroup>
 			<ProjectGuid>{B05983C6-89B2-496D-83B1-1ADE2A850C1B}</ProjectGuid>
 			<MainSource>ProjectShutdown.dpr</MainSource>
-			<Config Condition="'$(Config)'==''">Release</Config>
+			<Config Condition="'$(Config)'==''">Debug</Config>
 			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
 			<ProjectVersion>12.2</ProjectVersion>
 			<Base>True</Base>

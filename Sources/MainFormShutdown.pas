@@ -97,6 +97,10 @@ type
     pmPluginChoise: TPopupMenu;
     mniNotAvaliableYet1: TMenuItem;
     mniN1: TMenuItem;
+    pmPopup: TPopupMenu;
+    pmniExit: TMenuItem;
+    pmniShow: TMenuItem;
+    mniBreak: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure RGActionListClick(Sender: TObject);
     procedure BRigthNowClick(Sender: TObject);
@@ -995,7 +999,9 @@ begin
   try
     I := Localizer.AddForm(MainFormSD);
     Localizer.AddFilter(I, 'CBDaysAfter');
+    Localizer.AddFilter(I, 'mniN1');
     Localizer.AddFilter(I, 'N4');
+    Localizer.AddFilter(I, 'mniBreak');
     Localizer.AddFilter(I, '');
     I := Localizer.AddForm(About);
     Localizer.AddFilter(I, 'lblAboutAuhtorDescription');
