@@ -49,7 +49,9 @@ object SelectSound: TSelectSound
     B08C0000460D0000000000000000000000000000000000000000000000000000
     AC410000AC410000AC410000AC410000AC418001AC41C003AC41C003AC41E007
     AC41E007AC41E007AC41E007AC41E007AC41F00FAC41FC3FAC41FC3FAC41}
+  KeyPreview = True
   OldCreateOrder = False
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -80,7 +82,7 @@ object SelectSound: TSelectSound
   object CBSoundLoop: TCheckBox
     Left = 8
     Top = 57
-    Width = 185
+    Width = 241
     Height = 17
     Caption = 'Loop Sound'
     TabOrder = 2
@@ -116,6 +118,7 @@ object SelectSound: TSelectSound
   end
   object SoundBrowser: TOpenDialog
     Filter = 'WAV Files|*.wav'
+    InitialDir = '.\Alarms'
     Left = 8
     Top = 80
   end

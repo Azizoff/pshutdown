@@ -1879,6 +1879,7 @@ object MainFormSD: TMainFormSD
         Height = 29
         Caption = 'Stop Alarm'
         TabOrder = 14
+        Visible = False
         OnClick = BStopAlarmClick
       end
       object BBrowsePlugin: TButton
@@ -2021,7 +2022,6 @@ object MainFormSD: TMainFormSD
     ParentShowHint = False
     ShowHint = False
     TabOrder = 1
-    ExplicitLeft = -8
   end
   object MainMenu: TMainMenu
     Left = 72
@@ -2060,12 +2060,9 @@ object MainFormSD: TMainFormSD
   object pmPluginChoise: TPopupMenu
     Left = 144
     Top = 344
-    object mniNotAvaliableYet1: TMenuItem
-      Caption = 'Not Avaliable Yet'
+    object mniPluginsNotFound: TMenuItem
+      Caption = 'Plugins not found '
       Enabled = False
-    end
-    object mniN1: TMenuItem
-      Caption = '-'
     end
   end
   object pmPopup: TPopupMenu

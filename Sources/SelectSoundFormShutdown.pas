@@ -19,6 +19,7 @@ type
     procedure BOKClick(Sender: TObject);
     procedure BBrowseSoundClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -50,6 +51,13 @@ begin
   else
     gvSoundPath := '';
   gvSoundLoop := CBSoundLoop.Checked;
+end;
+
+procedure TSelectSound.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    BCancel.Click;
 end;
 
 procedure TSelectSound.FormShow(Sender: TObject);

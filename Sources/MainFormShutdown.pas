@@ -95,12 +95,11 @@ type
     UDSecondEvery: TUpDown;
     mniSaveAsLangFile: TMenuItem;
     pmPluginChoise: TPopupMenu;
-    mniNotAvaliableYet1: TMenuItem;
-    mniN1: TMenuItem;
     pmPopup: TPopupMenu;
     pmniExit: TMenuItem;
     pmniShow: TMenuItem;
     mniBreak: TMenuItem;
+    mniPluginsNotFound: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure RGActionListClick(Sender: TObject);
     procedure BRigthNowClick(Sender: TObject);
@@ -839,6 +838,7 @@ begin
       pmPluginChoise.Items.Add(NewMenuItem);
     end;
   end;
+  mniPluginsNotFound.Visible := PluginList.Count = 0;
   pbHintLabel := TLabel.Create(Self);
   pbHintLabel.SetParentComponent(pbTotalProgress);
   pbHintLabel.Font.Size := 10;
@@ -877,7 +877,7 @@ begin
   FormatText(ESecondAt);
   FormatText(ESecondEvery);
   CBDaysAt.ItemIndex := ShiftWeek[DayOfWeek(Date) - 1];
-  BStopAlarm.Visible := False;
+  //BStopAlarm.Visible := False;
   BBrowseProgramm.Hint := gvFilePath;
   BBrowseSound.Hint := gvSoundPath;
   BBrowseTextMessage.Hint := gvTextMessage;
@@ -920,8 +920,8 @@ var
 begin
   if (Msg.WParam > -1) then
   begin
-    pmPluginChoise.Items[Msg.WParam].Checked := True;
-    RGActionList.Buttons[8].Caption := PluginList.SelectedItem.PluginInfo.Name
+    pmPluginChoise.Items[Msg.WParam + 1].Checked := True;
+    RGActionList.Buttons[8].Caption := PluginList.SelectedItem.PluginInfo.Name;
   end
   else
   begin
@@ -1007,6 +1007,8 @@ begin
     Localizer.AddFilter(I, 'lblAboutAuhtorDescription');
     Localizer.AddFilter(I, 'lblAboutEmailDescription');
     Localizer.AddFilter(I, 'lblAboutProgramName');
+    Localizer.AddFilter(I, 'lblSiteLink');
+    Localizer.AddFilter(I, 'lblVersion');
     I := Localizer.AddForm(Settings);
     Localizer.AddFilter(I, 'Label1');
     Localizer.AddForm(SelectPlugin);

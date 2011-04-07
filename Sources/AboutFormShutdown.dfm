@@ -4,7 +4,7 @@ object About: TAbout
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'About'
-  ClientHeight = 198
+  ClientHeight = 218
   ClientWidth = 395
   Color = clBtnHighlight
   DockSite = True
@@ -50,8 +50,10 @@ object About: TAbout
     FFF6FFFFFFDBFFFFFFAAFFFFFF5D00000000000000000000000000000000F00F
     AC41C003AC418001AC418001AC410000AC410000AC410000AC410000AC410000
     AC410000AC410000AC410000AC418001AC418001AC41C003AC41F00FAC41}
+  KeyPreview = True
   OldCreateOrder = False
   Position = poDefault
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object imgAbout: TImage
@@ -942,11 +944,11 @@ object About: TAbout
     ParentFont = False
   end
   object lblAboutAuthor: TLabel
-    Left = 119
-    Top = 105
-    Width = 44
+    Left = 15
+    Top = 110
+    Width = 58
     Height = 14
-    Caption = 'Author'
+    Caption = 'Author:'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
@@ -955,8 +957,8 @@ object About: TAbout
     ParentFont = False
   end
   object lblAboutAuhtorDescription: TLabel
-    Left = 175
-    Top = 105
+    Left = 87
+    Top = 110
     Width = 109
     Height = 14
     Caption = 'Azizov Ildar [Azizoff]'
@@ -968,9 +970,9 @@ object About: TAbout
     ParentFont = False
   end
   object lblAboutEmail: TLabel
-    Left = 119
-    Top = 127
-    Width = 40
+    Left = 15
+    Top = 132
+    Width = 58
     Height = 14
     Caption = 'E-Mail:'
     Font.Charset = DEFAULT_CHARSET
@@ -981,8 +983,8 @@ object About: TAbout
     ParentFont = False
   end
   object lblAboutEmailDescription: TLabel
-    Left = 175
-    Top = 127
+    Left = 87
+    Top = 132
     Width = 120
     Height = 14
     Caption = 'AzizovReg@Gmail.com'
@@ -998,9 +1000,51 @@ object About: TAbout
     OnMouseEnter = lblAboutEmailDescriptionMouseEnter
     OnMouseLeave = lblAboutEmailDescriptionMouseLeave
   end
+  object lblSite: TLabel
+    Left = 15
+    Top = 152
+    Width = 58
+    Height = 14
+    Caption = 'Site:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lblSiteLink: TLabel
+    Left = 87
+    Top = 152
+    Width = 251
+    Height = 14
+    Caption = 'http://www.code.google.com/p/pshutdown/'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    OnClick = lblSiteLinkClick
+    OnMouseEnter = lblSiteLinkMouseEnter
+    OnMouseLeave = lblSiteLinkMouseLeave
+  end
+  object lblVersion: TLabel
+    Left = 339
+    Top = 8
+    Width = 40
+    Height = 19
+    Caption = '1.0.5'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   object Panel1: TPanel
     Left = 8
-    Top = 152
+    Top = 172
     Width = 379
     Height = 2
     BevelEdges = [beTop]
@@ -1008,14 +1052,15 @@ object About: TAbout
     BevelOuter = bvNone
     TabOrder = 0
   end
-  object BClose: TButton
+  object BCancel: TButton
     Left = 282
-    Top = 160
+    Top = 180
     Width = 105
     Height = 30
     Caption = 'Close'
     ModalResult = 1
     TabOrder = 1
+    OnKeyDown = BCancelKeyDown
   end
   object mmoAboutDescription: TMemo
     Left = 119

@@ -9,7 +9,7 @@ uses
 type
   TAbout = class(TForm)
     Panel1: TPanel;
-    BClose: TButton;
+    BCancel: TButton;
     lblAboutProgramName: TLabel;
     lblAboutAuthor: TLabel;
     lblAboutAuhtorDescription: TLabel;
@@ -17,9 +17,18 @@ type
     lblAboutEmailDescription: TLabel;
     imgAbout: TImage;
     mmoAboutDescription: TMemo;
+    lblSite: TLabel;
+    lblSiteLink: TLabel;
+    lblVersion: TLabel;
     procedure lblAboutEmailDescriptionClick(Sender: TObject);
     procedure lblAboutEmailDescriptionMouseEnter(Sender: TObject);
     procedure lblAboutEmailDescriptionMouseLeave(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BCancelKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure lblSiteLinkMouseEnter(Sender: TObject);
+    procedure lblSiteLinkMouseLeave(Sender: TObject);
+    procedure lblSiteLinkClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -36,6 +45,20 @@ implementation
 
 {$R *.dfm}
 
+procedure TAbout.BCancelKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    BCancel.Click;
+end;
+
+procedure TAbout.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    BCancel.Click;
+end;
+
 procedure TAbout.lblAboutEmailDescriptionClick(Sender: TObject);
 begin
   ShellExecute(Handle, nil, 'mailto:AzizovReg@Gmail.com?subject=PShutDown',
@@ -50,6 +73,22 @@ end;
 procedure TAbout.lblAboutEmailDescriptionMouseLeave(Sender: TObject);
 begin
   lblAboutEmailDescription.Font.Style := [];
+end;
+
+procedure TAbout.lblSiteLinkClick(Sender: TObject);
+begin
+  ShellExecute(Handle, nil, 'http://www.code.google.com/p/pshutdown/',
+    nil, nil, SW_SHOW);
+end;
+
+procedure TAbout.lblSiteLinkMouseEnter(Sender: TObject);
+begin
+  lblSiteLink.Font.Style := [fsUnderline];
+end;
+
+procedure TAbout.lblSiteLinkMouseLeave(Sender: TObject);
+begin
+lblSiteLink.Font.Style := [];
 end;
 
 end.

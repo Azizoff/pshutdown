@@ -20,6 +20,7 @@ type
     procedure BBrowseClick(Sender: TObject);
     procedure BOKClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
 
     { Private declarations }
@@ -55,6 +56,13 @@ procedure TSelectProgramm.FormActivate(Sender: TObject);
 begin
   eFilePath.Text := gvFilePath;
   eParameters.Text := gvParameters;
+end;
+
+procedure TSelectProgramm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    BCancel.Click;
 end;
 
 end.

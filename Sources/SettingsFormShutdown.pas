@@ -40,6 +40,7 @@ type
     procedure FormActivate(Sender: TObject);
     procedure LVLanguageChange(Sender: TObject; Item: TListItem;
       Change: TItemChange);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     function SaveSettings(): Boolean;
     function LoadSettings(): Boolean;
@@ -117,6 +118,13 @@ begin
   end;
 
   LoadSettings();
+end;
+
+procedure TSettings.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    BCancel.Click;
 end;
 
 procedure TSettings.FormShow(Sender: TObject);

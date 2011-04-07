@@ -22,6 +22,7 @@ type
     procedure LVPluginListDblClick(Sender: TObject);
     procedure LVPluginListSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
   public
     { Public declarations }
@@ -83,6 +84,13 @@ begin
     PluginList.SelectedItem.PluginInfo.HasSettings;
   end;
 
+end;
+
+procedure TSelectPlugin.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    BCancel.Click;
 end;
 
 procedure TSelectPlugin.LVPluginListDblClick(Sender: TObject);
