@@ -226,6 +226,7 @@ begin
 
   with MainFormSD do
   begin
+    TrayIcon.Hint := Format('%s'#13#10'%s'#13#10'%s %s', ['PShutDown', RGActionList.Buttons[RGActionList.ItemIndex].Caption, RBafter.Caption, Counter.AsString]);
     CBDaysAfter.ItemIndex := StrToInt(Counter.sDays);
     pbTotalProgress.StepIt;
     pbHintLabel.Caption := Format('%.1f %%',
@@ -458,6 +459,7 @@ end;
 
 procedure TMainFormSD.BPauseClick(Sender: TObject);
 begin
+  TrayIcon.Hint := '';
   timeKillEvent(TimerID);
   TimerID := 0;
   pbTotalProgress.Position := 0;

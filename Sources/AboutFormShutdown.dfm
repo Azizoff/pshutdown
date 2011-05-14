@@ -53,6 +53,7 @@ object About: TAbout
   KeyPreview = True
   OldCreateOrder = False
   Position = poDefault
+  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
@@ -946,7 +947,7 @@ object About: TAbout
   object lblAboutAuthor: TLabel
     Left = 15
     Top = 110
-    Width = 58
+    Width = 48
     Height = 14
     Caption = 'Author:'
     Font.Charset = DEFAULT_CHARSET
@@ -972,7 +973,7 @@ object About: TAbout
   object lblAboutEmail: TLabel
     Left = 15
     Top = 132
-    Width = 58
+    Width = 40
     Height = 14
     Caption = 'E-Mail:'
     Font.Charset = DEFAULT_CHARSET
@@ -1003,7 +1004,7 @@ object About: TAbout
   object lblSite: TLabel
     Left = 15
     Top = 152
-    Width = 58
+    Width = 28
     Height = 14
     Caption = 'Site:'
     Font.Charset = DEFAULT_CHARSET
@@ -1030,7 +1031,7 @@ object About: TAbout
     OnMouseLeave = lblSiteLinkMouseLeave
   end
   object lblVersion: TLabel
-    Left = 339
+    Left = 347
     Top = 8
     Width = 40
     Height = 19
@@ -1047,6 +1048,7 @@ object About: TAbout
     Top = 172
     Width = 379
     Height = 2
+    AutoSize = True
     BevelEdges = [beTop]
     BevelKind = bkTile
     BevelOuter = bvNone

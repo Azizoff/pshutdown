@@ -25,7 +25,7 @@ type
     procedure SetFields(const lTotalSeconds: Int64); overload;
     procedure SetFields(const lDays, lHours, lMinutes, lSeconds: Integer);
       overload;
-    function AsString(): string;
+    function AsString(const LongFormat: Boolean = False): string;
     property sDays: string read DaysAsString;
     property sHours: string read HoursAsString;
     property sMinutes: string read MinutesAsString;
@@ -43,11 +43,28 @@ begin
   SetFields(lDays, lHours, lMinutes, lSeconds);
 end;
 
-function TCounter.AsString: string;
+function TCounter.AsString(const LongFormat: Boolean): string;
+var
+  fmtstr: string;
 begin
-  Result := Format(
-    'Total: %2.2d Days: %2.2d Hours: %2.2d Minutes: %2.2d Seconds: %2.2d',
-    [cTotalSeconds, cDays, cHours, cMinutes, cSeconds]);
+  if LongFormat then
+  begin
+    fmtstr := 'Total: %d Days: %d Hours: %2.2d Minutes: %2.2d Seconds: %2.2d';
+    Result := Format(fmtstr,  [cTotalSeconds, cDays, cHours, cMinutes, cSeconds]);
+  end
+  else
+  begin
+    if cDays > 0 then
+    begin
+      fmtstr := '%d, %2.2d:%2.2d:%2.2d';
+      Result := Format(fmtstr,  [cDays, cHours, cMinutes, cSeconds]);
+    end
+    else
+    begin
+      fmtstr := '%2.2d:%2.2d:%2.2d';
+      Result := Format(fmtstr,  [cHours, cMinutes, cSeconds]);
+    end;
+  end;
 end;
 
 constructor TCounter.Create(const lTotalSeconds: Int64);
