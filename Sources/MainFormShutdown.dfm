@@ -7,6 +7,7 @@ object MainFormSD: TMainFormSD
   ClientHeight = 392
   ClientWidth = 473
   Color = clBtnFace
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -1821,7 +1822,7 @@ object MainFormSD: TMainFormSD
         OnClick = RBAtClick
       end
       object BStart: TButton
-        Left = 210
+        Left = 207
         Top = 257
         Width = 112
         Height = 29
@@ -1878,6 +1879,8 @@ object MainFormSD: TMainFormSD
         Width = 233
         Height = 29
         Caption = 'Stop Alarm'
+        DoubleBuffered = False
+        ParentDoubleBuffered = False
         TabOrder = 14
         Visible = False
         OnClick = BStopAlarmClick

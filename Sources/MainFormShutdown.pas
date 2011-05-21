@@ -208,7 +208,9 @@ implementation
 
 {$R *.dfm}
 
-procedure TimerProc(uTimerID, uMessage: UINT; dwUser, dw1, dw2: DWORD)stdcall;
+procedure TimerProc(uTimerID, uMessage: UINT; dwUser, dw1, dw2: DWORD); stdcall;
+begin
+if Counter.TotalSeconds > 0 then
 begin
   Counter.Decrement;
 
@@ -226,7 +228,7 @@ begin
 
   with MainFormSD do
   begin
-    TrayIcon.Hint := Format('%s'#13#10'%s'#13#10'%s %s', ['PShutDown', RGActionList.Buttons[RGActionList.ItemIndex].Caption, RBafter.Caption, Counter.AsString]);
+    TrayIcon.Hint := Format('%s'#13#10'%s'#13#10'%s %s', [GLOBAL_PROJECT_NAME, RGActionList.Buttons[RGActionList.ItemIndex].Caption, RBafter.Caption, Counter.AsString]);
     CBDaysAfter.ItemIndex := StrToInt(Counter.sDays);
     pbTotalProgress.StepIt;
     pbHintLabel.Caption := Format('%.1f %%',
@@ -239,13 +241,20 @@ begin
       DoAction;
       if not RBEvery.Checked then
         BPauseClick(BPause)
-      else
+        else
         Counter.SetFields(0, StrToInt(EHourEvery.Text),
           StrToInt(EMinuteEvery.Text), StrToInt(ESecondEvery.Text));
-
     end;
   end;
-
+end
+else
+begin
+  if TimerID > 0 then
+  begin
+    timeKillEvent(TimerID);
+    TimerID := 0;
+  end;
+end;
 end;
 
 procedure TMainFormSD.LoadPlugIns;
@@ -274,6 +283,7 @@ begin
       gvsShowMessageOnlyForCrytical :=
         ReadBool('General', 'ShowMessageOnlyForCrytical', False);
       gvsAskIfClose := ReadBool('General', 'AskIfClose', True);
+      gvsOnlyIfTimerRunning := ReadBool('General', 'OnlyIfTimerRunning', True);
       gvsForceAction := ReadBool('General', 'ForceAction', False);
       gvsBeepLastTen := ReadBool('General', 'BeepLastTen', False);
       gvsBeepOnB := ReadBool('General', 'BeepOnB', False);
@@ -357,12 +367,12 @@ begin
   if Counter.TotalSeconds > 0 then
   begin
     pbTotalProgress.Max := Counter.TotalSeconds;
-    TimerID := timeSetEvent(1000, timeGetMinPeriod, TimerProc, 0,
+    TimerID := timeSetEvent(1000, timeGetMinPeriod, @TimerProc, 0,
       TIME_CALLBACK_FUNCTION or TIME_PERIODIC);
   end
   else
   begin
-    MessageBox(handle, PWideChar(langs[8]), 'PShutDown',
+    MessageBox(handle, PWideChar(langs[8]), GLOBAL_PROJECT_NAME,
       MB_OK or MB_ICONINFORMATION);
   end;
 
@@ -390,7 +400,8 @@ end;
 procedure TMainFormSD.BStopAlarmClick(Sender: TObject);
 begin
   sndPlaySound(nil, SND_ASYNC);
-  BStopAlarm.Visible := False;
+  //BStopAlarm.Enabled := False;
+  ShowWindow(BStopAlarm.Handle, SW_HIDE);
 end;
 
 procedure TMainFormSD.CenterModal(const ChildHandle: HWND);
@@ -459,9 +470,13 @@ end;
 
 procedure TMainFormSD.BPauseClick(Sender: TObject);
 begin
+  if TimerID > 0 then
+  begin
+    timeKillEvent(TimerID);
+    TimerID := 0;
+  end;
+
   TrayIcon.Hint := '';
-  timeKillEvent(TimerID);
-  TimerID := 0;
   pbTotalProgress.Position := 0;
   BPause.Enabled := False;
   BStart.Enabled := True;
@@ -490,7 +505,7 @@ begin
       begin
         if (MessageBox(handle, PWideChar(langs[0] + NEW_LINE +
           RGActionList.Buttons[RGActionList.ItemIndex].Caption + '?'),
-          'PShutDown', MB_YESNO or MB_ICONQUESTION) = mrYes) then
+          GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION) = mrYes) then
         begin
           DoAction;
         end;
@@ -504,7 +519,7 @@ begin
     begin
       if (MessageBox(handle, PWideChar(langs[0] + NEW_LINE +
         RGActionList.Buttons[RGActionList.ItemIndex].Caption + '?'),
-        'PShutDown', MB_YESNO or MB_ICONQUESTION) = mrYes) then
+        GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION) = mrYes) then
       begin
         DoAction;
       end;
@@ -559,8 +574,9 @@ begin
         gvParameters, IsOK);
     6:
       begin
+        if gvSoundLoop and IsOK then
+          ShowWindowAsync(BStopAlarm.Handle, SW_SHOW);
         Actor := TManagerOfAlarm.Create(handle, gvSoundPath, gvSoundLoop, IsOK);
-        BStopAlarm.Visible := gvSoundLoop and IsOK;
       end;
     7:
       Actor := TManagerOfMessage.Create(handle, gvTextMessage);
@@ -636,7 +652,7 @@ end;
 
 function TMainFormSD.timeGetMinPeriod(): DWORD;
 begin
-  Result := 1;
+  Result := 25;
 end;
 
 procedure TMainFormSD.TrayIconDblClick(Sender: TObject);
@@ -798,16 +814,24 @@ procedure TMainFormSD.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 var
   Answ: Integer;
 begin
+  Answ := mrYes;
   if (gvsAskIfClose) and (not CloseProgramm) then
   begin
-    Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]), 'PShutDown',
-      MB_YESNO or MB_ICONQUESTION);
-    CanClose := Answ = mrYes;
-  end
-  else
-  begin
-    CanClose := True;
+    if gvsOnlyIfTimerRunning then
+    begin
+      if TimerID <> 0 then
+      begin
+        Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]), GLOBAL_PROJECT_NAME,
+        MB_YESNO or MB_ICONQUESTION);
+      end;
+    end
+    else
+    begin
+    Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]), GLOBAL_PROJECT_NAME,
+        MB_YESNO or MB_ICONQUESTION);
+    end;
   end;
+    CanClose := Answ = mrYes;
 end;
 
 procedure TMainFormSD.FormCreate(Sender: TObject);
@@ -848,6 +872,8 @@ begin
   pbHintLabel.SetBounds((pbTotalProgress.Width div 2) -
     (pbHintLabel.Width div 2), (pbTotalProgress.Height div 2) -
     (pbHintLabel.Height div 2), 0, 0);
+    // BStopAlarm.Enabled := False;
+    ShowWindowAsync(BStopAlarm.Handle, SW_HIDE);
 end;
 
 procedure TMainFormSD.FormKeyDown(Sender: TObject; var Key: Word;
@@ -949,7 +975,7 @@ begin
       begin
         ShowMessageOnes := True;
         mbAnswer := MessageBox(handle, PWideChar(langs[5] + NEW_LINE + langs[6]
-          ), 'PShutDown', MB_YESNO + MB_ICONQUESTION);
+          ), GLOBAL_PROJECT_NAME, MB_YESNO + MB_ICONQUESTION);
         if mbAnswer = mrYes then
         begin
           BPause.Click;
@@ -1061,7 +1087,7 @@ begin
       WriteBool('Other', 'SoundLoop', gvSoundLoop);
     end;
   except
-    MessageBox(handle, PChar(langs[2] + NEW_LINE + langs[3]), 'PShutDown',
+    MessageBox(handle, PChar(langs[2] + NEW_LINE + langs[3]), GLOBAL_PROJECT_NAME,
       MB_ICONINFORMATION);
   end;
   BBrowseProgramm.Hint := gvFilePath;

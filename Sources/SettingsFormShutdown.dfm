@@ -135,7 +135,7 @@ object Settings: TSettings
   object PanelGeneral: TPanel
     Left = 184
     Top = 36
-    Width = 401
+    Width = 400
     Height = 317
     BevelOuter = bvLowered
     Caption = #1054#1073#1097#1080#1077
@@ -145,7 +145,7 @@ object Settings: TSettings
       Left = 8
       Top = 8
       Width = 385
-      Height = 105
+      Height = 124
       Caption = 'Messaging'
       TabOrder = 0
       object CBSShowMessageIfNow: TCheckBox
@@ -177,10 +177,18 @@ object Settings: TSettings
         TabOrder = 2
         OnClick = ChangeSetting
       end
+      object CBOnlyIfTimerRunning: TCheckBox
+        Left = 32
+        Top = 96
+        Width = 169
+        Height = 17
+        Caption = 'Only if timer is running'
+        TabOrder = 3
+      end
     end
     object GroupBox2: TGroupBox
       Left = 8
-      Top = 119
+      Top = 138
       Width = 385
       Height = 58
       Caption = 'Power Management'
@@ -197,7 +205,7 @@ object Settings: TSettings
     end
     object GroupBox3: TGroupBox
       Left = 8
-      Top = 183
+      Top = 202
       Width = 385
       Height = 55
       Caption = 'Sound Beeping'

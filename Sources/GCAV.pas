@@ -33,7 +33,7 @@ const
   NEW_LINE = #13#10;
 
   GLOBAL_PROJECT_NAME = 'PShutDown';
-  GLOBAL_PROGECT_VERSION = '1.0.6';
+  GLOBAL_PROGECT_VERSION = '1.0.7';
 
   {
     Наименование переменных: [gvs]
@@ -62,6 +62,7 @@ var
   // Выводить звуковой сигнал в минуты кратные {gvsBeepOnI}
   gvsBeepOnI: Integer = 2; // Единица измерения минуты
   gvsAskIfClose: Boolean = True;
+  gvsOnlyIfTimerRunning: Boolean = True;
 
   { INTERFACE }
   gvsMinimizeToTray: Boolean = False; // True = Сворачивать окно в трей

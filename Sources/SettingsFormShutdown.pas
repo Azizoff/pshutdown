@@ -31,6 +31,7 @@ type
     GBLanguage: TGroupBox;
     Label2: TLabel;
     LVLanguage: TListView;
+    CBOnlyIfTimerRunning: TCheckBox;
     procedure TVCategoriesChange(Sender: TObject; Node: TTreeNode);
     procedure BOKClick(Sender: TObject);
     procedure BApplyClick(Sender: TObject);
@@ -73,6 +74,7 @@ begin
   vsSettingsChanged := True;
   BApply.Enabled := vsSettingsChanged;
   CBSShowMessageOnlyForCrytical.Enabled := CBSShowMessageIfNow.Checked;
+  CBOnlyIfTimerRunning.Enabled := CBAskIfClose.Checked;
 end;
 
 procedure TSettings.BApplyClick(Sender: TObject);
@@ -143,6 +145,7 @@ begin
   CBSShowMessageOnlyForCrytical.Enabled := CBSShowMessageIfNow.Checked;
   CBSShowMessageOnlyForCrytical.Checked := gvsShowMessageOnlyForCrytical;
   CBAskIfClose.Checked := gvsAskIfClose;
+  CBOnlyIfTimerRunning.Checked := gvsOnlyIfTimerRunning;
   CBBeepLastTen.Checked := gvsBeepLastTen;
   CBMinimizeToTray.Checked := gvsMinimizeToTray;
   CBMinimizeOnEscape.Checked := gvsMinimizeOnEscape;
@@ -168,6 +171,7 @@ begin
   gvsMinimizeToTray := CBMinimizeToTray.Checked;
   gvsMinimizeOnEscape := CBMinimizeOnEscape.Checked;
   gvsAskIfClose := CBAskIfClose.Checked;
+  gvsOnlyIfTimerRunning := CBOnlyIfTimerRunning.Checked;
   if LVLanguage.ItemIndex > -1 then
     gvsLanguageFile := LVLanguage.Selected.SubItems[0];
   BApply.Enabled := vsSettingsChanged;
@@ -182,6 +186,7 @@ begin
       WriteBool('General', 'ShowMessageOnlyForCrytical',
         gvsShowMessageOnlyForCrytical);
       WriteBool('General', 'AskIfClose', gvsAskIfClose);
+      WriteBool('General', 'OnlyIfTimerRunning', gvsOnlyIfTimerRunning);
       WriteBool('General', 'ForceAction', gvsForceAction);
       WriteBool('General', 'BeepLastTen', gvsBeepLastTen);
       WriteBool('General', 'BeepOnB', gvsBeepOnB);

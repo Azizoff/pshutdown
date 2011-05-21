@@ -29,26 +29,24 @@ var
   NewState: TTokenPrivileges;
   PreviousState: TTokenPrivileges;
   ReturnLength: Cardinal;
-  ptResult: LongBool;
   ErrorResult: Cardinal;
   uFlags: Cardinal;
+const
+  SE_SHUTDOWN_NAME = 'SeShutdownPrivilege';
 begin
   ErrorResult := 0;
   if Win32Platform = VER_PLATFORM_WIN32_NT then
   begin
 {$REGION 'AdjustPrivilege'}
     ReturnLength := 0;
-    ptResult := OpenProcessToken(GetCurrentProcess(),
-      TOKEN_ADJUST_PRIVILEGES or TOKEN_QUERY, hToken);
-    if ptResult then
+    if OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES or TOKEN_QUERY, hToken) then
     begin
-      if LookupPrivilegeValue(nil, 'SeShutdownPrivilege',
-        NewState.Privileges[0].Luid) then
+      if LookupPrivilegeValue(nil, SE_SHUTDOWN_NAME, NewState.Privileges[0].Luid) then
       begin
         NewState.PrivilegeCount := 1;
         NewState.Privileges[0].Attributes := SE_PRIVILEGE_ENABLED;
-        AdjustTokenPrivileges(hToken, False, NewState,
-          SizeOf(TTokenPrivileges), PreviousState, ReturnLength);
+        AdjustTokenPrivileges(hToken, False, NewState, SizeOf(TTokenPrivileges),
+        PreviousState, ReturnLength);
         Inc(ErrorResult, GetLastError());
       end
       else
@@ -77,6 +75,7 @@ begin
       uFlags := uFlags or EWX_FORCE;
     ExitWindowsEx(uFlags, 0);
   end;
+
   Result := ErrorResult;
 end;
 end.

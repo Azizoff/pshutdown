@@ -12,6 +12,7 @@ type
     function DoAction(): Cardinal; override;
     constructor Create(const lmmHandle: HWND; const lmmSoundPath: string;
       const lmmLoop: Boolean; var IsOK: Boolean);
+    destructor Destroy; override;
   end;
 implementation
 { TManagerOfAlarm }
@@ -25,12 +26,18 @@ begin
   IsOK := FileExists(mmSoundPath);
 end;
 
+destructor TManagerOfAlarm.Destroy;
+begin
+  sndPlaySound(nil, 0);
+  inherited;
+end;
+
 function TManagerOfAlarm.DoAction: Cardinal;
 begin
   Result := 0;
   if mmLoop then
   begin
-    sndPlaySound(PWideChar(mmSoundPath), SND_ASYNC or SND_LOOP);
+    sndPlaySound(PWideChar(mmSoundPath), SND_NODEFAULT or SND_ASYNC or SND_LOOP);
   end
   else
   begin
