@@ -183,6 +183,8 @@ type
     procedure OnSelectPlugin(var Msg: TMessage); message WMU_PLUGIN_SELECTED;
     procedure WMQueryEndSession(var Message: TWMQueryEndSession);
       message WM_QUERYENDSESSION;
+    procedure CreateProgressBarHint();
+    procedure InitializePluginsMenu();
     { Private declarations }
   public
     { Public declarations }
@@ -210,51 +212,54 @@ implementation
 
 procedure TimerProc(uTimerID, uMessage: UINT; dwUser, dw1, dw2: DWORD); stdcall;
 begin
-if Counter.TotalSeconds > 0 then
-begin
-  Counter.Decrement;
-
-  if gvsBeepLastTen then
-    if Counter.TotalSeconds < 10 then
-    begin
-      Windows.Beep(2000, 50);
-    end;
-
-  if gvsBeepOnB then
-    if (Counter.TotalSeconds mod (gvsBeepOnI * 60) = 0) then
-    begin
-      Windows.Beep(1000, 300);
-    end;
-
-  with MainFormSD do
+  if Counter.TotalSeconds > 0 then
   begin
-    TrayIcon.Hint := Format('%s'#13#10'%s'#13#10'%s %s', [GLOBAL_PROJECT_NAME, RGActionList.Buttons[RGActionList.ItemIndex].Caption, RBafter.Caption, Counter.AsString]);
-    CBDaysAfter.ItemIndex := StrToInt(Counter.sDays);
-    pbTotalProgress.StepIt;
-    pbHintLabel.Caption := Format('%.1f %%',
-      [(pbTotalProgress.Position / pbTotalProgress.Max) * 100]);
-    EHourAfter.Text := Counter.sHours;
-    EMinuteAfter.Text := Counter.sMinutes;
-    ESecondAfter.Text := Counter.sSeconds;
-    if Counter.TotalSeconds = 0 then
+    Counter.Decrement;
+
+    if gvsBeepLastTen then
+      if Counter.TotalSeconds < 10 then
+      begin
+        Windows.Beep(2000, 50);
+      end;
+
+    if gvsBeepOnB then
+      if (Counter.TotalSeconds mod (gvsBeepOnI * 60) = 0) then
+      begin
+        Windows.Beep(1000, 300);
+      end;
+
+    with MainFormSD do
     begin
-      DoAction;
-      if not RBEvery.Checked then
-        BPauseClick(BPause)
+      TrayIcon.Hint := Format('%s'#13#10'%s'#13#10'%s %s',
+        [GLOBAL_PROJECT_NAME, RGActionList.Buttons[RGActionList.ItemIndex]
+        .Caption, RBAfter.Caption, Counter.AsString]);
+      CBDaysAfter.ItemIndex := StrToInt(Counter.sDays);
+      pbTotalProgress.StepIt;
+      if Assigned(pbHintLabel) then
+        pbHintLabel.Caption := Format('%.1f %%',
+          [(pbTotalProgress.Position / pbTotalProgress.Max) * 100]);
+      EHourAfter.Text := Counter.sHours;
+      EMinuteAfter.Text := Counter.sMinutes;
+      ESecondAfter.Text := Counter.sSeconds;
+      if Counter.TotalSeconds = 0 then
+      begin
+        DoAction;
+        if not RBEvery.Checked then
+          BPauseClick(BPause)
         else
-        Counter.SetFields(0, StrToInt(EHourEvery.Text),
-          StrToInt(EMinuteEvery.Text), StrToInt(ESecondEvery.Text));
+          Counter.SetFields(0, StrToInt(EHourEvery.Text),
+            StrToInt(EMinuteEvery.Text), StrToInt(ESecondEvery.Text));
+      end;
+    end;
+  end
+  else
+  begin
+    if TimerID > 0 then
+    begin
+      timeKillEvent(TimerID);
+      TimerID := 0;
     end;
   end;
-end
-else
-begin
-  if TimerID > 0 then
-  begin
-    timeKillEvent(TimerID);
-    TimerID := 0;
-  end;
-end;
 end;
 
 procedure TMainFormSD.LoadPlugIns;
@@ -310,10 +315,12 @@ var
   lHour, lMinute, lSecond: Integer;
 begin
   pbTotalProgress.Position := 0;
+
   if RBAfter.Checked then
   begin
-    Counter.SetFields(StrToInt(CBDaysAfter.Text), StrToInt(EHourAfter.Text),
-      StrToInt(EMinuteAfter.Text), StrToInt(ESecondAfter.Text));
+    Counter.SetFields(StrToIntDef(CBDaysAfter.Text, 0),
+      StrToIntDef(EHourAfter.Text, 0), StrToIntDef(EMinuteAfter.Text, 0),
+      StrToIntDef(ESecondAfter.Text, 0));
   end;
 
   if RBAt.Checked then
@@ -360,8 +367,8 @@ begin
 
   if RBEvery.Checked then
   begin
-    Counter.SetFields(0, StrToInt(EHourEvery.Text), StrToInt(EMinuteEvery.Text),
-      StrToInt(ESecondEvery.Text));
+    Counter.SetFields(0, StrToIntDef(EHourEvery.Text, 0),
+      StrToIntDef(EMinuteEvery.Text, 0), StrToIntDef(ESecondEvery.Text, 0));
   end;
 
   if Counter.TotalSeconds > 0 then
@@ -379,16 +386,12 @@ begin
   BPause.Enabled := TimerID > 0;
   BStart.Enabled := TimerID = 0;
   RGActionList.Enabled := TimerID = 0;
-
   RBAfter.Enabled := TimerID = 0;
   GBAfter.Enabled := TimerID = 0;
-
   RBAt.Enabled := TimerID = 0;
   GBAt.Enabled := TimerID = 0;
-
   RBEvery.Enabled := TimerID = 0;
   GBEvery.Enabled := TimerID = 0;
-
   BRigthNow.Enabled := TimerID = 0;
   BBrowseTextMessage.Enabled := TimerID = 0;
   BBrowseProgramm.Enabled := TimerID = 0;
@@ -400,8 +403,8 @@ end;
 procedure TMainFormSD.BStopAlarmClick(Sender: TObject);
 begin
   sndPlaySound(nil, SND_ASYNC);
-  //BStopAlarm.Enabled := False;
-  ShowWindow(BStopAlarm.Handle, SW_HIDE);
+  // BStopAlarm.Enabled := False;
+  ShowWindow(BStopAlarm.handle, SW_HIDE);
 end;
 
 procedure TMainFormSD.CenterModal(const ChildHandle: HWND);
@@ -454,6 +457,17 @@ begin
   end;
 end;
 
+procedure TMainFormSD.CreateProgressBarHint;
+begin
+  pbHintLabel := TLabel.Create(Self);
+  pbHintLabel.SetParentComponent(pbTotalProgress);
+  pbHintLabel.Font.Size := 10;
+  pbHintLabel.Font.Color := RGB(70, 80, 70);
+  pbHintLabel.SetBounds((pbTotalProgress.Width div 2) -
+    (pbHintLabel.Width div 2), (pbTotalProgress.Height div 2) -
+    (pbHintLabel.Height div 2), 0, 0);
+end;
+
 procedure TMainFormSD.BBrowseSoundClick(Sender: TObject);
 begin
   CenterModal(SelectSound.handle);
@@ -476,7 +490,7 @@ begin
     TimerID := 0;
   end;
 
-  TrayIcon.Hint := '';
+  TrayIcon.Hint := GLOBAL_PROJECT_NAME;
   pbTotalProgress.Position := 0;
   BPause.Enabled := False;
   BStart.Enabled := True;
@@ -549,7 +563,7 @@ var
   IsOK: Boolean;
 begin
   IsOK := True;
-  if Actor <> nil then
+  if Assigned(Actor) then
   begin
     if not(Actor is TManagerOfPlugin) then
       FreeAndNil(Actor);
@@ -575,7 +589,7 @@ begin
     6:
       begin
         if gvSoundLoop and IsOK then
-          ShowWindowAsync(BStopAlarm.Handle, SW_SHOW);
+          ShowWindowAsync(BStopAlarm.handle, SW_SHOW);
         Actor := TManagerOfAlarm.Create(handle, gvSoundPath, gvSoundLoop, IsOK);
       end;
     7:
@@ -587,8 +601,7 @@ begin
   else
     Beep;
   end;
-
-  if (Actor <> nil) and (IsOK) then
+  if Assigned(Actor) and (IsOK) then
   begin
     Actor.DoAction;
   end
@@ -821,25 +834,22 @@ begin
     begin
       if TimerID <> 0 then
       begin
-        Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]), GLOBAL_PROJECT_NAME,
-        MB_YESNO or MB_ICONQUESTION);
+        Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]),
+          GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION);
       end;
     end
     else
     begin
-    Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]), GLOBAL_PROJECT_NAME,
-        MB_YESNO or MB_ICONQUESTION);
+      Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]),
+        GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION);
     end;
   end;
-    CanClose := Answ = mrYes;
+  CanClose := Answ = mrYes;
 end;
 
 procedure TMainFormSD.FormCreate(Sender: TObject);
-var
-  I: Integer;
-  NewMenuItem: TMenuItem;
 begin
-  MainFormHandle := handle;
+  gvMainFormHandle := handle;
   gvApplicationPath := ExtractFilePath(ParamStr(0));
   gvLanguagesPath := gvApplicationPath + LANGUAGE_PATH;
   gvPluginsPath := gvApplicationPath + PLUGIN_PATH;
@@ -850,30 +860,9 @@ begin
   TimerID := 0;
   mniSaveAsLangFile.Visible := DebugHook = 1;
   LangLoaded := False;
-  for I := 0 to PluginList.Count - 1 do
-  begin
-    with PluginList.Items[I] do
-    begin
-      NewMenuItem := TMenuItem.Create(Self);
-      NewMenuItem.Caption := PluginInfo.Name;
-      NewMenuItem.Tag := I;
-      NewMenuItem.RadioItem := True;
-      NewMenuItem.Hint := PluginInfo.Description;
-      NewMenuItem.Checked := PluginList.Selected = I;
-      NewMenuItem.OnClick := PluginMenuOnClick;
-      pmPluginChoise.Items.Add(NewMenuItem);
-    end;
-  end;
-  mniPluginsNotFound.Visible := PluginList.Count = 0;
-  pbHintLabel := TLabel.Create(Self);
-  pbHintLabel.SetParentComponent(pbTotalProgress);
-  pbHintLabel.Font.Size := 10;
-  pbHintLabel.Font.Color := RGB(70, 80, 70);
-  pbHintLabel.SetBounds((pbTotalProgress.Width div 2) -
-    (pbHintLabel.Width div 2), (pbTotalProgress.Height div 2) -
-    (pbHintLabel.Height div 2), 0, 0);
-    // BStopAlarm.Enabled := False;
-    ShowWindowAsync(BStopAlarm.Handle, SW_HIDE);
+  InitializePluginsMenu;
+  CreateProgressBarHint;
+  ShowWindowAsync(BStopAlarm.handle, SW_HIDE);
 end;
 
 procedure TMainFormSD.FormKeyDown(Sender: TObject; var Key: Word;
@@ -905,7 +894,7 @@ begin
   FormatText(ESecondAt);
   FormatText(ESecondEvery);
   CBDaysAt.ItemIndex := ShiftWeek[DayOfWeek(Date) - 1];
-  //BStopAlarm.Visible := False;
+  // BStopAlarm.Visible := False;
   BBrowseProgramm.Hint := gvFilePath;
   BBrowseSound.Hint := gvSoundPath;
   BBrowseTextMessage.Hint := gvTextMessage;
@@ -915,6 +904,28 @@ begin
   RGActionList.Buttons[6].Hint := gvSoundPath;
   RGActionList.Buttons[7].ShowHint := True;
   RGActionList.Buttons[7].Hint := gvTextMessage;
+end;
+
+procedure TMainFormSD.InitializePluginsMenu;
+var
+  I: Integer;
+  NewMenuItem: TMenuItem;
+begin
+  for I := 0 to PluginList.Count - 1 do
+  begin
+    with PluginList.Items[I] do
+    begin
+      NewMenuItem := TMenuItem.Create(Self);
+      NewMenuItem.Caption := PluginInfo.Name;
+      NewMenuItem.Tag := I;
+      NewMenuItem.RadioItem := True;
+      NewMenuItem.Hint := PluginInfo.Description;
+      NewMenuItem.Checked := PluginList.Selected = I;
+      NewMenuItem.OnClick := PluginMenuOnClick;
+      pmPluginChoise.Items.Add(NewMenuItem);
+    end;
+  end;
+  mniPluginsNotFound.Visible := PluginList.Count = 0;
 end;
 
 procedure TMainFormSD.mniSettingsClick(Sender: TObject);
@@ -1039,6 +1050,7 @@ begin
     Localizer.AddFilter(I, 'lblVersion');
     I := Localizer.AddForm(Settings);
     Localizer.AddFilter(I, 'Label1');
+    Localizer.AddFilter(I, 'pcSettings');
     Localizer.AddForm(SelectPlugin);
     Localizer.AddForm(SelectSound);
     Localizer.AddForm(SelectProgramm);
@@ -1087,8 +1099,8 @@ begin
       WriteBool('Other', 'SoundLoop', gvSoundLoop);
     end;
   except
-    MessageBox(handle, PChar(langs[2] + NEW_LINE + langs[3]), GLOBAL_PROJECT_NAME,
-      MB_ICONINFORMATION);
+    MessageBox(handle, PChar(langs[2] + NEW_LINE + langs[3]),
+      GLOBAL_PROJECT_NAME, MB_ICONINFORMATION);
   end;
   BBrowseProgramm.Hint := gvFilePath;
   BBrowseSound.Hint := gvSoundPath;

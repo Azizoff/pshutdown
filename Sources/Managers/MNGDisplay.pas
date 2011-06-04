@@ -1,7 +1,9 @@
 unit MNGDisplay;
 
 interface
-uses MainFrame, Windows,Messages;
+
+uses MainFrame, Windows, Messages;
+
 type
   TManagerOfDisplay = class(TMainFrame)
   private
@@ -13,6 +15,7 @@ type
   end;
 
 implementation
+
 { TDisplayManager }
 
 constructor TManagerOfDisplay.Create(const ldmHandle: HWND;
@@ -29,4 +32,5 @@ begin
   else
     Result := SendMessage(dmHandle, WM_SYSCOMMAND, SC_MONITORPOWER, -1);
 end;
+
 end.

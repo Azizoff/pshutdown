@@ -1,7 +1,9 @@
 unit MNGAlarm;
 
 interface
+
 uses MainFrame, Windows, MMSystem, SysUtils;
+
 type
   TManagerOfAlarm = class(TMainFrame)
   private
@@ -14,7 +16,9 @@ type
       const lmmLoop: Boolean; var IsOK: Boolean);
     destructor Destroy; override;
   end;
+
 implementation
+
 { TManagerOfAlarm }
 
 constructor TManagerOfAlarm.Create(const lmmHandle: HWND;
@@ -37,11 +41,13 @@ begin
   Result := 0;
   if mmLoop then
   begin
-    sndPlaySound(PWideChar(mmSoundPath), SND_NODEFAULT or SND_ASYNC or SND_LOOP);
+    sndPlaySound(PWideChar(mmSoundPath), SND_NODEFAULT or SND_ASYNC or
+      SND_LOOP);
   end
   else
   begin
     sndPlaySound(PWideChar(mmSoundPath), SND_SYNC);
   end;
 end;
+
 end.

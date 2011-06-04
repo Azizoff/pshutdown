@@ -75,8 +75,8 @@ end;
 procedure TPluginList.FocusItem(const newIndex: Integer);
 begin
   fFocusedIndex := -1;
-if (newIndex > -1) and (newIndex < fListLength) then
-  fFocusedIndex := newIndex;
+  if (newIndex > -1) and (newIndex < fListLength) then
+    fFocusedIndex := newIndex;
 end;
 
 function TPluginList.GetFocusedItem: TManagerOfPlugin;

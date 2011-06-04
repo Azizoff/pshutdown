@@ -1,7 +1,9 @@
 unit MNGExecuting;
 
 interface
+
 uses MainFrame, Windows, Messages, SysUtils, ShellAPI;
+
 type
   TManagerOfExecuting = class(TMainFrame)
   private
@@ -13,7 +15,9 @@ type
     constructor Create(const lemHandle: HWND; const lemFilePath: string;
       const lemParameters: string; var IsOK: Boolean);
   end;
+
 implementation
+
 { TManagerOfExecuting }
 
 constructor TManagerOfExecuting.Create(const lemHandle: HWND;
@@ -32,4 +36,5 @@ begin
     Result := ShellExecute(emHandle, nil, PWideChar(emFilePath),
       PWideChar(emParameters), nil, SW_NORMAL);
 end;
+
 end.

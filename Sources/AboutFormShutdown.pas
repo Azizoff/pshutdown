@@ -55,8 +55,8 @@ end;
 
 procedure TAbout.FormCreate(Sender: TObject);
 begin
-lblAboutProgramName.Caption := GLOBAL_PROJECT_NAME;
-lblVersion.Caption := GLOBAL_PROGECT_VERSION;
+  lblAboutProgramName.Caption := GLOBAL_PROJECT_NAME;
+  lblVersion.Caption := GLOBAL_PROGECT_VERSION;
 end;
 
 procedure TAbout.FormKeyDown(Sender: TObject; var Key: Word;
@@ -68,8 +68,8 @@ end;
 
 procedure TAbout.lblAboutEmailDescriptionClick(Sender: TObject);
 begin
-  ShellExecute(Handle, nil, 'mailto:AzizovReg@Gmail.com?subject=PShutDown',
-    nil, nil, SW_RESTORE); // написать мне письмо
+  ShellExecute(Handle, nil, 'mailto:AzizovReg@Gmail.com?subject=PShutDown', nil,
+    nil, SW_RESTORE); // написать мне письмо
 end;
 
 procedure TAbout.lblAboutEmailDescriptionMouseEnter(Sender: TObject);
@@ -84,8 +84,8 @@ end;
 
 procedure TAbout.lblSiteLinkClick(Sender: TObject);
 begin
-  ShellExecute(Handle, nil, 'http://www.code.google.com/p/pshutdown/',
-    nil, nil, SW_SHOW);
+  ShellExecute(Handle, nil, 'http://www.code.google.com/p/pshutdown/', nil,
+    nil, SW_SHOW);
 end;
 
 procedure TAbout.lblSiteLinkMouseEnter(Sender: TObject);
@@ -95,7 +95,7 @@ end;
 
 procedure TAbout.lblSiteLinkMouseLeave(Sender: TObject);
 begin
-lblSiteLink.Font.Style := [];
+  lblSiteLink.Font.Style := [];
 end;
 
 end.

@@ -33,7 +33,7 @@ const
   NEW_LINE = #13#10;
 
   GLOBAL_PROJECT_NAME = 'PShutDown';
-  GLOBAL_PROGECT_VERSION = '1.0.7';
+  GLOBAL_PROGECT_VERSION = '1.0.8';
 
   {
     Наименование переменных: [gvs]
@@ -41,7 +41,7 @@ const
     [s] - (Settings) Переменные, отвечающие за настройки программы
   }
 var
-  MainFormHandle: Cardinal;
+  gvMainFormHandle: Cardinal;
   gvMainWindowHandle: LongWord;
   { [Настройки] }
   gvFilePath: string; // Путь запускаемого файла
@@ -104,7 +104,8 @@ var
   I: Integer;
 begin
   for I := Low(langs) to high(langs) do
-    langs[I] := Trim(Ini.ReadString('Messages', 'Item_' + IntToStr(I), langs[I]));
+    langs[I] := Trim(Ini.ReadString('Messages', 'Item_' + IntToStr(I),
+      langs[I]));
   Result := False;
 end;
 

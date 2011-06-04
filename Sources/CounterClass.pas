@@ -18,13 +18,13 @@ type
     function SecondsAsString: string;
     function TotalSecondsAsString: string;
   public
-    constructor Create(const lDays, lHours, lMinutes, lSeconds: Integer);
-      overload;
+    constructor Create(const lDays, lHours, lMinutes,
+      lSeconds: Integer); overload;
     constructor Create(const lTotalSeconds: Int64 = 0); overload;
     function Decrement(): Int64;
     procedure SetFields(const lTotalSeconds: Int64); overload;
-    procedure SetFields(const lDays, lHours, lMinutes, lSeconds: Integer);
-      overload;
+    procedure SetFields(const lDays, lHours, lMinutes,
+      lSeconds: Integer); overload;
     function AsString(const LongFormat: Boolean = False): string;
     property sDays: string read DaysAsString;
     property sHours: string read HoursAsString;
@@ -50,19 +50,20 @@ begin
   if LongFormat then
   begin
     fmtstr := 'Total: %d Days: %d Hours: %2.2d Minutes: %2.2d Seconds: %2.2d';
-    Result := Format(fmtstr,  [cTotalSeconds, cDays, cHours, cMinutes, cSeconds]);
+    Result := Format(fmtstr, [cTotalSeconds, cDays, cHours, cMinutes,
+      cSeconds]);
   end
   else
   begin
     if cDays > 0 then
     begin
       fmtstr := '%d, %2.2d:%2.2d:%2.2d';
-      Result := Format(fmtstr,  [cDays, cHours, cMinutes, cSeconds]);
+      Result := Format(fmtstr, [cDays, cHours, cMinutes, cSeconds]);
     end
     else
     begin
       fmtstr := '%2.2d:%2.2d:%2.2d';
-      Result := Format(fmtstr,  [cHours, cMinutes, cSeconds]);
+      Result := Format(fmtstr, [cHours, cMinutes, cSeconds]);
     end;
   end;
 end;
@@ -105,8 +106,8 @@ end;
 
 procedure TCounter.SetFields(const lDays, lHours, lMinutes, lSeconds: Integer);
 begin
-  cTotalSeconds := lDays * SECONDS_IN_DAY + lHours * SECONDS_IN_HOUR +
-    lMinutes * SECONDS_IN_MINUTE + lSeconds;
+  cTotalSeconds := lDays * SECONDS_IN_DAY + lHours * SECONDS_IN_HOUR + lMinutes
+    * SECONDS_IN_MINUTE + lSeconds;
   SetFields(cTotalSeconds);
 end;
 

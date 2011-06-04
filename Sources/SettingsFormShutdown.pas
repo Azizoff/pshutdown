@@ -10,28 +10,29 @@ type
   TSettings = class(TForm)
     TVCategories: TTreeView;
     PanelHLine: TPanel;
-    PanelGeneral: TPanel;
     BOK: TButton;
     BApply: TButton;
     BCancel: TButton;
     PanelDescription: TPanel;
     Label1: TLabel;
+    pcSettings: TPageControl;
+    tsGeneral: TTabSheet;
+    tsInterface: TTabSheet;
     GroupBox1: TGroupBox;
     CBSShowMessageIfNow: TCheckBox;
+    CBSShowMessageOnlyForCrytical: TCheckBox;
+    CBAskIfClose: TCheckBox;
+    CBOnlyIfTimerRunning: TCheckBox;
     GroupBox2: TGroupBox;
     CBSForceAction: TCheckBox;
     GroupBox3: TGroupBox;
-    CBSShowMessageOnlyForCrytical: TCheckBox;
     CBBeepLastTen: TCheckBox;
-    PanelInterface: TPanel;
-    GroupBox4: TGroupBox;
-    CBMinimizeToTray: TCheckBox;
-    CBMinimizeOnEscape: TCheckBox;
-    CBAskIfClose: TCheckBox;
     GBLanguage: TGroupBox;
     Label2: TLabel;
     LVLanguage: TListView;
-    CBOnlyIfTimerRunning: TCheckBox;
+    GroupBox4: TGroupBox;
+    CBMinimizeToTray: TCheckBox;
+    CBMinimizeOnEscape: TCheckBox;
     procedure TVCategoriesChange(Sender: TObject; Node: TTreeNode);
     procedure BOKClick(Sender: TObject);
     procedure BApplyClick(Sender: TObject);
@@ -88,8 +89,8 @@ var
   SearchRec: TSearchRec;
   LIT: TListItem;
 begin
-  if (FindFirst(gvLanguagesPath + '*.ini',
-      faAnyFile and not faDirectory, SearchRec) = 0) then
+  if (FindFirst(gvLanguagesPath + '*.ini', faAnyFile and not faDirectory,
+    SearchRec) = 0) then
   begin
     LVLanguage.Items.BeginUpdate;
     LVLanguage.Items.Clear;
@@ -112,7 +113,7 @@ begin
         LIT.Caption := LangFile.ReadString('Language_File', 'Language', 'Lang');
         LIT.SubItems.Add(SearchRec.Name);
         LIT.SubItems.Add(LangFile.ReadString('Language_File', 'Author',
-            'Auth'));
+          'Auth'));
       end;
       FreeAndNil(LangFile);
     end;
@@ -176,8 +177,7 @@ begin
     gvsLanguageFile := LVLanguage.Selected.SubItems[0];
   BApply.Enabled := vsSettingsChanged;
 
-  SettingFile := TiniFile.Create(gvApplicationPath
-      + DEF_SETTINGS_FILE);
+  SettingFile := TiniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE);
 
   try
     with SettingFile do
@@ -196,7 +196,7 @@ begin
       WriteString('Interface', 'LanguageFile', gvsLanguageFile);
     end;
   except
-    MessageBox(Handle,  PChar(langs[2] + NEW_LINE + langs[3]), 'PShutDown',
+    MessageBox(Handle, PChar(langs[2] + NEW_LINE + langs[3]), 'PShutDown',
       MB_ICONINFORMATION);
   end;
   FreeAndNil(SettingFile);
@@ -205,18 +205,8 @@ end;
 procedure TSettings.TVCategoriesChange(Sender: TObject; Node: TTreeNode);
 begin
   Label1.Caption := Node.Text;
-  PanelGeneral.Enabled := Node.Index = 0;
-  PanelInterface.Enabled := Node.Index = 1;
-  case Node.Index of
-    0:
-      begin
-        PanelGeneral.BringToFront;
-      end;
-    1:
-      begin
-        PanelInterface.BringToFront;
-      end;
-  end;
+  if Node.Index < pcSettings.PageCount then
+    pcSettings.ActivePageIndex := Node.Index;
 end;
 
 end.

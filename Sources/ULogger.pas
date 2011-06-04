@@ -1,7 +1,9 @@
 ﻿unit ULogger;
 
 interface
+
 uses SysUtils;
+
 type
   TWritingMode = (wmWithFullDate, wmWithTime, wmTextOnly);
 
@@ -10,27 +12,30 @@ type
     fDateTime: TDateTime;
     fMessage: string;
   end;
+
 type
   TMyLogger = class
-  private
-    const
+  private const
     BUFER_SIZE = 255;
-    var
+
+  var
     fFileName: string;
     fWritingMode: TWritingMode;
     fLogFile: TextFile;
-    fBuffer: Array [0..BUFER_SIZE-1] of TLogType;
+    fBuffer: Array [0 .. BUFER_SIZE - 1] of TLogType;
     fBufferLength: Byte;
     fActive: Boolean;
     procedure SetFileName(const lFileName: string);
     procedure SetWritingMode(const lWritingMode: TWritingMode);
-    property  WritingMode:TWritingMode read fWritingMode write SetWritingMode;
+    property WritingMode: TWritingMode read fWritingMode write SetWritingMode;
     property FileName: string read fFileName write SetFileName;
   public
-    constructor Create(const lFileName: string; const lWritingMode: TWritingMode = wmWithTime);
-    function Write(const lLogMessage: string):Cardinal;
+    constructor Create(const lFileName: string;
+      const lWritingMode: TWritingMode = wmWithTime);
+    function Write(const lLogMessage: string): Cardinal;
     destructor Destroy; override;
   end;
+
 implementation
 
 { Logger }
@@ -45,40 +50,40 @@ begin
   try
     Assign(fLogFile, fFileName);
   Except
-   fActive := False;
+    fActive := False;
   end;
 
-  //if FileExists(fFileName) then
-  //Append(fLogFile)
-  //else
+  // if FileExists(fFileName) then
+  // Append(fLogFile)
+  // else
   try
-  Rewrite(fLogFile);
+    Rewrite(fLogFile);
   except
-   fActive := False;
-   end;
-   if fActive then
-   begin
+    fActive := False;
+  end;
+  if fActive then
+  begin
     Writeln(fLogFile, 'Начало ведения лога');
-   end;
+  end;
 end;
-
-
 
 destructor TMyLogger.Destroy;
-var I:Integer;
+var
+  I: Integer;
 begin
-if fActive then
-begin
-  if (fBufferLength>0) then
+  if fActive then
   begin
-  for I := 0 to fBufferLength - 1 do
-   with fBuffer[I] do
-  begin
-    Writeln(fLogFile, FormatDateTime('[dd.mm.yy] [hh:nn:ss] ', fDateTime) + fMessage);
+    if (fBufferLength > 0) then
+    begin
+      for I := 0 to fBufferLength - 1 do
+        with fBuffer[I] do
+        begin
+          Writeln(fLogFile, FormatDateTime('[dd.mm.yy] [hh:nn:ss] ', fDateTime)
+            + fMessage);
+        end;
+    end;
+    Writeln(fLogFile, 'Успешно завершено ведение Лога');
   end;
-  end;
-  Writeln(fLogFile, 'Успешно завершено ведение Лога');
-end;
   CloseFile(fLogFile);
   inherited;
 end;
@@ -90,35 +95,37 @@ end;
 
 procedure TMyLogger.SetWritingMode(const lWritingMode: TWritingMode);
 begin
-  fWritingMode:=lWritingMode;
+  fWritingMode := lWritingMode;
 end;
 
 function TMyLogger.Write(const lLogMessage: string): Cardinal;
-var I:Integer;
+var
+  I: Integer;
 begin
-Result := 0;
-if fActive then
-begin
-if fBufferLength < BUFER_SIZE then
-begin
-  fBuffer[fBufferLength].fMessage := lLogMessage;
-  fBuffer[fBufferLength].fDateTime := Now;
-  Inc(fBufferLength);
-end
-else
-begin
-  for I := 0 to BUFER_SIZE - 1 do
+  Result := 0;
+  if fActive then
   begin
-    with fBuffer[I] do
+    if fBufferLength < BUFER_SIZE then
     begin
-      Writeln(fLogFile, FormatDateTime('[dd.mm.yy - hh:nn:ss] ', fDateTime) + fMessage);
+      fBuffer[fBufferLength].fMessage := lLogMessage;
+      fBuffer[fBufferLength].fDateTime := Now;
+      Inc(fBufferLength);
+    end
+    else
+    begin
+      for I := 0 to BUFER_SIZE - 1 do
+      begin
+        with fBuffer[I] do
+        begin
+          Writeln(fLogFile, FormatDateTime('[dd.mm.yy - hh:nn:ss] ', fDateTime)
+            + fMessage);
+        end;
+      end;
+      Writeln(fLogFile,
+        '--------------------------------------------------------');
+      fBufferLength := 0;
     end;
   end;
-    Writeln(fLogFile, '--------------------------------------------------------');
-    fBufferLength := 0;
-end;
-end;
 end;
 
 end.
-

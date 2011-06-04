@@ -1,7 +1,9 @@
 unit MNGHibernate;
 
 interface
+
 uses MainFrame, Windows, SysUtils;
+
 type
   TManagerOfHibernate = class(TMainFrame)
   private
@@ -10,6 +12,7 @@ type
     function DoAction(): Cardinal; override;
     constructor Create();
   end;
+
 implementation
 
 { TManagerOfHibernate }
@@ -33,8 +36,8 @@ begin
   begin
 {$REGION 'AdjustPrivilege'}
     ReturnLength := 0;
-    ptResult := OpenProcessToken(GetCurrentProcess(),
-      TOKEN_ADJUST_PRIVILEGES or TOKEN_QUERY, hToken);
+    ptResult := OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES or
+      TOKEN_QUERY, hToken);
     if ptResult then
     begin
       if (LookupPrivilegeValue(nil, 'SeShutdownPrivilege',
@@ -42,11 +45,11 @@ begin
       begin
         NewState.PrivilegeCount := 1;
         NewState.Privileges[0].Attributes := SE_PRIVILEGE_ENABLED;
-        if not (AdjustTokenPrivileges(hToken, False, NewState,
+        if not(AdjustTokenPrivileges(hToken, False, NewState,
           SizeOf(TTokenPrivileges), PreviousState, ReturnLength)) then
-          begin
+        begin
           Inc(ErrorResult, 3);
-          end;
+        end;
         Inc(ErrorResult, GetLastError());
       end
       else

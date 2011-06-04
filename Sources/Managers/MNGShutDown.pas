@@ -1,8 +1,12 @@
 unit MNGShutDown;
+
 interface
+
 uses MainFrame, Windows, SysUtils;
+
 type
   tsdMode = (sdShutdown, sdReboot, sdPowerOff, sdLogOff);
+
 type
   TManagerOfShutDown = class(TMainFrame)
   private
@@ -11,9 +15,11 @@ type
   public
     function DoAction(): Cardinal; override;
     constructor Create(const lsdMode: tsdMode;
-    const lsdForceFlag: Boolean = False);
+      const lsdForceFlag: Boolean = False);
   end;
+
 implementation
+
 { TShutDown }
 
 constructor TManagerOfShutDown.Create(const lsdMode: tsdMode;
@@ -39,14 +45,16 @@ begin
   begin
 {$REGION 'AdjustPrivilege'}
     ReturnLength := 0;
-    if OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES or TOKEN_QUERY, hToken) then
+    if OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES or
+      TOKEN_QUERY, hToken) then
     begin
-      if LookupPrivilegeValue(nil, SE_SHUTDOWN_NAME, NewState.Privileges[0].Luid) then
+      if LookupPrivilegeValue(nil, SE_SHUTDOWN_NAME,
+        NewState.Privileges[0].Luid) then
       begin
         NewState.PrivilegeCount := 1;
         NewState.Privileges[0].Attributes := SE_PRIVILEGE_ENABLED;
         AdjustTokenPrivileges(hToken, False, NewState, SizeOf(TTokenPrivileges),
-        PreviousState, ReturnLength);
+          PreviousState, ReturnLength);
         Inc(ErrorResult, GetLastError());
       end
       else
@@ -78,4 +86,5 @@ begin
 
   Result := ErrorResult;
 end;
+
 end.

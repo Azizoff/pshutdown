@@ -21,14 +21,14 @@ object SelectProgramm: TSelectProgramm
   object Label1: TLabel
     Left = 8
     Top = 8
-    Width = 360
+    Width = 26
     Height = 13
     Caption = 'Path:'
   end
   object Label2: TLabel
     Left = 8
     Top = 51
-    Width = 402
+    Width = 59
     Height = 13
     Caption = 'Parameters:'
   end

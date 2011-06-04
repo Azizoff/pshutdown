@@ -20,7 +20,7 @@ uses
 {$R *.res}
 
 function DoAction: Cardinal; stdcall;
-  var sr: TSearchRec;
+  var
   SearchRec: TSearchRec;
 begin
   Result := 1;

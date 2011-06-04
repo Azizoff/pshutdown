@@ -1,7 +1,9 @@
 unit MNGMessage;
 
 interface
+
 uses MainFrame, Windows;
+
 type
   TManagerOfMessage = class(TMainFrame)
   private
@@ -11,6 +13,7 @@ type
     function DoAction(): Cardinal; override;
     constructor Create(const lmmHandle: HWND; const lmmTextMessage: string);
   end;
+
 implementation
 
 { TManagerOfMessage }

@@ -5,7 +5,7 @@ object Settings: TSettings
   BorderStyle = bsSingle
   Caption = 'Settings'
   ClientHeight = 404
-  ClientWidth = 592
+  ClientWidth = 601
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -56,180 +56,15 @@ object Settings: TSettings
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object PanelInterface: TPanel
-    Left = 184
-    Top = 36
-    Width = 400
-    Height = 317
-    BevelOuter = bvLowered
-    Caption = #1048#1085#1090#1077#1088#1092#1077#1081#1089
-    ShowCaption = False
-    TabOrder = 2
-    object GroupBox4: TGroupBox
-      Left = 8
-      Top = 8
-      Width = 385
-      Height = 81
-      Caption = 'System Tray'
-      TabOrder = 0
-      object CBMinimizeToTray: TCheckBox
-        Left = 16
-        Top = 47
-        Width = 121
-        Height = 17
-        Caption = 'Minimize to tray'
-        TabOrder = 1
-        OnClick = ChangeSetting
-      end
-      object CBMinimizeOnEscape: TCheckBox
-        Left = 16
-        Top = 24
-        Width = 185
-        Height = 17
-        Caption = 'Minimize on Escape'
-        TabOrder = 0
-        OnClick = ChangeSetting
-      end
-    end
-    object GBLanguage: TGroupBox
-      Left = 8
-      Top = 101
-      Width = 385
-      Height = 146
-      Caption = 'Language'
-      TabOrder = 1
-      object Label2: TLabel
-        Left = 16
-        Top = 18
-        Width = 70
-        Height = 13
-        Caption = 'Language File:'
-      end
-      object LVLanguage: TListView
-        Left = 16
-        Top = 37
-        Width = 353
-        Height = 100
-        Columns = <
-          item
-            Caption = 'Description'
-            Width = 150
-          end
-          item
-            Caption = 'File'
-            Width = 98
-          end
-          item
-            Caption = 'Author'
-            Width = 98
-          end>
-        ColumnClick = False
-        ReadOnly = True
-        RowSelect = True
-        TabOrder = 0
-        ViewStyle = vsReport
-        OnChange = LVLanguageChange
-      end
-    end
-  end
-  object PanelGeneral: TPanel
-    Left = 184
-    Top = 36
-    Width = 400
-    Height = 317
-    BevelOuter = bvLowered
-    Caption = #1054#1073#1097#1080#1077
-    ShowCaption = False
-    TabOrder = 1
-    object GroupBox1: TGroupBox
-      Left = 8
-      Top = 8
-      Width = 385
-      Height = 124
-      Caption = 'Messaging'
-      TabOrder = 0
-      object CBSShowMessageIfNow: TCheckBox
-        Left = 16
-        Top = 24
-        Width = 345
-        Height = 17
-        Caption = 'Ask before running "Immediately"'
-        DoubleBuffered = False
-        ParentDoubleBuffered = False
-        TabOrder = 0
-        OnClick = ChangeSetting
-      end
-      object CBSShowMessageOnlyForCrytical: TCheckBox
-        Left = 32
-        Top = 47
-        Width = 329
-        Height = 17
-        Caption = 'Only for critical action'
-        TabOrder = 1
-        OnClick = ChangeSetting
-      end
-      object CBAskIfClose: TCheckBox
-        Left = 16
-        Top = 70
-        Width = 345
-        Height = 17
-        Caption = 'Ask when Programm closing'
-        TabOrder = 2
-        OnClick = ChangeSetting
-      end
-      object CBOnlyIfTimerRunning: TCheckBox
-        Left = 32
-        Top = 96
-        Width = 169
-        Height = 17
-        Caption = 'Only if timer is running'
-        TabOrder = 3
-      end
-    end
-    object GroupBox2: TGroupBox
-      Left = 8
-      Top = 138
-      Width = 385
-      Height = 58
-      Caption = 'Power Management'
-      TabOrder = 1
-      object CBSForceAction: TCheckBox
-        Left = 16
-        Top = 24
-        Width = 345
-        Height = 17
-        Caption = 'Forcing the completion of applications'
-        TabOrder = 0
-        OnClick = ChangeSetting
-      end
-    end
-    object GroupBox3: TGroupBox
-      Left = 8
-      Top = 202
-      Width = 385
-      Height = 55
-      Caption = 'Sound Beeping'
-      TabOrder = 2
-      object CBBeepLastTen: TCheckBox
-        Left = 16
-        Top = 24
-        Width = 345
-        Height = 17
-        Caption = 'Beep last 10 seconds'
-        TabOrder = 0
-        OnClick = ChangeSetting
-      end
-    end
-  end
   object PanelHLine: TPanel
     Left = 8
     Top = 359
-    Width = 576
+    Width = 585
     Height = 3
     BevelEdges = [beBottom]
     BevelKind = bkSoft
     BevelOuter = bvNone
-    TabOrder = 3
+    TabOrder = 1
   end
   object TVCategories: TTreeView
     Left = 9
@@ -247,44 +82,44 @@ object Settings: TSettings
       006600610063006500}
   end
   object BOK: TButton
-    Left = 256
-    Top = 368
+    Left = 264
+    Top = 366
     Width = 105
     Height = 30
     Caption = 'OK'
     ModalResult = 1
-    TabOrder = 4
+    TabOrder = 2
     OnClick = BOKClick
   end
   object BApply: TButton
-    Left = 480
-    Top = 368
+    Left = 488
+    Top = 366
     Width = 105
     Height = 30
     Caption = 'Apply'
     Enabled = False
-    TabOrder = 6
+    TabOrder = 4
     OnClick = BApplyClick
   end
   object BCancel: TButton
-    Left = 368
-    Top = 368
+    Left = 376
+    Top = 366
     Width = 105
     Height = 30
     Caption = 'Cancel'
     ModalResult = 2
-    TabOrder = 5
+    TabOrder = 3
     OnClick = BCancelClick
   end
   object PanelDescription: TPanel
     Left = 184
     Top = 8
-    Width = 401
+    Width = 409
     Height = 25
     BevelOuter = bvLowered
     Color = clHighlight
     ParentBackground = False
-    TabOrder = 7
+    TabOrder = 5
     object Label1: TLabel
       Left = 8
       Top = 0
@@ -296,6 +131,176 @@ object Settings: TSettings
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
+    end
+  end
+  object pcSettings: TPageControl
+    Left = 184
+    Top = 33
+    Width = 409
+    Height = 320
+    ActivePage = tsGeneral
+    TabOrder = 6
+    object tsGeneral: TTabSheet
+      Caption = 'General'
+      TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 24
+      ExplicitWidth = 425
+      ExplicitHeight = 222
+      object GroupBox1: TGroupBox
+        Left = 8
+        Top = 8
+        Width = 385
+        Height = 124
+        Caption = 'Messaging'
+        TabOrder = 0
+        object CBSShowMessageIfNow: TCheckBox
+          Left = 16
+          Top = 24
+          Width = 345
+          Height = 17
+          Caption = 'Ask before running "Immediately"'
+          DoubleBuffered = False
+          ParentDoubleBuffered = False
+          TabOrder = 0
+          OnClick = ChangeSetting
+        end
+        object CBSShowMessageOnlyForCrytical: TCheckBox
+          Left = 32
+          Top = 47
+          Width = 329
+          Height = 17
+          Caption = 'Only for critical action'
+          TabOrder = 1
+          OnClick = ChangeSetting
+        end
+        object CBAskIfClose: TCheckBox
+          Left = 16
+          Top = 70
+          Width = 345
+          Height = 17
+          Caption = 'Ask when Programm closing'
+          TabOrder = 2
+          OnClick = ChangeSetting
+        end
+        object CBOnlyIfTimerRunning: TCheckBox
+          Left = 32
+          Top = 96
+          Width = 169
+          Height = 17
+          Caption = 'Only if timer is running'
+          TabOrder = 3
+        end
+      end
+      object GroupBox2: TGroupBox
+        Left = 8
+        Top = 138
+        Width = 385
+        Height = 58
+        Caption = 'Power Management'
+        TabOrder = 1
+        object CBSForceAction: TCheckBox
+          Left = 16
+          Top = 24
+          Width = 345
+          Height = 17
+          Caption = 'Forcing the completion of applications'
+          TabOrder = 0
+          OnClick = ChangeSetting
+        end
+      end
+      object GroupBox3: TGroupBox
+        Left = 8
+        Top = 208
+        Width = 385
+        Height = 55
+        Caption = 'Sound Beeping'
+        TabOrder = 2
+        object CBBeepLastTen: TCheckBox
+          Left = 16
+          Top = 24
+          Width = 345
+          Height = 17
+          Caption = 'Beep last 10 seconds'
+          TabOrder = 0
+          OnClick = ChangeSetting
+        end
+      end
+    end
+    object tsInterface: TTabSheet
+      Caption = 'Interface'
+      ImageIndex = 1
+      TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 24
+      ExplicitWidth = 425
+      ExplicitHeight = 222
+      object GBLanguage: TGroupBox
+        Left = 8
+        Top = 101
+        Width = 385
+        Height = 146
+        Caption = 'Language'
+        TabOrder = 0
+        object Label2: TLabel
+          Left = 16
+          Top = 18
+          Width = 70
+          Height = 13
+          Caption = 'Language File:'
+        end
+        object LVLanguage: TListView
+          Left = 16
+          Top = 37
+          Width = 353
+          Height = 100
+          Columns = <
+            item
+              Caption = 'Description'
+              Width = 150
+            end
+            item
+              Caption = 'File'
+              Width = 98
+            end
+            item
+              Caption = 'Author'
+              Width = 98
+            end>
+          ColumnClick = False
+          ReadOnly = True
+          RowSelect = True
+          TabOrder = 0
+          ViewStyle = vsReport
+          OnChange = LVLanguageChange
+        end
+      end
+      object GroupBox4: TGroupBox
+        Left = 8
+        Top = 8
+        Width = 385
+        Height = 81
+        Caption = 'System Tray'
+        TabOrder = 1
+        object CBMinimizeToTray: TCheckBox
+          Left = 16
+          Top = 47
+          Width = 121
+          Height = 17
+          Caption = 'Minimize to tray'
+          TabOrder = 1
+          OnClick = ChangeSetting
+        end
+        object CBMinimizeOnEscape: TCheckBox
+          Left = 16
+          Top = 24
+          Width = 185
+          Height = 17
+          Caption = 'Minimize on Escape'
+          TabOrder = 0
+          OnClick = ChangeSetting
+        end
+      end
     end
   end
 end

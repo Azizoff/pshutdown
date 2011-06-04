@@ -1,7 +1,9 @@
-unit MNGPlugins;
+﻿unit MNGPlugins;
 
 interface
+
 uses MainFrame, Windows, SysUtils, SharedTypes;
+
 type
   TManagerOfPlugin = class(TMainFrame)
   private
@@ -21,7 +23,9 @@ type
     constructor Create(const PluginPath: string; var IsValidModule: Boolean);
     destructor Destroy; override;
   end;
+
 implementation
+
 { TManagerOfPlugin }
 
 constructor TManagerOfPlugin.Create(const PluginPath: string;
@@ -75,4 +79,5 @@ begin
   if @FShowSettings <> nil then
     Result := FShowSettings;
 end;
+
 end.
