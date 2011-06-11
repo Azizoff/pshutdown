@@ -5,7 +5,7 @@ object MainFormSD: TMainFormSD
   BorderStyle = bsSingle
   Caption = 'PShutDown'
   ClientHeight = 392
-  ClientWidth = 473
+  ClientWidth = 471
   Color = clBtnFace
   DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
@@ -2017,7 +2017,7 @@ object MainFormSD: TMainFormSD
   object pbTotalProgress: TProgressBar
     Left = 0
     Top = 366
-    Width = 473
+    Width = 471
     Height = 26
     Align = alBottom
     DoubleBuffered = True
@@ -2025,6 +2025,7 @@ object MainFormSD: TMainFormSD
     ParentShowHint = False
     ShowHint = False
     TabOrder = 1
+    ExplicitWidth = 473
   end
   object MainMenu: TMainMenu
     Left = 72

@@ -48,7 +48,7 @@ begin
     if (PluginList.FocusedItem.PluginHasSettings) then
       PluginList.FocusedItem.ShowSettings
     else
-      MessageBox(Handle, PChar(langs[1]), 'PShutDown', MB_ICONINFORMATION);
+      MessageBox(Handle, PChar(langs[1]), GLOBAL_PROJECT_NAME, MB_ICONINFORMATION);
   end;
 end;
 
