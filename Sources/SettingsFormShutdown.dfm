@@ -138,15 +138,15 @@ object Settings: TSettings
     Top = 33
     Width = 409
     Height = 320
-    ActivePage = tsGeneral
+    ActivePage = tsInterface
     TabOrder = 6
     object tsGeneral: TTabSheet
       Caption = 'General'
       TabVisible = False
       ExplicitLeft = 0
-      ExplicitTop = 24
-      ExplicitWidth = 425
-      ExplicitHeight = 222
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox1: TGroupBox
         Left = 8
         Top = 8
@@ -232,9 +232,9 @@ object Settings: TSettings
       ImageIndex = 1
       TabVisible = False
       ExplicitLeft = 0
-      ExplicitTop = 24
-      ExplicitWidth = 425
-      ExplicitHeight = 222
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GBLanguage: TGroupBox
         Left = 8
         Top = 101

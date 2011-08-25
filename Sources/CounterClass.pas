@@ -106,8 +106,8 @@ end;
 
 procedure TCounter.SetFields(const lDays, lHours, lMinutes, lSeconds: Integer);
 begin
-  cTotalSeconds := lDays * SECONDS_IN_DAY + lHours * SECONDS_IN_HOUR + lMinutes
-    * SECONDS_IN_MINUTE + lSeconds;
+  cTotalSeconds := lDays * SecsPerDay + lHours * SecsPerHour + lMinutes *
+    SecsPerMin + lSeconds;
   SetFields(cTotalSeconds);
 end;
 
@@ -123,14 +123,14 @@ begin
   cTotalSeconds := lTotalSeconds;
   Temp := cTotalSeconds;
 
-  cDays := Temp div SECONDS_IN_DAY;
-  Temp := Temp - cDays * SECONDS_IN_DAY;
+  cDays := Temp div SecsPerDay;
+  Temp := Temp - cDays * SecsPerDay;
 
-  cHours := Temp div SECONDS_IN_HOUR;
-  Temp := Temp - cHours * SECONDS_IN_HOUR;
+  cHours := Temp div SecsPerHour;
+  Temp := Temp - cHours * SecsPerHour;
 
-  cMinutes := Temp div SECONDS_IN_MINUTE;
-  Temp := Temp - cMinutes * SECONDS_IN_MINUTE;
+  cMinutes := Temp div SecsPerMin;
+  Temp := Temp - cMinutes * SecsPerMin;
 
   cSeconds := Temp;
 end;

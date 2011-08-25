@@ -34,7 +34,7 @@ uses
   MNGHibernate,
   MNGPlugins,
   MNGMessage,
-  ULogger;
+  SettingsManager;
 
 type
   TMainFormSD = class(TForm)
@@ -215,15 +215,14 @@ begin
   if Counter.TotalSeconds > 0 then
   begin
     Counter.Decrement;
-
-    if gvsBeepLastTen then
+    if GlobalSettings.BeepLastTen then
       if Counter.TotalSeconds < 10 then
       begin
         Windows.Beep(2000, 50);
       end;
 
-    if gvsBeepOnB then
-      if (Counter.TotalSeconds mod (gvsBeepOnI * 60) = 0) then
+    if GlobalSettings.BeepOnB then
+      if (Counter.TotalSeconds mod (GlobalSettings.BeepOnI * 60) = 0) then
       begin
         Windows.Beep(1000, 300);
       end;
@@ -280,25 +279,25 @@ var
   SettingFile: TIniFile;
 begin
   Result := True;
-  SettingFile := TIniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE);
+  SettingFile := TIniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE + '.ini');
   try
     with SettingFile do
     begin
-      gvsShowMessageIfNow := ReadBool('General', 'SHowMessageIfNow', False);
-      gvsShowMessageOnlyForCrytical :=
+      GlobalSettings.ShowMessageIfNow := ReadBool('General', 'SHowMessageIfNow', False);
+      GlobalSettings.ShowMessageOnlyForCrytical :=
         ReadBool('General', 'ShowMessageOnlyForCrytical', False);
-      gvsAskIfClose := ReadBool('General', 'AskIfClose', True);
-      gvsOnlyIfTimerRunning := ReadBool('General', 'OnlyIfTimerRunning', True);
-      gvsForceAction := ReadBool('General', 'ForceAction', False);
-      gvsBeepLastTen := ReadBool('General', 'BeepLastTen', False);
-      gvsBeepOnB := ReadBool('General', 'BeepOnB', False);
-      gvsBeepOnI := ReadInteger('General', 'BeepOnI', 2);
-      gvsMinimizeToTray := ReadBool('Interface', 'MinimizeToTray', False);
-      gvsMinimizeOnEscape := ReadBool('Interface', 'MinimizeOnEscape', False);
-      gvsLanguageFile := ReadString('Interface', 'LanguageFile', '');
-      gvFilePath := ReadString('Other', 'FilePath', '');
-      gvParameters := ReadString('Other', 'Parameters', '');
-      gvSoundPath := ReadString('Other', 'SoundPath', '');
+      GlobalSettings.AskIfClose := ReadBool('General', 'AskIfClose', True);
+      GlobalSettings.OnlyIfTimerRunning := ReadBool('General', 'OnlyIfTimerRunning', True);
+      GlobalSettings.ForceAction := ReadBool('General', 'ForceAction', False);
+      GlobalSettings.BeepLastTen := ReadBool('General', 'BeepLastTen', False);
+      GlobalSettings.BeepOnB := ReadBool('General', 'BeepOnB', False);
+      GlobalSettings.BeepOnI := ReadInteger('General', 'BeepOnI', 2);
+      GlobalSettings.MinimizeToTray := ReadBool('Interface', 'MinimizeToTray', False);
+      GlobalSettings.MinimizeOnEscape := ReadBool('Interface', 'MinimizeOnEscape', False);
+      GlobalSettings.LanguageFile := UTF8ToString(ReadString('Interface', 'LanguageFile', ''));
+      gvFilePath := UTF8ToString(ReadString('Other', 'FilePath', ''));
+      gvParameters := UTF8ToString(ReadString('Other', 'Parameters', ''));
+      gvSoundPath := UTF8ToString(ReadString('Other', 'SoundPath', ''));
       gvSoundLoop := ReadBool('Other', 'SoundLoop', False);
     end;
   finally
@@ -332,8 +331,8 @@ begin
       lLocalTime.wHour := 24;
     end;
 
-    lLocalTimeAsSeconds := (lLocalTime.wHour * SECONDS_IN_HOUR +
-      lLocalTime.wMinute * SECONDS_IN_MINUTE + lLocalTime.wSecond);
+    lLocalTimeAsSeconds := (lLocalTime.wHour * SecsPerHour + lLocalTime.wMinute
+      * SecsPerMin + lLocalTime.wSecond);
     lHour := StrToInt(EHourAt.Text);
     lMinute := StrToInt(EMinuteAt.Text);
     lSecond := StrToInt(ESecondAt.Text);
@@ -342,25 +341,24 @@ begin
       lHour := 24;
     end;
 
-    lSetupTime := lHour * 3600 + lMinute * 60 + lSecond;
+    lSetupTime := lHour * SecsPerHour + lMinute * SecsPerMin + lSecond;
 
     if (CBDaysAt.ItemIndex = ShiftWeek[lLocalTime.wDayOfWeek]) and
       (lSetupTime < lLocalTimeAsSeconds) then
     begin
-      lSetupTime := lSetupTime + 7 * SECONDS_IN_DAY;
+      lSetupTime := lSetupTime + 7 * SecsPerDay;
     end;
 
     if (CBDaysAt.ItemIndex < ShiftWeek[lLocalTime.wDayOfWeek]) then
     begin
       lSetupTime := lSetupTime + (7 - ShiftWeek[lLocalTime.wDayOfWeek] +
-        CBDaysAt.ItemIndex) * SECONDS_IN_DAY;
+        CBDaysAt.ItemIndex) * SecsPerDay;
     end;
 
     if (CBDaysAt.ItemIndex > ShiftWeek[lLocalTime.wDayOfWeek]) then
     begin
       lSetupTime := lSetupTime +
-        (CBDaysAt.ItemIndex - ShiftWeek[lLocalTime.wDayOfWeek]) *
-        SECONDS_IN_DAY;
+        (CBDaysAt.ItemIndex - ShiftWeek[lLocalTime.wDayOfWeek]) * SecsPerDay;
     end;
     Counter.SetFields(lSetupTime - lLocalTimeAsSeconds);
   end;
@@ -437,9 +435,9 @@ procedure TMainFormSD.ChangeLanguage;
 var
   Localizer: TMultiLocalizer;
 begin
-  if FileExists(gvLanguagesPath + gvsLanguageFile) then
+  if FileExists(gvLanguagesPath + GlobalSettings.LanguageFile) then
   begin
-    Localizer := TMultiLocalizer.Create(gvLanguagesPath + gvsLanguageFile);
+    Localizer := TMultiLocalizer.Create(gvLanguagesPath + GlobalSettings.LanguageFile);
     Localizer.UserLoad := @LoadArray;
     Localizer.UserSave := @SaveArray;
     try
@@ -511,9 +509,9 @@ end;
 
 procedure TMainFormSD.BRigthNowClick(Sender: TObject);
 begin
-  if gvsShowMessageIfNow then
+  if GlobalSettings.ShowMessageIfNow then
   begin
-    if gvsShowMessageOnlyForCrytical then
+    if GlobalSettings.ShowMessageOnlyForCrytical then
     begin
       if RGActionList.ItemIndex in [0 .. 3] then
       begin
@@ -571,14 +569,14 @@ begin
   case RGActionList.ItemIndex of
     0:
       begin
-        Actor := TManagerOfShutDown.Create(sdShutdown, gvsForceAction);
+        Actor := TManagerOfShutDown.Create(sdShutdown, GlobalSettings.ForceAction);
       end;
     1:
       begin
-        Actor := TManagerOfShutDown.Create(sdReboot, gvsForceAction);
+        Actor := TManagerOfShutDown.Create(sdReboot, GlobalSettings.ForceAction);
       end;
     2:
-      Actor := TManagerOfShutDown.Create(sdLogOff, gvsForceAction);
+      Actor := TManagerOfShutDown.Create(sdLogOff, GlobalSettings.ForceAction);
     3:
       Actor := TManagerOfHibernate.Create();
     4:
@@ -665,7 +663,7 @@ end;
 
 function TMainFormSD.timeGetMinPeriod(): DWORD;
 begin
-  Result := 25;
+  Result := 10;
 end;
 
 procedure TMainFormSD.TrayIconDblClick(Sender: TObject);
@@ -786,7 +784,7 @@ procedure TMainFormSD.WindowMessage(var Msg: TMessage);
 begin
   if Msg.WParam = SC_MINIMIZE then
   begin
-    if gvsMinimizeToTray then
+    if GlobalSettings.MinimizeToTray then
     begin
       TrayIcon.Visible := True;
       Hide;
@@ -828,9 +826,9 @@ var
   Answ: Integer;
 begin
   Answ := mrYes;
-  if (gvsAskIfClose) and (not CloseProgramm) then
+  if (GlobalSettings.AskIfClose) and (not CloseProgramm) then
   begin
-    if gvsOnlyIfTimerRunning then
+    if GlobalSettings.OnlyIfTimerRunning then
     begin
       if TimerID <> 0 then
       begin
@@ -868,7 +866,7 @@ end;
 procedure TMainFormSD.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if gvsMinimizeOnEscape then
+  if GlobalSettings.MinimizeOnEscape then
     if Key = VK_ESCAPE then
     begin
       PostMessage(handle, WM_SYSCOMMAND, SC_MINIMIZE, 0);
@@ -933,13 +931,13 @@ var
   OldLang: string;
 begin
   CenterModal(Settings.handle);
-  OldLang := gvsLanguageFile;
+  OldLang := GlobalSettings.LanguageFile;
   IntToStr(Settings.ShowModal);
-  if OldLang <> gvsLanguageFile then
+  if OldLang <> GlobalSettings.LanguageFile then
   begin
     MainFormSD.ChangeLanguage();
   end;
-  if gvsForceAction then
+  if GlobalSettings.ForceAction then
   begin
     RGActionList.Buttons[0].Font.Style := [fsUnderline];
     RGActionList.Buttons[1].Font.Style := [fsUnderline];
@@ -1089,13 +1087,13 @@ var
   SettingFile: TIniFile;
 begin
   Result := True;
-  SettingFile := TIniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE);
+  SettingFile := TIniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE + '.ini');
   try
-    with SettingFile do
+  with SettingFile do
     begin
-      WriteString('Other', 'FilePath', gvFilePath);
-      WriteString('Other', 'Parameters', gvParameters);
-      WriteString('Other', 'SoundPath', gvSoundPath);
+      WriteString('Other', 'FilePath', UnicodeString(gvFilePath));
+      WriteString('Other', 'Parameters', UnicodeString(gvParameters));
+      WriteString('Other', 'SoundPath', UnicodeString(gvSoundPath));
       WriteBool('Other', 'SoundLoop', gvSoundLoop);
     end;
   except

@@ -4,17 +4,15 @@ program ProjectShutdown;
 
 uses
   Forms,
-  MainFormShutdown in 'MainFormShutdown.pas' {MainFormSD} ,
-  GCAV in 'GCAV.pas',
-  SelectProgramFormShutdown
-    in 'SelectProgramFormShutdown.pas' {SelectProgramm} ,
-  SettingsFormShutdown in 'SettingsFormShutdown.pas' {Settings} ,
-  AboutFormShutdown in 'AboutFormShutdown.pas' {About} ,
+  MainFormShutdown in 'MainFormShutdown.pas' {MainFormSD},
+  SelectProgramFormShutdown in 'SelectProgramFormShutdown.pas' {SelectProgramm},
+  SettingsFormShutdown in 'SettingsFormShutdown.pas' {Settings},
+  AboutFormShutdown in 'AboutFormShutdown.pas' {About},
   CounterClass in 'CounterClass.pas',
-  SelectSoundFormShutdown in 'SelectSoundFormShutdown.pas' {SelectSound} ,
-  SelectPluginFormShutdown in 'SelectPluginFormShutdown.pas' {SelectPlugin} ,
+  SelectSoundFormShutdown in 'SelectSoundFormShutdown.pas' {SelectSound},
+  SelectPluginFormShutdown in 'SelectPluginFormShutdown.pas' {SelectPlugin},
   PluginListManager in 'PluginListManager.pas',
-  MessageTextFormShutdown in 'MessageTextFormShutdown.pas' {MessageText} ,
+  MessageTextFormShutdown in 'MessageTextFormShutdown.pas' {MessageText},
   SharedTypes in 'SharedTypes.pas',
   MultiLocalizer in 'MultiLocalizer.pas',
   MNGShutDown in 'Managers\MNGShutDown.pas',
@@ -25,7 +23,9 @@ uses
   MNGPlugins in 'Managers\MNGPlugins.pas',
   MNGMessage in 'Managers\MNGMessage.pas',
   MainFrame in 'MainFrame.pas',
-  ULogger in 'ULogger.pas';
+  GCAV,
+  TimerForm in 'TimerForm.pas' {TimerFormSD},
+  SettingsManager in 'SettingsManager.pas';
 
 {$R *.res}
 

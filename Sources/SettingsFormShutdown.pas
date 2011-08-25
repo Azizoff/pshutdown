@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, ExtCtrls, StdCtrls, GCAV, IniFiles;
+  Dialogs, ComCtrls, ExtCtrls, StdCtrls, GCAV, IniFiles, SettingsManager;
 
 type
   TSettings = class(TForm)
@@ -40,8 +40,7 @@ type
     procedure BCancelClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormActivate(Sender: TObject);
-    procedure LVLanguageChange(Sender: TObject; Item: TListItem;
-      Change: TItemChange);
+    procedure LVLanguageChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     function SaveSettings(): Boolean;
@@ -89,8 +88,7 @@ var
   SearchRec: TSearchRec;
   LIT: TListItem;
 begin
-  if (FindFirst(gvLanguagesPath + '*.ini', faAnyFile and not faDirectory,
-    SearchRec) = 0) then
+  if (FindFirst(gvLanguagesPath + '*.ini', faAnyFile and not faDirectory, SearchRec) = 0) then
   begin
     LVLanguage.Items.BeginUpdate;
     LVLanguage.Items.Clear;
@@ -99,9 +97,9 @@ begin
     if LangFile.SectionExists('Language_File') then
     begin
       LIT := LVLanguage.Items.Add;
-      LIT.Caption := LangFile.ReadString('Language_File', 'Language', 'Lang');
+      LIT.Caption := UTF8ToString(LangFile.ReadString('Language_File', 'Language', 'Lang'));
       LIT.SubItems.Add(SearchRec.Name);
-      LIT.SubItems.Add(LangFile.ReadString('Language_File', 'Author', 'Auth'));
+      LIT.SubItems.Add(UTF8ToString(LangFile.ReadString('Language_File', 'Author', 'Auth')));
     end;
     FreeAndNil(LangFile);
     while FindNext(SearchRec) = 0 do
@@ -110,10 +108,9 @@ begin
       if LangFile.SectionExists('Language_File') then
       begin
         LIT := LVLanguage.Items.Add;
-        LIT.Caption := LangFile.ReadString('Language_File', 'Language', 'Lang');
+        LIT.Caption := UTF8ToString(LangFile.ReadString('Language_File', 'Language', 'Lang'));
         LIT.SubItems.Add(SearchRec.Name);
-        LIT.SubItems.Add(LangFile.ReadString('Language_File', 'Author',
-          'Auth'));
+        LIT.SubItems.Add(UTF8ToString(LangFile.ReadString('Language_File', 'Author', 'Auth')));
       end;
       FreeAndNil(LangFile);
     end;
@@ -123,8 +120,7 @@ begin
   LoadSettings();
 end;
 
-procedure TSettings.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TSettings.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
     BCancel.Click;
@@ -141,65 +137,41 @@ function TSettings.LoadSettings: Boolean;
 begin
   Result := True;
   vsSettingsChanged := False;
-  CBSForceAction.Checked := gvsForceAction;
-  CBSShowMessageIfNow.Checked := gvsShowMessageIfNow;
+  CBSForceAction.Checked := GlobalSettings.ForceAction;
+  CBSShowMessageIfNow.Checked := GlobalSettings.ShowMessageIfNow;
   CBSShowMessageOnlyForCrytical.Enabled := CBSShowMessageIfNow.Checked;
-  CBSShowMessageOnlyForCrytical.Checked := gvsShowMessageOnlyForCrytical;
-  CBAskIfClose.Checked := gvsAskIfClose;
-  CBOnlyIfTimerRunning.Checked := gvsOnlyIfTimerRunning;
-  CBBeepLastTen.Checked := gvsBeepLastTen;
-  CBMinimizeToTray.Checked := gvsMinimizeToTray;
-  CBMinimizeOnEscape.Checked := gvsMinimizeOnEscape;
+  CBSShowMessageOnlyForCrytical.Checked := GlobalSettings.ShowMessageOnlyForCrytical;
+  CBAskIfClose.Checked := GlobalSettings.AskIfClose;
+  CBOnlyIfTimerRunning.Checked := GlobalSettings.OnlyIfTimerRunning;
+  CBBeepLastTen.Checked := GlobalSettings.BeepLastTen;
+  CBMinimizeToTray.Checked := GlobalSettings.MinimizeToTray;
+  CBMinimizeOnEscape.Checked := GlobalSettings.MinimizeOnEscape;
   BApply.Enabled := vsSettingsChanged;
 end;
 
-procedure TSettings.LVLanguageChange(Sender: TObject; Item: TListItem;
-  Change: TItemChange);
+procedure TSettings.LVLanguageChange(Sender: TObject; Item: TListItem; Change: TItemChange);
 begin
   ChangeSetting(Sender);
 end;
 
 function TSettings.SaveSettings: Boolean;
-var
-  SettingFile: TiniFile;
 begin
   Result := True;
   vsSettingsChanged := False;
-  gvsForceAction := CBSForceAction.Checked;
-  gvsShowMessageIfNow := CBSShowMessageIfNow.Checked;
-  gvsShowMessageOnlyForCrytical := CBSShowMessageOnlyForCrytical.Checked;
-  gvsBeepLastTen := CBBeepLastTen.Checked;
-  gvsMinimizeToTray := CBMinimizeToTray.Checked;
-  gvsMinimizeOnEscape := CBMinimizeOnEscape.Checked;
-  gvsAskIfClose := CBAskIfClose.Checked;
-  gvsOnlyIfTimerRunning := CBOnlyIfTimerRunning.Checked;
+  GlobalSettings.ForceAction := CBSForceAction.Checked;
+  GlobalSettings.ShowMessageIfNow := CBSShowMessageIfNow.Checked;
+  GlobalSettings.ShowMessageOnlyForCrytical := CBSShowMessageOnlyForCrytical.Checked;
+  GlobalSettings.BeepLastTen := CBBeepLastTen.Checked;
+  GlobalSettings.MinimizeToTray := CBMinimizeToTray.Checked;
+  GlobalSettings.MinimizeOnEscape := CBMinimizeOnEscape.Checked;
+  GlobalSettings.AskIfClose := CBAskIfClose.Checked;
+  GlobalSettings.OnlyIfTimerRunning := CBOnlyIfTimerRunning.Checked;
   if LVLanguage.ItemIndex > -1 then
-    gvsLanguageFile := LVLanguage.Selected.SubItems[0];
+    GlobalSettings.LanguageFile := LVLanguage.Selected.SubItems[0];
   BApply.Enabled := vsSettingsChanged;
 
-  SettingFile := TiniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE);
-
-  try
-    with SettingFile do
-    begin
-      WriteBool('General', 'SHowMessageIfNow', gvsShowMessageIfNow);
-      WriteBool('General', 'ShowMessageOnlyForCrytical',
-        gvsShowMessageOnlyForCrytical);
-      WriteBool('General', 'AskIfClose', gvsAskIfClose);
-      WriteBool('General', 'OnlyIfTimerRunning', gvsOnlyIfTimerRunning);
-      WriteBool('General', 'ForceAction', gvsForceAction);
-      WriteBool('General', 'BeepLastTen', gvsBeepLastTen);
-      WriteBool('General', 'BeepOnB', gvsBeepOnB);
-      WriteInteger('General', 'BeepOnI', gvsBeepOnI);
-      WriteBool('Interface', 'MinimizeToTray', gvsMinimizeToTray);
-      WriteBool('Interface', 'MinimizeOnEscape', gvsMinimizeOnEscape);
-      WriteString('Interface', 'LanguageFile', gvsLanguageFile);
-    end;
-  except
-    MessageBox(Handle, PChar(langs[2] + NEW_LINE + langs[3]), 'PShutDown',
-      MB_ICONINFORMATION);
-  end;
-  FreeAndNil(SettingFile);
+  if not GlobalSettings.SaveToFile(gvApplicationPath, DEF_SETTINGS_FILE) then
+    MessageBox(Handle, PChar(langs[2] + NEW_LINE + langs[3]), 'PShutDown', MB_ICONINFORMATION);
 end;
 
 procedure TSettings.TVCategoriesChange(Sender: TObject; Node: TTreeNode);

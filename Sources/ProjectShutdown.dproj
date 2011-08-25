@@ -2,7 +2,7 @@
 		<PropertyGroup>
 			<ProjectGuid>{B05983C6-89B2-496D-83B1-1ADE2A850C1B}</ProjectGuid>
 			<MainSource>ProjectShutdown.dpr</MainSource>
-			<Config Condition="'$(Config)'==''">Release</Config>
+			<Config Condition="'$(Config)'==''">Debug</Config>
 			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
 			<ProjectVersion>12.3</ProjectVersion>
 			<Base>True</Base>
@@ -24,6 +24,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_IMPLICIT_STRING_CAST_LOSS>false</DCC_IMPLICIT_STRING_CAST_LOSS>
 			<DCC_OutputDRCFile>true</DCC_OutputDRCFile>
 			<DCC_UsePackage>vclx;vcl;VclSmp;rtl;vclimg;svnui;svn;bdertl;TeeUI;TeeDB;Tee;vclactnband;vcldb;dbrtl;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;vclib;ibxpress;adortl;IndyCore;IndySystem;IndyProtocols;vclie;inet;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;vclribbon;dbexpress;DbxCommonDriver;DataSnapIndy10ServerTransport;DataSnapProviderClient;DbxClientDriver;DataSnapClient;dbxcds;DataSnapServer;AzureCloud;DBXInterBaseDriver;DBXMySQLDriver;DBXFirebirdDriver;DBXSybaseASEDriver;DBXSybaseASADriver;DBXOracleDriver;DBXMSSQLDriver;DBXInformixDriver;DBXDb2Driver;sdf</DCC_UsePackage>
 			<DCC_ExeOutput>..\Binaries\</DCC_ExeOutput>
@@ -43,6 +44,7 @@
 			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_UnitSearchPath>D:\Мои документы\Azizoff\RAD Studio\Projects\NewShutDown_SuperClass\Sources\NativeXml;D:\Мои документы\Azizoff\RAD Studio\Projects\NewShutDown_SuperClass\Sources\NativeXml\nativexml;D:\Мои документы\Azizoff\RAD Studio\Projects\NewShutDown_SuperClass\Sources\NativeXml\general;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
 			<BRCC_EnableMultiByte>true</BRCC_EnableMultiByte>
 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
 		</PropertyGroup>
@@ -53,7 +55,6 @@
 			<DCCReference Include="MainFormShutdown.pas">
 				<Form>MainFormSD</Form>
 			</DCCReference>
-			<DCCReference Include="GCAV.pas"/>
 			<DCCReference Include="SelectProgramFormShutdown.pas">
 				<Form>SelectProgramm</Form>
 			</DCCReference>
@@ -84,7 +85,10 @@
 			<DCCReference Include="Managers\MNGPlugins.pas"/>
 			<DCCReference Include="Managers\MNGMessage.pas"/>
 			<DCCReference Include="MainFrame.pas"/>
-			<DCCReference Include="ULogger.pas"/>
+			<DCCReference Include="TimerForm.pas">
+				<Form>TimerFormSD</Form>
+			</DCCReference>
+			<DCCReference Include="SettingsManager.pas"/>
 			<RcItem Include="..\Icons\NewShutDown.ico">
 				<ResourceType>Icon</ResourceType>
 				<ResourceId>Icon_1</ResourceId>

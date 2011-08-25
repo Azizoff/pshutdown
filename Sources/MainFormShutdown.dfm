@@ -2025,7 +2025,6 @@ object MainFormSD: TMainFormSD
     ParentShowHint = False
     ShowHint = False
     TabOrder = 1
-    ExplicitWidth = 473
   end
   object MainMenu: TMainMenu
     Left = 72

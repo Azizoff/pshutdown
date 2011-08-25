@@ -23,11 +23,8 @@ const
   WMU_2 = WMU_DEFAULT + 3;
   WMU_3 = WMU_DEFAULT + 4;
 
-  SECONDS_IN_DAY = 86400;
-  SECONDS_IN_HOUR = 3600;
-  SECONDS_IN_MINUTE = 60;
 
-  DEF_SETTINGS_FILE = 'Settings.ini';
+  DEF_SETTINGS_FILE = 'Settings';
   PLUGIN_PATH = 'Plugins\';
   LANGUAGE_PATH = 'Languages\';
   NEW_LINE = #13#10;
@@ -51,23 +48,26 @@ var
   gvTextMessage: string = ''; // Текст сообщения
 
   { GENERAL }
-  gvsShowMessageIfNow: Boolean = True;
+  {gvsShowMessageIfNow: Boolean = True;
   // Выводить запрос при выполнении функции немедленно
   gvsShowMessageOnlyForCrytical: Boolean = False;
-  // Выводить запрос подтвержднеия только для критических заданий }
+  // Выводить запрос подтвержднеия только для критических заданий
   gvsForceAction: Boolean = False;
   // True = компьютер будет выключаться принудительно, даже если не отвечают программы
   gvsBeepLastTen: Boolean = False;
   gvsBeepOnB: Boolean = False;
+  gvsShowTimerWindow: Boolean = True;
+  }
+
   // Выводить звуковой сигнал в минуты кратные {gvsBeepOnI}
-  gvsBeepOnI: Integer = 2; // Единица измерения минуты
+  {gvsBeepOnI: Integer = 2; // Единица измерения минуты
   gvsAskIfClose: Boolean = True;
   gvsOnlyIfTimerRunning: Boolean = True;
-
+  }
   { INTERFACE }
-  gvsMinimizeToTray: Boolean = False; // True = Сворачивать окно в трей
-  gvsMinimizeOnEscape: Boolean = False; // True = Сворачивать по ESCAPE
-  gvsLanguageFile: string;
+ // gvsMinimizeToTray: Boolean = False; // True = Сворачивать окно в трей
+ // gvsMinimizeOnEscape: Boolean = False; // True = Сворачивать по ESCAPE
+ // gvsLanguageFile: string;
   { PASSWORD }
 
   gvApplicationPath: string = '';
@@ -104,8 +104,8 @@ var
   I: Integer;
 begin
   for I := Low(langs) to high(langs) do
-    langs[I] := Trim(Ini.ReadString('Messages', 'Item_' + IntToStr(I),
-      langs[I]));
+    langs[I] := UTF8ToString(Trim(Ini.ReadString('Messages', 'Item_' + IntToStr(I),
+      langs[I])));
   Result := False;
 end;
 

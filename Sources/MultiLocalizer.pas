@@ -78,33 +78,33 @@ begin
     begin
       with fFormsList[I].fForm do
       begin
-        Caption := LngFile.ReadString(Name, 'Caption', Caption);
+        Caption := UTF8ToString(LngFile.ReadString(Name, 'Caption', Caption));
         for J := 0 to ComponentCount - 1 do
         begin
 {$REGION 'TButton'}
           if Components[J] is TButton then
           begin
             (Components[J] as TButton).Caption :=
-              LngFile.ReadString(Name + '_' + Components[J].ClassName,
-              (Components[J] as TButton).Name,
-              (Components[J] as TButton).Caption);
+              UTF8ToString(LngFile.ReadString(Name + '_' + Components[J]
+              .ClassName, (Components[J] as TButton).Name,
+              (Components[J] as TButton).Caption));
           end;
 {$ENDREGION}
 {$REGION 'TMemo'}
           if Components[J] is TMemo then
           begin
-            (Components[J] as TMemo).Text :=
+            (Components[J] as TMemo).Text := UTF8ToString(
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
-              (Components[J] as TMemo).Name, (Components[J] as TMemo).Text);
+              (Components[J] as TMemo).Name, (Components[J] as TMemo).Text));
           end;
 {$ENDREGION}
 {$REGION 'TCheckBox'}
           if Components[J] is TCheckBox then
           begin
-            (Components[J] as TCheckBox).Caption :=
+            (Components[J] as TCheckBox).Caption := UTF8ToString(
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
               (Components[J] as TCheckBox).Name,
-              (Components[J] as TCheckBox).Caption);
+              (Components[J] as TCheckBox).Caption));
           end;
 {$ENDREGION}
 {$REGION 'TComboBox'}
@@ -113,10 +113,10 @@ begin
             OldIndex := (Components[J] as TComboBox).ItemIndex;
             for K := 0 to (Components[J] as TComboBox).Items.Count - 1 do
             begin
-              (Components[J] as TComboBox).Items[K] :=
+              (Components[J] as TComboBox).Items[K] := UTF8ToString(
                 LngFile.ReadString(Name + '_' + Components[J].Name + '_' +
                 Components[J].ClassName, 'Item_' + IntToStr(K),
-                (Components[J] as TComboBox).Items[K]);
+                (Components[J] as TComboBox).Items[K]));
             end;
             (Components[J] as TComboBox).ItemIndex := OldIndex;
           end;
@@ -124,43 +124,43 @@ begin
 {$REGION 'TGroupBox'}
           if Components[J] is TGroupBox then
           begin
-            (Components[J] as TGroupBox).Caption :=
+            (Components[J] as TGroupBox).Caption := UTF8ToString(
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
               (Components[J] as TGroupBox).Name,
-              (Components[J] as TGroupBox).Caption);
+              (Components[J] as TGroupBox).Caption));
           end;
 {$ENDREGION}
 {$REGION 'TLabel'}
           if Components[J] is TLabel then
           begin
-            (Components[J] as TLabel).Caption :=
+            (Components[J] as TLabel).Caption := UTF8ToString(
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
               (Components[J] as TLabel).Name, (Components[J] as TLabel)
-              .Caption);
+              .Caption));
           end;
 {$ENDREGION}
 {$REGION 'TRadioButton'}
           if Components[J] is TRadioButton then
           begin
-            (Components[J] as TRadioButton).Caption :=
+            (Components[J] as TRadioButton).Caption := UTF8ToString(
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
               (Components[J] as TRadioButton).Name,
-              (Components[J] as TRadioButton).Caption);
+              (Components[J] as TRadioButton).Caption));
           end;
 {$ENDREGION}
 {$REGION 'TRadioGroup'}
           if Components[J] is TRadioGroup then
           begin
-            (Components[J] as TRadioGroup).Caption :=
-              LngFile.ReadString(Name + '_' + Components[J].ClassName,
-              (Components[J] as TRadioGroup).Name,
-              (Components[J] as TRadioGroup).Caption);
+            (Components[J] as TRadioGroup).Caption := UTF8ToString(
+              LngFile.ReadString(Name + '_' + Components[J]
+              .ClassName, (Components[J] as TRadioGroup).Name,
+              (Components[J] as TRadioGroup).Caption));
             for K := 0 to (Components[J] as TRadioGroup).Items.Count - 1 do
             begin
-              (Components[J] as TRadioGroup).Items[K] :=
-                LngFile.ReadString(Name + '_' + Components[J].Name + '_' +
-                Components[J].ClassName, 'Item_' + IntToStr(K),
-                (Components[J] as TRadioGroup).Items[K]);
+              (Components[J] as TRadioGroup).Items[K] := UTF8ToString(
+                LngFile.ReadString(Name + '_' + Components[J].Name +
+                '_' + Components[J].ClassName, 'Item_' + IntToStr(K),
+                (Components[J] as TRadioGroup).Items[K]));
             end;
           end;
 {$ENDREGION}
@@ -168,9 +168,9 @@ begin
           if Components[J] is TMenuItem then
           begin
             (Components[J] as TMenuItem).Caption :=
-              LngFile.ReadString(Name + '_' + Components[J].ClassName,
-              (Components[J] as TMenuItem).Name,
-              (Components[J] as TMenuItem).Caption);
+              UTF8ToString(LngFile.ReadString(Name + '_' + Components[J]
+              .ClassName, (Components[J] as TMenuItem).Name,
+              (Components[J] as TMenuItem).Caption));
           end;
 {$ENDREGION}
 {$REGION 'TListView'}
@@ -179,9 +179,10 @@ begin
             for K := 0 to (Components[J] as TListView).Columns.Count - 1 do
             begin
               (Components[J] as TListView).Columns[K].Caption :=
-                LngFile.ReadString(Name + '_' + Components[J].ClassName,
-                (Components[J] as TListView).Columns[K].ClassName + '_' +
-                IntToStr(K), (Components[J] as TListView).Columns[K].Caption);
+                UTF8ToString(LngFile.ReadString(Name + '_' + Components[J]
+                .ClassName, (Components[J] as TListView).Columns[K].ClassName +
+                '_' + IntToStr(K), (Components[J] as TListView).Columns[K]
+                .Caption));
             end;
           end;
 {$ENDREGION}
@@ -191,9 +192,9 @@ begin
             for K := 0 to (Components[J] as TTreeView).Items.Count - 1 do
             begin
               (Components[J] as TTreeView).Items[K].Text :=
-                LngFile.ReadString(Name + '_' + Components[J].Name + '_' +
-                Components[J].ClassName, 'Item_' + IntToStr(K),
-                (Components[J] as TTreeView).Items[K].Text);
+                UTF8ToString(LngFile.ReadString(Name + '_' + Components[J].Name +
+                '_' + Components[J].ClassName, 'Item_' + IntToStr(K),
+                (Components[J] as TTreeView).Items[K].Text));
             end;
           end;
 {$ENDREGION}
@@ -201,9 +202,9 @@ begin
           if Components[J] is TTabSheet then
           begin
             (Components[J] as TTabSheet).Caption :=
-              LngFile.ReadString(Name + '_' + Components[J].ClassName,
-              (Components[J] as TTabSheet).Name,
-              (Components[J] as TTabSheet).Caption);
+              UTF8ToString(LngFile.ReadString(Name + '_' + Components[J]
+              .ClassName, (Components[J] as TTabSheet).Name,
+              (Components[J] as TTabSheet).Caption));
           end;
 {$ENDREGION}
         end;
