@@ -30,6 +30,7 @@ type
     procedure lblSiteLinkMouseLeave(Sender: TObject);
     procedure lblSiteLinkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -51,6 +52,11 @@ procedure TAbout.BCancelKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key = VK_ESCAPE then
     BCancel.Click;
+end;
+
+procedure TAbout.FormActivate(Sender: TObject);
+begin
+lblVersion.Left := About.ClientWidth - lblVersion.Width - 15;
 end;
 
 procedure TAbout.FormCreate(Sender: TObject);

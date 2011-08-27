@@ -1502,6 +1502,7 @@ object MainFormSD: TMainFormSD
   Menu = MainMenu
   OldCreateOrder = False
   Position = poScreenCenter
+  OnActivate = FormActivate
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate

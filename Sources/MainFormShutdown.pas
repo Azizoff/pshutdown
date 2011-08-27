@@ -119,24 +119,12 @@ type
     procedure UDHourAtClick(Sender: TObject; Button: TUDBtnType);
     procedure UDMinuteAtClick(Sender: TObject; Button: TUDBtnType);
     procedure UDSecondAtClick(Sender: TObject; Button: TUDBtnType);
-    procedure UDMinuteAfterMouseActivate(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y, HitTest: Integer;
-      var MouseActivate: TMouseActivate);
-    procedure UDHourAfterMouseActivate(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y, HitTest: Integer;
-      var MouseActivate: TMouseActivate);
-    procedure UDSecondAfterMouseActivate(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y, HitTest: Integer;
-      var MouseActivate: TMouseActivate);
-    procedure UDHourAtMouseActivate(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y, HitTest: Integer;
-      var MouseActivate: TMouseActivate);
-    procedure UDMinuteAtMouseActivate(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y, HitTest: Integer;
-      var MouseActivate: TMouseActivate);
-    procedure UDSecondAtMouseActivate(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y, HitTest: Integer;
-      var MouseActivate: TMouseActivate);
+    procedure UDMinuteAfterMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
+    procedure UDHourAfterMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
+    procedure UDSecondAfterMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
+    procedure UDHourAtMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
+    procedure UDMinuteAtMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
+    procedure UDSecondAtMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
     procedure EHourAfterChange(Sender: TObject);
     procedure EMinuteAfterChange(Sender: TObject);
     procedure ESecondAfterChange(Sender: TObject);
@@ -157,18 +145,13 @@ type
     procedure EHourEveryChange(Sender: TObject);
     procedure EMinuteEveryChange(Sender: TObject);
     procedure ESecondEveryChange(Sender: TObject);
-    procedure UDHourEveryMouseActivate(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y, HitTest: Integer;
-      var MouseActivate: TMouseActivate);
-    procedure UDMinuteEveryMouseActivate(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y, HitTest: Integer;
-      var MouseActivate: TMouseActivate);
-    procedure UDSecondEveryMouseActivate(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y, HitTest: Integer;
-      var MouseActivate: TMouseActivate);
+    procedure UDHourEveryMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
+    procedure UDMinuteEveryMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
+    procedure UDSecondEveryMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
     procedure RBEveryClick(Sender: TObject);
     procedure mniSaveAsLangFileClick(Sender: TObject);
     procedure PluginMenuOnClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     function DoAction(): Boolean;
     procedure SetEnabledMode();
@@ -181,10 +164,10 @@ type
     procedure LoadPlugIns();
     procedure OnTimeChange(var Message: TWMTimeChange); message WM_TIMECHANGE;
     procedure OnSelectPlugin(var Msg: TMessage); message WMU_PLUGIN_SELECTED;
-    procedure WMQueryEndSession(var Message: TWMQueryEndSession);
-      message WM_QUERYENDSESSION;
+    procedure WMQueryEndSession(var Message: TWMQueryEndSession); message WM_QUERYENDSESSION;
     procedure CreateProgressBarHint();
     procedure InitializePluginsMenu();
+    procedure ApplyVisualSettings();
     { Private declarations }
   public
     { Public declarations }
@@ -229,14 +212,11 @@ begin
 
     with MainFormSD do
     begin
-      TrayIcon.Hint := Format('%s'#13#10'%s'#13#10'%s %s',
-        [GLOBAL_PROJECT_NAME, RGActionList.Buttons[RGActionList.ItemIndex]
-        .Caption, RBAfter.Caption, Counter.AsString]);
+      TrayIcon.Hint := Format('%s'#13#10'%s'#13#10'%s %s', [GLOBAL_PROJECT_NAME, RGActionList.Buttons[RGActionList.ItemIndex].Caption, RBAfter.Caption, Counter.AsString]);
       CBDaysAfter.ItemIndex := StrToInt(Counter.sDays);
       pbTotalProgress.StepIt;
       if Assigned(pbHintLabel) then
-        pbHintLabel.Caption := Format('%.1f %%',
-          [(pbTotalProgress.Position / pbTotalProgress.Max) * 100]);
+        pbHintLabel.Caption := Format('%.1f %%', [(pbTotalProgress.Position / pbTotalProgress.Max) * 100]);
       EHourAfter.Text := Counter.sHours;
       EMinuteAfter.Text := Counter.sMinutes;
       ESecondAfter.Text := Counter.sSeconds;
@@ -246,8 +226,7 @@ begin
         if not RBEvery.Checked then
           BPauseClick(BPause)
         else
-          Counter.SetFields(0, StrToInt(EHourEvery.Text),
-            StrToInt(EMinuteEvery.Text), StrToInt(ESecondEvery.Text));
+          Counter.SetFields(0, StrToInt(EHourEvery.Text), StrToInt(EMinuteEvery.Text), StrToInt(ESecondEvery.Text));
       end;
     end;
   end
@@ -265,8 +244,7 @@ procedure TMainFormSD.LoadPlugIns;
 var
   SearchRec: TSearchRec;
 begin
-  if (FindFirst(gvPluginsPath + '*.dll', faAnyFile and not faDirectory,
-    SearchRec) = 0) then
+  if (FindFirst(gvPluginsPath + '*.dll', faAnyFile and not faDirectory, SearchRec) = 0) then
   begin
     PluginList.AddPlugin(gvPluginsPath + SearchRec.Name);
     while FindNext(SearchRec) = 0 do
@@ -284,8 +262,7 @@ begin
     with SettingFile do
     begin
       GlobalSettings.ShowMessageIfNow := ReadBool('General', 'SHowMessageIfNow', False);
-      GlobalSettings.ShowMessageOnlyForCrytical :=
-        ReadBool('General', 'ShowMessageOnlyForCrytical', False);
+      GlobalSettings.ShowMessageOnlyForCrytical := ReadBool('General', 'ShowMessageOnlyForCrytical', False);
       GlobalSettings.AskIfClose := ReadBool('General', 'AskIfClose', True);
       GlobalSettings.OnlyIfTimerRunning := ReadBool('General', 'OnlyIfTimerRunning', True);
       GlobalSettings.ForceAction := ReadBool('General', 'ForceAction', False);
@@ -317,22 +294,18 @@ begin
 
   if RBAfter.Checked then
   begin
-    Counter.SetFields(StrToIntDef(CBDaysAfter.Text, 0),
-      StrToIntDef(EHourAfter.Text, 0), StrToIntDef(EMinuteAfter.Text, 0),
-      StrToIntDef(ESecondAfter.Text, 0));
+    Counter.SetFields(StrToIntDef(CBDaysAfter.Text, 0), StrToIntDef(EHourAfter.Text, 0), StrToIntDef(EMinuteAfter.Text, 0), StrToIntDef(ESecondAfter.Text, 0));
   end;
 
   if RBAt.Checked then
   begin
     GetLocalTime(lLocalTime);
-    if (lLocalTime.wSecond = 0) and (lLocalTime.wMinute = 0) and
-      (lLocalTime.wHour = 0) then
+    if (lLocalTime.wSecond = 0) and (lLocalTime.wMinute = 0) and (lLocalTime.wHour = 0) then
     begin
       lLocalTime.wHour := 24;
     end;
 
-    lLocalTimeAsSeconds := (lLocalTime.wHour * SecsPerHour + lLocalTime.wMinute
-      * SecsPerMin + lLocalTime.wSecond);
+    lLocalTimeAsSeconds := (lLocalTime.wHour * SecsPerHour + lLocalTime.wMinute * SecsPerMin + lLocalTime.wSecond);
     lHour := StrToInt(EHourAt.Text);
     lMinute := StrToInt(EMinuteAt.Text);
     lSecond := StrToInt(ESecondAt.Text);
@@ -343,42 +316,36 @@ begin
 
     lSetupTime := lHour * SecsPerHour + lMinute * SecsPerMin + lSecond;
 
-    if (CBDaysAt.ItemIndex = ShiftWeek[lLocalTime.wDayOfWeek]) and
-      (lSetupTime < lLocalTimeAsSeconds) then
+    if (CBDaysAt.ItemIndex = ShiftWeek[lLocalTime.wDayOfWeek]) and (lSetupTime < lLocalTimeAsSeconds) then
     begin
       lSetupTime := lSetupTime + 7 * SecsPerDay;
     end;
 
     if (CBDaysAt.ItemIndex < ShiftWeek[lLocalTime.wDayOfWeek]) then
     begin
-      lSetupTime := lSetupTime + (7 - ShiftWeek[lLocalTime.wDayOfWeek] +
-        CBDaysAt.ItemIndex) * SecsPerDay;
+      lSetupTime := lSetupTime + (7 - ShiftWeek[lLocalTime.wDayOfWeek] + CBDaysAt.ItemIndex) * SecsPerDay;
     end;
 
     if (CBDaysAt.ItemIndex > ShiftWeek[lLocalTime.wDayOfWeek]) then
     begin
-      lSetupTime := lSetupTime +
-        (CBDaysAt.ItemIndex - ShiftWeek[lLocalTime.wDayOfWeek]) * SecsPerDay;
+      lSetupTime := lSetupTime + (CBDaysAt.ItemIndex - ShiftWeek[lLocalTime.wDayOfWeek]) * SecsPerDay;
     end;
     Counter.SetFields(lSetupTime - lLocalTimeAsSeconds);
   end;
 
   if RBEvery.Checked then
   begin
-    Counter.SetFields(0, StrToIntDef(EHourEvery.Text, 0),
-      StrToIntDef(EMinuteEvery.Text, 0), StrToIntDef(ESecondEvery.Text, 0));
+    Counter.SetFields(0, StrToIntDef(EHourEvery.Text, 0), StrToIntDef(EMinuteEvery.Text, 0), StrToIntDef(ESecondEvery.Text, 0));
   end;
 
   if Counter.TotalSeconds > 0 then
   begin
     pbTotalProgress.Max := Counter.TotalSeconds;
-    TimerID := timeSetEvent(1000, timeGetMinPeriod, @TimerProc, 0,
-      TIME_CALLBACK_FUNCTION or TIME_PERIODIC);
+    TimerID := timeSetEvent(1000, timeGetMinPeriod, @TimerProc, 0, TIME_CALLBACK_FUNCTION or TIME_PERIODIC);
   end
   else
   begin
-    MessageBox(handle, PWideChar(langs[8]), GLOBAL_PROJECT_NAME,
-      MB_OK or MB_ICONINFORMATION);
+    MessageBox(handle, PWideChar(langs[8]), GLOBAL_PROJECT_NAME, MB_OK or MB_ICONINFORMATION);
   end;
 
   BPause.Enabled := TimerID > 0;
@@ -427,8 +394,7 @@ begin
     Y := 0;
   if Y + ChildHeight > Screen.Height then
     Y := Screen.Height - ChildHeight;
-  SetWindowPos(ChildHandle, MainFormSD.handle, X, Y, 0, 0,
-    SWP_NOSIZE or SWP_NOZORDER);
+  SetWindowPos(ChildHandle, MainFormSD.handle, X, Y, 0, 0, SWP_NOSIZE or SWP_NOZORDER);
 end;
 
 procedure TMainFormSD.ChangeLanguage;
@@ -461,9 +427,7 @@ begin
   pbHintLabel.SetParentComponent(pbTotalProgress);
   pbHintLabel.Font.Size := 10;
   pbHintLabel.Font.Color := RGB(70, 80, 70);
-  pbHintLabel.SetBounds((pbTotalProgress.Width div 2) -
-    (pbHintLabel.Width div 2), (pbTotalProgress.Height div 2) -
-    (pbHintLabel.Height div 2), 0, 0);
+  pbHintLabel.SetBounds((pbTotalProgress.Width div 2) - (pbHintLabel.Width div 2), (pbTotalProgress.Height div 2) - (pbHintLabel.Height div 2), 0, 0);
 end;
 
 procedure TMainFormSD.BBrowseSoundClick(Sender: TObject);
@@ -515,9 +479,8 @@ begin
     begin
       if RGActionList.ItemIndex in [0 .. 3] then
       begin
-        if (MessageBox(handle, PWideChar(langs[0] + NEW_LINE +
-          RGActionList.Buttons[RGActionList.ItemIndex].Caption + '?'),
-          GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION) = mrYes) then
+        if (MessageBox(handle, PWideChar(langs[0] + NEW_LINE + RGActionList.Buttons[RGActionList.ItemIndex].Caption + '?'), GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION)
+          = mrYes) then
         begin
           DoAction;
         end;
@@ -529,9 +492,8 @@ begin
     end
     else
     begin
-      if (MessageBox(handle, PWideChar(langs[0] + NEW_LINE +
-        RGActionList.Buttons[RGActionList.ItemIndex].Caption + '?'),
-        GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION) = mrYes) then
+      if (MessageBox(handle, PWideChar(langs[0] + NEW_LINE + RGActionList.Buttons[RGActionList.ItemIndex].Caption + '?'), GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION)
+        = mrYes) then
       begin
         DoAction;
       end;
@@ -540,6 +502,22 @@ begin
   else
   begin
     DoAction;
+  end;
+end;
+
+procedure TMainFormSD.ApplyVisualSettings;
+begin
+  if GlobalSettings.ForceAction then
+  begin
+    RGActionList.Buttons[0].Font.Style := [fsUnderline];
+    RGActionList.Buttons[1].Font.Style := [fsUnderline];
+    RGActionList.Buttons[2].Font.Style := [fsUnderline];
+  end
+  else
+  begin
+    RGActionList.Buttons[0].Font.Style := [];
+    RGActionList.Buttons[1].Font.Style := [];
+    RGActionList.Buttons[2].Font.Style := [];
   end;
 end;
 
@@ -582,8 +560,7 @@ begin
     4:
       Actor := TManagerOfDisplay.Create(handle, True);
     5:
-      Actor := TManagerOfExecuting.Create(handle, gvFilePath,
-        gvParameters, IsOK);
+      Actor := TManagerOfExecuting.Create(handle, gvFilePath, gvParameters, IsOK);
     6:
       begin
         if gvSoundLoop and IsOK then
@@ -654,6 +631,11 @@ begin
   SetNormalValue(TEdit(Sender), 59);
 end;
 
+procedure TMainFormSD.FormActivate(Sender: TObject);
+begin
+  ApplyVisualSettings();
+end;
+
 procedure TMainFormSD.FormatText(Sender: TObject);
 begin
   if Length(TEdit(Sender).Text) = 0 then
@@ -677,9 +659,7 @@ begin
   FormatText(EHourAfter);
 end;
 
-procedure TMainFormSD.UDHourAfterMouseActivate(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
-  var MouseActivate: TMouseActivate);
+procedure TMainFormSD.UDHourAfterMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
 begin
   EHourAfter.SetFocus;
 end;
@@ -689,9 +669,7 @@ begin
   FormatText(EHourAt);
 end;
 
-procedure TMainFormSD.UDHourAtMouseActivate(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
-  var MouseActivate: TMouseActivate);
+procedure TMainFormSD.UDHourAtMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
 begin
   EHourAt.SetFocus;
 end;
@@ -701,9 +679,7 @@ begin
   FormatText(EMinuteAfter);
 end;
 
-procedure TMainFormSD.UDMinuteAfterMouseActivate(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
-  var MouseActivate: TMouseActivate);
+procedure TMainFormSD.UDMinuteAfterMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
 begin
   EMinuteAfter.SetFocus;
 end;
@@ -713,9 +689,7 @@ begin
   FormatText(EMinuteAt);
 end;
 
-procedure TMainFormSD.UDMinuteAtMouseActivate(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
-  var MouseActivate: TMouseActivate);
+procedure TMainFormSD.UDMinuteAtMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
 begin
   EMinuteAt.SetFocus;
 end;
@@ -725,9 +699,7 @@ begin
   FormatText(ESecondAfter);
 end;
 
-procedure TMainFormSD.UDSecondAfterMouseActivate(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
-  var MouseActivate: TMouseActivate);
+procedure TMainFormSD.UDSecondAfterMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
 begin
   ESecondAfter.SetFocus;
 end;
@@ -737,9 +709,7 @@ begin
   FormatText(ESecondAt);
 end;
 
-procedure TMainFormSD.UDSecondAtMouseActivate(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
-  var MouseActivate: TMouseActivate);
+procedure TMainFormSD.UDSecondAtMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
 begin
   EMinuteAt.SetFocus;
 end;
@@ -749,9 +719,7 @@ begin
   FormatText(EHourEvery);
 end;
 
-procedure TMainFormSD.UDHourEveryMouseActivate(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
-  var MouseActivate: TMouseActivate);
+procedure TMainFormSD.UDHourEveryMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
 begin
   EHourEvery.SetFocus;
 end;
@@ -761,9 +729,7 @@ begin
   FormatText(EMinuteEvery);
 end;
 
-procedure TMainFormSD.UDMinuteEveryMouseActivate(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
-  var MouseActivate: TMouseActivate);
+procedure TMainFormSD.UDMinuteEveryMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
 begin
   EMinuteEvery.SetFocus;
 end;
@@ -773,9 +739,7 @@ begin
   FormatText(ESecondEvery);
 end;
 
-procedure TMainFormSD.UDSecondEveryMouseActivate(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
-  var MouseActivate: TMouseActivate);
+procedure TMainFormSD.UDSecondEveryMouseActivate(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer; var MouseActivate: TMouseActivate);
 begin
   ESecondEvery.SetFocus;
 end;
@@ -832,14 +796,12 @@ begin
     begin
       if TimerID <> 0 then
       begin
-        Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]),
-          GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION);
+        Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]), GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION);
       end;
     end
     else
     begin
-      Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]),
-        GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION);
+      Answ := MessageBox(handle, PChar(langs[0] + ' ' + langs[7]), GLOBAL_PROJECT_NAME, MB_YESNO or MB_ICONQUESTION);
     end;
   end;
   CanClose := Answ = mrYes;
@@ -853,6 +815,7 @@ begin
   gvPluginsPath := gvApplicationPath + PLUGIN_PATH;
   Counter := TCounter.Create();
   LoadSettings();
+
   PluginList := TPluginList.Create;
   LoadPlugIns();
   TimerID := 0;
@@ -863,8 +826,7 @@ begin
   ShowWindowAsync(BStopAlarm.handle, SW_HIDE);
 end;
 
-procedure TMainFormSD.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TMainFormSD.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if GlobalSettings.MinimizeOnEscape then
     if Key = VK_ESCAPE then
@@ -937,18 +899,7 @@ begin
   begin
     MainFormSD.ChangeLanguage();
   end;
-  if GlobalSettings.ForceAction then
-  begin
-    RGActionList.Buttons[0].Font.Style := [fsUnderline];
-    RGActionList.Buttons[1].Font.Style := [fsUnderline];
-    RGActionList.Buttons[2].Font.Style := [fsUnderline];
-  end
-  else
-  begin
-    RGActionList.Buttons[0].Font.Style := [];
-    RGActionList.Buttons[1].Font.Style := [];
-    RGActionList.Buttons[2].Font.Style := [];
-  end;
+  ApplyVisualSettings
 end;
 
 procedure TMainFormSD.OnSelectPlugin(var Msg: TMessage);
@@ -983,8 +934,7 @@ begin
       if not ShowMessageOnes then
       begin
         ShowMessageOnes := True;
-        mbAnswer := MessageBox(handle, PWideChar(langs[5] + NEW_LINE + langs[6]
-          ), GLOBAL_PROJECT_NAME, MB_YESNO + MB_ICONQUESTION);
+        mbAnswer := MessageBox(handle, PWideChar(langs[5] + NEW_LINE + langs[6]), GLOBAL_PROJECT_NAME, MB_YESNO + MB_ICONQUESTION);
         if mbAnswer = mrYes then
         begin
           BPause.Click;
@@ -1029,8 +979,7 @@ begin
   I := 0;
   while FileExists(gvApplicationPath + 'Lang_' + IntToStr(I) + '.ini') do
     Inc(I);
-  Localizer := TMultiLocalizer.Create(gvApplicationPath + 'Lang_' + IntToStr(I)
-    + '.ini');
+  Localizer := TMultiLocalizer.Create(gvApplicationPath + 'Lang_' + IntToStr(I) + '.ini');
   Localizer.UserLoad := @LoadArray;
   Localizer.UserSave := @SaveArray;
   try
@@ -1089,7 +1038,7 @@ begin
   Result := True;
   SettingFile := TIniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE + '.ini');
   try
-  with SettingFile do
+    with SettingFile do
     begin
       WriteString('Other', 'FilePath', UnicodeString(gvFilePath));
       WriteString('Other', 'Parameters', UnicodeString(gvParameters));
@@ -1097,8 +1046,7 @@ begin
       WriteBool('Other', 'SoundLoop', gvSoundLoop);
     end;
   except
-    MessageBox(handle, PChar(langs[2] + NEW_LINE + langs[3]),
-      GLOBAL_PROJECT_NAME, MB_ICONINFORMATION);
+    MessageBox(handle, PChar(langs[2] + NEW_LINE + langs[3]), GLOBAL_PROJECT_NAME, MB_ICONINFORMATION);
   end;
   BBrowseProgramm.Hint := gvFilePath;
   BBrowseSound.Hint := gvSoundPath;

@@ -53,6 +53,7 @@ object About: TAbout
   KeyPreview = True
   OldCreateOrder = False
   Position = poDefault
+  OnActivate = FormActivate
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
@@ -1035,7 +1036,7 @@ object About: TAbout
     Top = 8
     Width = 40
     Height = 19
-    Caption = '1.0.5'
+    Caption = '1.0.8'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16

@@ -143,10 +143,6 @@ object Settings: TSettings
     object tsGeneral: TTabSheet
       Caption = 'General'
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GroupBox1: TGroupBox
         Left = 8
         Top = 8
@@ -231,10 +227,6 @@ object Settings: TSettings
       Caption = 'Interface'
       ImageIndex = 1
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GBLanguage: TGroupBox
         Left = 8
         Top = 101
