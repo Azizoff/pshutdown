@@ -23,7 +23,15 @@ type
     fBeepLastTen: Boolean;
     fBeepOnB: Boolean;
     fShowTimerWindow: Boolean;
+    fExeFilePath: string;
+    fParameters: string;
+    fSoundPath: string;
+    fSoundLoop: Boolean;
   public
+    property ExeFilePath: string read fExeFilePath write fExeFilePath;
+    property Parameters: string read fParameters write fParameters;
+    property SoundPath: string read fSoundPath write fSoundPath;
+    property SoundLoop: Boolean read fSoundLoop write fSoundLoop;
     function SaveToFile(const Path: string; const FileName: string): Boolean;
     function LoadFromFile(const Path: string; const FileName: string): Boolean;
     property MinimizeToTray: Boolean read fMinimizeToTray write fMinimizeToTray;
@@ -65,8 +73,37 @@ begin
 end;
 
 function TSettingsManager.LoadFromFile(const Path: string; const FileName: string): Boolean;
+var
+  SettingFile: TIniFile;
 begin
-
+  Result := True;
+  try
+    SettingFile := TIniFile.Create(Path + FileName + '.ini');
+    try
+      with SettingFile do
+      begin
+        ShowMessageIfNow := ReadBool('General', 'SHowMessageIfNow', False);
+        ShowMessageOnlyForCrytical := ReadBool('General', 'ShowMessageOnlyForCrytical', False);
+        AskIfClose := ReadBool('General', 'AskIfClose', True);
+        OnlyIfTimerRunning := ReadBool('General', 'OnlyIfTimerRunning', True);
+        ForceAction := ReadBool('General', 'ForceAction', False);
+        BeepLastTen := ReadBool('General', 'BeepLastTen', False);
+        BeepOnB := ReadBool('General', 'BeepOnB', False);
+        BeepOnI := ReadInteger('General', 'BeepOnI', 2);
+        MinimizeToTray := ReadBool('Interface', 'MinimizeToTray', False);
+        MinimizeOnEscape := ReadBool('Interface', 'MinimizeOnEscape', False);
+        LanguageFile := UTF8ToString(ReadString('Interface', 'LanguageFile', ''));
+        ExeFilePath := UTF8ToString(ReadString('Other', 'FilePath', ''));
+        Parameters := UTF8ToString(ReadString('Other', 'Parameters', ''));
+        SoundPath := UTF8ToString(ReadString('Other', 'SoundPath', ''));
+        SoundLoop := ReadBool('Other', 'SoundLoop', False);
+      end;
+    except
+      Result := False;
+    end;
+  finally
+    FreeAndNil(SettingFile);
+  end;
 end;
 
 function TSettingsManager.SaveToFile(const Path: string; const FileName: string): Boolean;

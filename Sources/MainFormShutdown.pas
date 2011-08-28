@@ -634,6 +634,7 @@ end;
 procedure TMainFormSD.FormActivate(Sender: TObject);
 begin
   ApplyVisualSettings();
+  CBDaysAt.ItemIndex := ShiftWeek[DayOfWeek(Date) - 1];
 end;
 
 procedure TMainFormSD.FormatText(Sender: TObject);
@@ -853,7 +854,6 @@ begin
   FormatText(ESecondAfter);
   FormatText(ESecondAt);
   FormatText(ESecondEvery);
-  CBDaysAt.ItemIndex := ShiftWeek[DayOfWeek(Date) - 1];
   // BStopAlarm.Visible := False;
   BBrowseProgramm.Hint := gvFilePath;
   BBrowseSound.Hint := gvSoundPath;
