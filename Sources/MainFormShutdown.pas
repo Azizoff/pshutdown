@@ -204,6 +204,13 @@ begin
         Windows.Beep(2000, 50);
       end;
 
+      if GlobalSettings.ShowFormInLastTenSec then
+      if (Counter.TotalSeconds <= 10) and (MainFormSD.Visible = False) then
+      begin
+        MainFormSD.TrayIcon.Visible := False;
+        MainFormSD.Show;
+      end;
+
     if GlobalSettings.BeepOnB then
       if (Counter.TotalSeconds mod (GlobalSettings.BeepOnI * 60) = 0) then
       begin
@@ -272,6 +279,7 @@ begin
       GlobalSettings.MinimizeToTray := ReadBool('Interface', 'MinimizeToTray', False);
       GlobalSettings.MinimizeOnEscape := ReadBool('Interface', 'MinimizeOnEscape', False);
       GlobalSettings.LanguageFile := UTF8ToString(ReadString('Interface', 'LanguageFile', ''));
+      GlobalSettings.ShowFormInLastTenSec := ReadBool('Other', 'ShowWindowInLastTenSec', True);
       gvFilePath := UTF8ToString(ReadString('Other', 'FilePath', ''));
       gvParameters := UTF8ToString(ReadString('Other', 'Parameters', ''));
       gvSoundPath := UTF8ToString(ReadString('Other', 'SoundPath', ''));
@@ -749,6 +757,11 @@ procedure TMainFormSD.WindowMessage(var Msg: TMessage);
 begin
   if Msg.WParam = SC_MINIMIZE then
   begin
+  if GlobalSettings.ShowFormInLastTenSec and  (Counter.TotalSeconds <= 10) then
+  begin
+  end
+  else
+  begin
     if GlobalSettings.MinimizeToTray then
     begin
       TrayIcon.Visible := True;
@@ -756,6 +769,8 @@ begin
     end
     else
       Application.Minimize;
+  end;
+
   end
   else
     inherited;

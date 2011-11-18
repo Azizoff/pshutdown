@@ -76,10 +76,11 @@ object Settings: TSettings
     TabOrder = 0
     OnChange = TVCategoriesChange
     Items.NodeData = {
-      03020000002C0000000000000001000000FFFFFFFFFFFFFFFF00000000000000
+      03030000002C0000000000000001000000FFFFFFFFFFFFFFFF00000000000000
       00000000000107470065006E006500720061006C003000000000000000010000
       00FFFFFFFFFFFFFFFF000000000000000000000000010949006E007400650072
-      006600610063006500}
+      006600610063006500280000000000000001000000FFFFFFFFFFFFFFFF000000
+      00000000000000000001054F007400680065007200}
   end
   object BOK: TButton
     Left = 264
@@ -138,7 +139,7 @@ object Settings: TSettings
     Top = 33
     Width = 409
     Height = 320
-    ActivePage = tsInterface
+    ActivePage = tsOther
     TabOrder = 6
     object tsGeneral: TTabSheet
       Caption = 'General'
@@ -227,6 +228,8 @@ object Settings: TSettings
       Caption = 'Interface'
       ImageIndex = 1
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 10
       object GBLanguage: TGroupBox
         Left = 8
         Top = 101
@@ -292,6 +295,22 @@ object Settings: TSettings
           TabOrder = 0
           OnClick = ChangeSetting
         end
+      end
+    end
+    object tsOther: TTabSheet
+      Caption = 'tsOther'
+      ImageIndex = 2
+      TabVisible = False
+      ExplicitTop = 24
+      ExplicitHeight = 292
+      object CBShowFormInLastTenSec: TCheckBox
+        Left = 4
+        Top = 3
+        Width = 325
+        Height = 17
+        Caption = 'Show window in last ten seconds'
+        TabOrder = 0
+        OnClick = ChangeSetting
       end
     end
   end

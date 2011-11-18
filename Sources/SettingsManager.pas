@@ -27,6 +27,7 @@ type
     fParameters: string;
     fSoundPath: string;
     fSoundLoop: Boolean;
+    fShowFormInLastTenSec: Boolean;
   public
     property ExeFilePath: string read fExeFilePath write fExeFilePath;
     property Parameters: string read fParameters write fParameters;
@@ -46,6 +47,7 @@ type
     property BeepLastTen: Boolean read fBeepLastTen write fBeepLastTen;
     property BeepOnB: Boolean read fBeepOnB write fBeepOnB;
     property ShowTimerWindow: Boolean read fShowTimerWindow write fShowTimerWindow;
+    property ShowFormInLastTenSec: Boolean read fShowFormInLastTenSec write fShowFormInLastTenSec;
     constructor Create();
   end;
 
@@ -70,6 +72,7 @@ begin
   fBeepLastTen := False;
   fShowTimerWindow := False;
   fBeepOnB := False;
+  fShowFormInLastTenSec := True;
 end;
 
 function TSettingsManager.LoadFromFile(const Path: string; const FileName: string): Boolean;
@@ -97,6 +100,7 @@ begin
         Parameters := UTF8ToString(ReadString('Other', 'Parameters', ''));
         SoundPath := UTF8ToString(ReadString('Other', 'SoundPath', ''));
         SoundLoop := ReadBool('Other', 'SoundLoop', False);
+        ShowFormInLastTenSec := ReadBool('Other', 'ShowWindowInLastTenSec', True);
       end;
     except
       Result := False;
@@ -124,6 +128,7 @@ begin
         WriteBool('General', 'BeepLastTen', BeepLastTen);
         WriteBool('General', 'BeepOnB', BeepOnB);
         WriteInteger('General', 'BeepOnI', BeepOnI);
+        WriteBool('Other', 'ShowWindowInLastTenSec', ShowFormInLastTenSec);
         WriteBool('Interface', 'MinimizeToTray', MinimizeToTray);
         WriteBool('Interface', 'MinimizeOnEscape', MinimizeOnEscape);
         WriteString('Interface', 'LanguageFile', LanguageFile);

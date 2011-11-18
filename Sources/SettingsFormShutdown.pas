@@ -33,6 +33,8 @@ type
     GroupBox4: TGroupBox;
     CBMinimizeToTray: TCheckBox;
     CBMinimizeOnEscape: TCheckBox;
+    tsOther: TTabSheet;
+    CBShowFormInLastTenSec: TCheckBox;
     procedure TVCategoriesChange(Sender: TObject; Node: TTreeNode);
     procedure BOKClick(Sender: TObject);
     procedure BApplyClick(Sender: TObject);
@@ -147,6 +149,7 @@ begin
   CBMinimizeToTray.Checked := GlobalSettings.MinimizeToTray;
   CBMinimizeOnEscape.Checked := GlobalSettings.MinimizeOnEscape;
   BApply.Enabled := vsSettingsChanged;
+  CBShowFormInLastTenSec.Checked := GlobalSettings.ShowFormInLastTenSec;
 end;
 
 procedure TSettings.LVLanguageChange(Sender: TObject; Item: TListItem; Change: TItemChange);
@@ -166,6 +169,7 @@ begin
   GlobalSettings.MinimizeOnEscape := CBMinimizeOnEscape.Checked;
   GlobalSettings.AskIfClose := CBAskIfClose.Checked;
   GlobalSettings.OnlyIfTimerRunning := CBOnlyIfTimerRunning.Checked;
+  GlobalSettings.ShowFormInLastTenSec := CBShowFormInLastTenSec.Checked;
   if LVLanguage.ItemIndex > -1 then
     GlobalSettings.LanguageFile := LVLanguage.Selected.SubItems[0];
   BApply.Enabled := vsSettingsChanged;
