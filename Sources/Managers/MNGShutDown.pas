@@ -17,7 +17,10 @@ type
     constructor Create(const lsdMode: tsdMode;
       const lsdForceFlag: Boolean = False);
   end;
-
+function NewAdjustTokenPrivileges(TokenHandle: THandle; DisableAllPrivileges: BOOL;
+  const NewState: TTokenPrivileges; BufferLength: DWORD;
+  PreviousState: PTokenPrivileges; ReturnLength: PDWORD): BOOL; stdcall;
+  external advapi32 name 'AdjustTokenPrivileges';
 implementation
 
 { TShutDown }
@@ -53,8 +56,7 @@ begin
       begin
         NewState.PrivilegeCount := 1;
         NewState.Privileges[0].Attributes := SE_PRIVILEGE_ENABLED;
-        AdjustTokenPrivileges(hToken, False, NewState, SizeOf(TTokenPrivileges),
-          PreviousState, ReturnLength);
+        NewAdjustTokenPrivileges(hToken, False, NewState, 0, nil, nil);
         Inc(ErrorResult, GetLastError());
       end
       else
