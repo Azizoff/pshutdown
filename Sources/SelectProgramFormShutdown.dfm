@@ -18,14 +18,14 @@ object SelectProgramm: TSelectProgramm
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
+  object lblPath: TLabel
     Left = 8
     Top = 8
     Width = 26
     Height = 13
     Caption = 'Path:'
   end
-  object Label2: TLabel
+  object lblParameters: TLabel
     Left = 8
     Top = 51
     Width = 59

@@ -28,13 +28,14 @@ type
     GroupBox3: TGroupBox;
     CBBeepLastTen: TCheckBox;
     GBLanguage: TGroupBox;
-    Label2: TLabel;
+    LBLngFile: TLabel;
     LVLanguage: TListView;
-    GroupBox4: TGroupBox;
+    GBSysTray: TGroupBox;
     CBMinimizeToTray: TCheckBox;
     CBMinimizeOnEscape: TCheckBox;
     tsOther: TTabSheet;
     CBShowFormInLastTenSec: TCheckBox;
+    GBPBDisplay: TRadioGroup;
     procedure TVCategoriesChange(Sender: TObject; Node: TTreeNode);
     procedure BOKClick(Sender: TObject);
     procedure BApplyClick(Sender: TObject);
@@ -150,6 +151,7 @@ begin
   CBMinimizeOnEscape.Checked := GlobalSettings.MinimizeOnEscape;
   BApply.Enabled := vsSettingsChanged;
   CBShowFormInLastTenSec.Checked := GlobalSettings.ShowFormInLastTenSec;
+  GBPBDisplay.ItemIndex := GlobalSettings.ProgressBarDisplayMode;
 end;
 
 procedure TSettings.LVLanguageChange(Sender: TObject; Item: TListItem; Change: TItemChange);
@@ -170,6 +172,7 @@ begin
   GlobalSettings.AskIfClose := CBAskIfClose.Checked;
   GlobalSettings.OnlyIfTimerRunning := CBOnlyIfTimerRunning.Checked;
   GlobalSettings.ShowFormInLastTenSec := CBShowFormInLastTenSec.Checked;
+  GlobalSettings.ProgressBarDisplayMode := GBPBDisplay.ItemIndex;
   if LVLanguage.ItemIndex > -1 then
     GlobalSettings.LanguageFile := LVLanguage.Selected.SubItems[0];
   BApply.Enabled := vsSettingsChanged;

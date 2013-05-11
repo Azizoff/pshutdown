@@ -117,7 +117,7 @@ object SelectSound: TSelectSound
     TabOrder = 5
   end
   object SoundBrowser: TOpenDialog
-    Filter = 'WAV Files|*.wav'
+    Filter = 'MP3/WAV|*.wav;*.mp3'
     InitialDir = '.\Alarms'
     Left = 8
     Top = 80

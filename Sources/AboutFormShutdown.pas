@@ -73,9 +73,13 @@ begin
 end;
 
 procedure TAbout.lblAboutEmailDescriptionClick(Sender: TObject);
+var
+RetVal: NativeUInt;
 begin
-  ShellExecute(Handle, nil, 'mailto:AzizovReg@Gmail.com?subject=PShutDown', nil,
-    nil, SW_RESTORE); // написать мне письмо
+  RetVal := ShellExecute(Handle, 'open', PChar('mailto:AzizovReg@gmail.com?subject=PShutDown'), nil,
+    nil, SW_SHOWNORMAL); // написать мне письмо
+ if RetVal <= 32 then
+    MessageDlg(langs[9], mtWarning, [mbOK], 0);
 end;
 
 procedure TAbout.lblAboutEmailDescriptionMouseEnter(Sender: TObject);
@@ -90,18 +94,20 @@ end;
 
 procedure TAbout.lblSiteLinkClick(Sender: TObject);
 begin
-  ShellExecute(Handle, nil, 'http://www.code.google.com/p/pshutdown/', nil,
+  ShellExecute(Handle, nil, 'https://code.google.com/p/pshutdown/', nil,
     nil, SW_SHOW);
 end;
 
 procedure TAbout.lblSiteLinkMouseEnter(Sender: TObject);
 begin
   lblSiteLink.Font.Style := [fsUnderline];
+  lblSiteLink.Cursor := crHandPoint;
 end;
 
 procedure TAbout.lblSiteLinkMouseLeave(Sender: TObject);
 begin
   lblSiteLink.Font.Style := [];
+  lblSiteLink.Cursor := crDefault;
 end;
 
 end.

@@ -139,7 +139,7 @@ object Settings: TSettings
     Top = 33
     Width = 409
     Height = 320
-    ActivePage = tsOther
+    ActivePage = tsInterface
     TabOrder = 6
     object tsGeneral: TTabSheet
       Caption = 'General'
@@ -228,16 +228,14 @@ object Settings: TSettings
       Caption = 'Interface'
       ImageIndex = 1
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 10
       object GBLanguage: TGroupBox
         Left = 8
-        Top = 101
+        Top = 159
         Width = 385
         Height = 146
         Caption = 'Language'
         TabOrder = 0
-        object Label2: TLabel
+        object LBLngFile: TLabel
           Left = 16
           Top = 18
           Width = 70
@@ -270,11 +268,11 @@ object Settings: TSettings
           OnChange = LVLanguageChange
         end
       end
-      object GroupBox4: TGroupBox
+      object GBSysTray: TGroupBox
         Left = 8
         Top = 8
         Width = 385
-        Height = 81
+        Height = 74
         Caption = 'System Tray'
         TabOrder = 1
         object CBMinimizeToTray: TCheckBox
@@ -296,13 +294,25 @@ object Settings: TSettings
           OnClick = ChangeSetting
         end
       end
+      object GBPBDisplay: TRadioGroup
+        Left = 8
+        Top = 84
+        Width = 385
+        Height = 72
+        Caption = 'Progress Bar Title'
+        ItemIndex = 0
+        Items.Strings = (
+          'Hide'
+          'Percentage'
+          'Time')
+        TabOrder = 2
+        OnClick = ChangeSetting
+      end
     end
     object tsOther: TTabSheet
       Caption = 'tsOther'
       ImageIndex = 2
       TabVisible = False
-      ExplicitTop = 24
-      ExplicitHeight = 292
       object CBShowFormInLastTenSec: TCheckBox
         Left = 4
         Top = 3

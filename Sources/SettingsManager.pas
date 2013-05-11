@@ -14,6 +14,8 @@ type
     fAskIfClose: Boolean;
     fOnlyIfTimerRunning: Boolean;
 
+    fProgressBarDisplayMode: Integer;
+
     fShowMessageIfNow: Boolean;
     // Выводить запрос при выполнении функции немедленно
     fShowMessageOnlyForCrytical: Boolean;
@@ -48,6 +50,8 @@ type
     property BeepOnB: Boolean read fBeepOnB write fBeepOnB;
     property ShowTimerWindow: Boolean read fShowTimerWindow write fShowTimerWindow;
     property ShowFormInLastTenSec: Boolean read fShowFormInLastTenSec write fShowFormInLastTenSec;
+    property ProgressBarDisplayMode: Integer read fProgressBarDisplayMode write fProgressBarDisplayMode;
+
     constructor Create();
   end;
 
@@ -73,6 +77,7 @@ begin
   fShowTimerWindow := False;
   fBeepOnB := False;
   fShowFormInLastTenSec := True;
+  fProgressBarDisplayMode := 0;
 end;
 
 function TSettingsManager.LoadFromFile(const Path: string; const FileName: string): Boolean;
@@ -101,6 +106,8 @@ begin
         SoundPath := UTF8ToString(ReadString('Other', 'SoundPath', ''));
         SoundLoop := ReadBool('Other', 'SoundLoop', False);
         ShowFormInLastTenSec := ReadBool('Other', 'ShowWindowInLastTenSec', True);
+        ProgressBarDisplayMode := ReadInteger('Interface', 'ProgressBarDisplayMode', 0);
+
       end;
     except
       Result := False;
@@ -132,6 +139,7 @@ begin
         WriteBool('Interface', 'MinimizeToTray', MinimizeToTray);
         WriteBool('Interface', 'MinimizeOnEscape', MinimizeOnEscape);
         WriteString('Interface', 'LanguageFile', LanguageFile);
+        WriteInteger('Interface', 'ProgressBarDisplayMode', ProgressBarDisplayMode);
       end;
     except
       Result := False;

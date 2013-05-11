@@ -55,12 +55,12 @@ object MessageText: TMessageText
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
+  object lblTextMessage: TLabel
     Left = 8
     Top = 5
     Width = 67
     Height = 13
-    Caption = 'Text Message'
+    Caption = 'Message Text'
   end
   object MMessageText: TMemo
     Left = 8

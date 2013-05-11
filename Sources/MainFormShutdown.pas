@@ -30,11 +30,16 @@ uses
   MNGShutDown,
   MNGDisplay,
   MNGExecuting,
-  MNGAlarm,
+  MNGAlarm_bass,
   MNGHibernate,
   MNGPlugins,
   MNGMessage,
-  SettingsManager;
+  SettingsManager,
+  CmnFunct;
+
+const
+  DaysPerWeek = 7;
+  SecsPerWeek = DaysPerWeek * SecsPerDay;
 
 type
   TMainFormSD = class(TForm)
@@ -168,9 +173,11 @@ type
     procedure CreateProgressBarHint();
     procedure InitializePluginsMenu();
     procedure ApplyVisualSettings();
+
     { Private declarations }
   public
     { Public declarations }
+    procedure Callback(handle: Cardinal; Stream, data: DWORD; user: Pointer);
     procedure ChangeLanguage();
   end;
 
@@ -205,10 +212,13 @@ begin
       end;
 
       if GlobalSettings.ShowFormInLastTenSec then
-      if (Counter.TotalSeconds <= 10) and (MainFormSD.Visible = False) then
       begin
-        MainFormSD.TrayIcon.Visible := False;
-        MainFormSD.Show;
+        if (Counter.TotalSeconds <= 10) and (MainFormSD.Visible = False) then
+        begin
+          MainFormSD.TrayIcon.Visible := False;
+          MainFormSD.Show;
+        end;
+
       end;
 
     if GlobalSettings.BeepOnB then
@@ -223,7 +233,13 @@ begin
       CBDaysAfter.ItemIndex := StrToInt(Counter.sDays);
       pbTotalProgress.StepIt;
       if Assigned(pbHintLabel) then
-        pbHintLabel.Caption := Format('%.1f %%', [(pbTotalProgress.Position / pbTotalProgress.Max) * 100]);
+      begin
+      case GlobalSettings.ProgressBarDisplayMode of
+        0: pbHintLabel.Caption := '';
+        1: pbHintLabel.Caption := Format('%.1f %%', [(pbTotalProgress.Position / pbTotalProgress.Max) * 100]);
+        2: pbHintLabel.Caption := Counter.AsString(false);
+      end;
+      end;
       EHourAfter.Text := Counter.sHours;
       EMinuteAfter.Text := Counter.sMinutes;
       ESecondAfter.Text := Counter.sSeconds;
@@ -278,11 +294,12 @@ begin
       GlobalSettings.BeepOnI := ReadInteger('General', 'BeepOnI', 2);
       GlobalSettings.MinimizeToTray := ReadBool('Interface', 'MinimizeToTray', False);
       GlobalSettings.MinimizeOnEscape := ReadBool('Interface', 'MinimizeOnEscape', False);
+      GlobalSettings.ProgressBarDisplayMode := ReadInteger('Interface', 'ProgressBarDisplayMode', 0);
       GlobalSettings.LanguageFile := UTF8ToString(ReadString('Interface', 'LanguageFile', ''));
       GlobalSettings.ShowFormInLastTenSec := ReadBool('Other', 'ShowWindowInLastTenSec', True);
-      gvFilePath := UTF8ToString(ReadString('Other', 'FilePath', ''));
-      gvParameters := UTF8ToString(ReadString('Other', 'Parameters', ''));
-      gvSoundPath := UTF8ToString(ReadString('Other', 'SoundPath', ''));
+      gvFilePath := (ReadString('Other', 'FilePath', ''));
+      gvParameters := (ReadString('Other', 'Parameters', ''));
+      gvSoundPath := (ReadString('Other', 'SoundPath', ''));
       gvSoundLoop := ReadBool('Other', 'SoundLoop', False);
     end;
   finally
@@ -326,12 +343,12 @@ begin
 
     if (CBDaysAt.ItemIndex = ShiftWeek[lLocalTime.wDayOfWeek]) and (lSetupTime < lLocalTimeAsSeconds) then
     begin
-      lSetupTime := lSetupTime + 7 * SecsPerDay;
+      lSetupTime := lSetupTime + SecsPerWeek;
     end;
 
     if (CBDaysAt.ItemIndex < ShiftWeek[lLocalTime.wDayOfWeek]) then
     begin
-      lSetupTime := lSetupTime + (7 - ShiftWeek[lLocalTime.wDayOfWeek] + CBDaysAt.ItemIndex) * SecsPerDay;
+      lSetupTime := lSetupTime + (DaysPerWeek - ShiftWeek[lLocalTime.wDayOfWeek] + CBDaysAt.ItemIndex) * SecsPerDay;
     end;
 
     if (CBDaysAt.ItemIndex > ShiftWeek[lLocalTime.wDayOfWeek]) then
@@ -375,7 +392,9 @@ end;
 
 procedure TMainFormSD.BStopAlarmClick(Sender: TObject);
 begin
-  sndPlaySound(nil, SND_ASYNC);
+if (Actor is TManagerOfAlarm) then
+  (Actor as TManagerOfAlarm).Stop;
+  //sndPlaySound(nil, SND_ASYNC);
   // BStopAlarm.Enabled := False;
   ShowWindow(BStopAlarm.handle, SW_HIDE);
 end;
@@ -432,7 +451,9 @@ end;
 procedure TMainFormSD.CreateProgressBarHint;
 begin
   pbHintLabel := TLabel.Create(Self);
+  pbHintLabel.Name := 'pbHintLabel';
   pbHintLabel.SetParentComponent(pbTotalProgress);
+  pbHintLabel.Caption := '--------';
   pbHintLabel.Font.Size := 10;
   pbHintLabel.Font.Color := RGB(70, 80, 70);
   pbHintLabel.SetBounds((pbTotalProgress.Width div 2) - (pbHintLabel.Width div 2), (pbTotalProgress.Height div 2) - (pbHintLabel.Height div 2), 0, 0);
@@ -542,9 +563,16 @@ begin
   SaveOtherSettings;
 end;
 
+procedure TMainFormSD.Callback (handle: Cardinal; Stream, data: DWORD; user: Pointer);
+begin
+if not (Actor as TManagerOfAlarm).mmLoop then
+  ShowWindowAsync(MainFormSD.BStopAlarm.handle, SW_HIDE);
+end;
+
 function TMainFormSD.DoAction(): Boolean;
 var
   IsOK: Boolean;
+
 begin
   IsOK := True;
   if Assigned(Actor) then
@@ -571,9 +599,10 @@ begin
       Actor := TManagerOfExecuting.Create(handle, gvFilePath, gvParameters, IsOK);
     6:
       begin
-        if gvSoundLoop and IsOK then
+        //if gvSoundLoop and IsOK then
           ShowWindowAsync(BStopAlarm.handle, SW_SHOW);
         Actor := TManagerOfAlarm.Create(handle, gvSoundPath, gvSoundLoop, IsOK);
+       (Actor as TManagerOfAlarm).ChannelEndSync := Callback;
       end;
     7:
       Actor := TManagerOfMessage.Create(handle, gvTextMessage);
@@ -831,15 +860,17 @@ begin
   gvPluginsPath := gvApplicationPath + PLUGIN_PATH;
   Counter := TCounter.Create();
   LoadSettings();
-
   PluginList := TPluginList.Create;
-  LoadPlugIns();
+  //LoadPlugIns();
   TimerID := 0;
   mniSaveAsLangFile.Visible := DebugHook = 1;
   LangLoaded := False;
   InitializePluginsMenu;
   CreateProgressBarHint;
   ShowWindowAsync(BStopAlarm.handle, SW_HIDE);
+
+ProcessCommandLine;
+
 end;
 
 procedure TMainFormSD.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -914,14 +945,16 @@ begin
   begin
     MainFormSD.ChangeLanguage();
   end;
-  ApplyVisualSettings
+  ApplyVisualSettings;
 end;
 
 procedure TMainFormSD.OnSelectPlugin(var Msg: TMessage);
-var
-  I: Integer;
+//var
+  //I: Integer;
 begin
-  if (Msg.WParam > -1) then
+  {
+
+  if (Msg.WParam >=0 ) then
   begin
     pmPluginChoise.Items[Msg.WParam + 1].Checked := True;
     RGActionList.Buttons[8].Caption := PluginList.SelectedItem.PluginInfo.Name;
@@ -936,6 +969,8 @@ begin
       Dec(I);
     end;
   end;
+
+  }
 end;
 
 procedure TMainFormSD.OnTimeChange(var Message: TWMTimeChange);
@@ -1003,13 +1038,16 @@ begin
     Localizer.AddFilter(I, 'mniN1');
     Localizer.AddFilter(I, 'N4');
     Localizer.AddFilter(I, 'mniBreak');
-    Localizer.AddFilter(I, '');
+    Localizer.AddFilter(I, 'mniSaveAsLangFile');
+    Localizer.AddFilter(I, 'pbHintLabel');
+    Localizer.AddFilter(I, 'mniPluginsNotFound');
     I := Localizer.AddForm(About);
     Localizer.AddFilter(I, 'lblAboutAuhtorDescription');
     Localizer.AddFilter(I, 'lblAboutEmailDescription');
     Localizer.AddFilter(I, 'lblAboutProgramName');
     Localizer.AddFilter(I, 'lblSiteLink');
     Localizer.AddFilter(I, 'lblVersion');
+
     I := Localizer.AddForm(Settings);
     Localizer.AddFilter(I, 'Label1');
     Localizer.AddFilter(I, 'pcSettings');

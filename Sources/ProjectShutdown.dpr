@@ -18,14 +18,16 @@ uses
   MNGShutDown in 'Managers\MNGShutDown.pas',
   MNGDisplay in 'Managers\MNGDisplay.pas',
   MNGExecuting in 'Managers\MNGExecuting.pas',
-  MNGAlarm in 'Managers\MNGAlarm.pas',
   MNGHibernate in 'Managers\MNGHibernate.pas',
   MNGPlugins in 'Managers\MNGPlugins.pas',
   MNGMessage in 'Managers\MNGMessage.pas',
   MainFrame in 'MainFrame.pas',
   GCAV,
   TimerForm in 'TimerForm.pas' {TimerFormSD},
-  SettingsManager in 'SettingsManager.pas';
+  SettingsManager in 'SettingsManager.pas',
+  CmnFunct in 'CmnFunct.pas',
+  MNGAlarm_bass in 'Managers\MNGAlarm_bass.pas',
+  bass in 'bass\bass.pas';
 
 {$R *.res}
 

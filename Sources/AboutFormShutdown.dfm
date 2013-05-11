@@ -1018,9 +1018,9 @@ object About: TAbout
   object lblSiteLink: TLabel
     Left = 87
     Top = 152
-    Width = 251
+    Width = 222
     Height = 14
-    Caption = 'http://www.code.google.com/p/pshutdown/'
+    Caption = 'https://code.google.com/p/pshutdown/'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clHotLight
     Font.Height = -12
@@ -1036,7 +1036,7 @@ object About: TAbout
     Top = 8
     Width = 40
     Height = 19
-    Caption = '1.0.8'
+    Caption = '1.1.0'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16

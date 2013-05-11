@@ -83,7 +83,7 @@ var
   // update_timer: string = 'Update timer?';
   // close_pshutdown: string = 'close PShutDown?';
 
-  langs: array [0 .. 8] of string = (
+  langs: array [0 .. 9] of string = (
     'Do you really want',
     'This plugin has no settings.',
     'Can''t save the settings.',
@@ -92,7 +92,8 @@ var
     'System time was changed',
     'Update timer?',
     'close PShutDown?',
-    'Set the Timer'
+    'Set the Timer',
+    'Cannot find program to send e-mail.'
   );
 function LoadArray(Ini: TIniFile): Boolean;
 function SaveArray(Ini: TIniFile): Boolean;

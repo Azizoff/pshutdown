@@ -10,8 +10,8 @@ type
   TSelectProgramm = class(TForm)
     eFilePath: TEdit;
     eParameters: TEdit;
-    Label1: TLabel;
-    Label2: TLabel;
+    lblPath: TLabel;
+    lblParameters: TLabel;
     BBrowse: TButton;
     BOK: TButton;
     BCancel: TButton;

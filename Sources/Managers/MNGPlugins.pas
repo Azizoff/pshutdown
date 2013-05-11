@@ -33,7 +33,7 @@ constructor TManagerOfPlugin.Create(const PluginPath: string;
 begin
   IsValidModule := False;
   // загрузка
-  FHandle := LoadLibrary(PChar(PluginPath));
+  {FHandle := LoadLibrary(PChar(PluginPath));
   if (FHandle > 0) then
   begin
     // получение адресов функций плагина
@@ -45,6 +45,7 @@ begin
     FPluginInfo := GetPluginInfo;
     IsValidModule := True;
   end;
+  }
 end;
 
 destructor TManagerOfPlugin.Destroy;

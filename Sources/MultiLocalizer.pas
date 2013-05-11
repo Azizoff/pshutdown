@@ -244,7 +244,7 @@ begin
                 (Length((Components[J] as TLabel).Caption) > 0)) then
               begin
                 LngFile.WriteString(Name + '_' + Components[J].ClassName,
-                  Components[J].Name, (Components[J] as TLabel).Caption);
+                  Components[J].Name, ((Components[J] as TLabel).Caption));
               end;
             end;
 {$ENDREGION}
@@ -298,7 +298,7 @@ begin
             if (Components[J] is TMenuItem) then
             begin
               LngFile.WriteString(Name + '_' + Components[J].ClassName,
-                Components[J].Name, (Components[J] as TMenuItem).Caption);
+                Components[J].Name, ((Components[J] as TMenuItem).Caption));
             end;
 {$ENDREGION}
 {$REGION 'TTabSheet'}

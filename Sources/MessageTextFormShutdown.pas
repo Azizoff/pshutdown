@@ -12,7 +12,7 @@ type
     BOK: TButton;
     BCancel: TButton;
     PanelHLine: TPanel;
-    Label1: TLabel;
+    lblTextMessage: TLabel;
     procedure BOKClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
