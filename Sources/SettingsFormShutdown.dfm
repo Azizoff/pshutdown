@@ -139,7 +139,7 @@ object Settings: TSettings
     Top = 33
     Width = 409
     Height = 320
-    ActivePage = tsInterface
+    ActivePage = tsGeneral
     TabOrder = 6
     object tsGeneral: TTabSheet
       Caption = 'General'
