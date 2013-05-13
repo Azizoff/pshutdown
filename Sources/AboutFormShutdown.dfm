@@ -1033,7 +1033,7 @@ object About: TAbout
     Top = 8
     Width = 40
     Height = 19
-    Caption = '1.1.0'
+    Caption = '1.2.0'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16

@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "PShutDown"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.2.0"
 #define MyAppExeName "ProjectShutdown.exe"
 
 [Setup]
@@ -38,7 +38,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "Binaries\*"; Excludes: "*.zip,Lang*.ini,Log.txt,*.dll,Settings.ini,*.map,*.iss,\Setup,\Setup\,\Setup\*,*.drc,test.xml"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "Binaries\*"; Excludes: "*.zip,Lang*.ini,Log.txt,\Plugins,\Plugins\,\Plugins\*,Settings.ini,*.map,*.iss,\Setup,\Setup\,\Setup\*,*.drc,test.xml"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

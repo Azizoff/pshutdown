@@ -196,18 +196,40 @@ begin
       Result.mode := 4;
     end
     else
-    if CompareText(ParamName, '/ms=') = 0 then
+    if CompareText(ParamName, '/rp=') = 0 then
+    begin
+      Result.mode := 5;
+      Result.extparam := ParamValue;
+    end
+    else
+    if CompareText(ParamName, '/rp') = 0 then
+    begin
+      Result.mode := 5;
+    end
+    else
+    if CompareText(ParamName, '/ra=') = 0 then
+    begin
+      Result.mode := 6;
+      Result.extparam := ParamValue;
+    end
+    else
+    if CompareText(ParamName, '/ra') = 0 then
+    begin
+      Result.mode := 6;
+    end
+    else
+    if CompareText(ParamName, '/m=') = 0 then
     begin
       Result.mode := 7;
       Result.extparam := ParamValue;
     end
     else
-    if CompareText(ParamName, '/ms') = 0 then
+    if CompareText(ParamName, '/m') = 0 then
     begin
       Result.mode := 7;
     end
     else
-    if CompareText(ParamName, '/p') = 0 then
+    if CompareText(ParamName, '/w') = 0 then
     begin
       Result.started := False;
     end

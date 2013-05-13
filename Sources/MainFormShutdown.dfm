@@ -569,6 +569,10 @@ object MainFormSD: TMainFormSD
         OnClick = mniExitClick
       end
     end
+    object mniHelp: TMenuItem
+      Caption = 'Help'
+      OnClick = mniHelpClick
+    end
   end
   object TrayIcon: TTrayIcon
     PopupMenu = pmPopup

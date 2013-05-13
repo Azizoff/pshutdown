@@ -30,7 +30,8 @@ const
   NEW_LINE = #13#10;
 
   GLOBAL_PROJECT_NAME = 'PShutDown';
-  GLOBAL_PROGECT_VERSION = '1.1.0';
+  GLOBAL_PROGECT_VERSION = '1.2.0';
+
 
   {
     Наименование переменных: [gvs]
@@ -83,7 +84,7 @@ var
   // update_timer: string = 'Update timer?';
   // close_pshutdown: string = 'close PShutDown?';
 
-  langs: array [0 .. 8] of string = (
+  langs: array [0 .. 12] of string = (
     'Do you really want',
     'This plugin has no settings.',
     'Can''t save the settings.',
@@ -92,7 +93,12 @@ var
     'System time was changed',
     'Update timer?',
     'close PShutDown?',
-    'Set the Timer'
+    'Set the Timer',
+
+    'Parameters',         //9
+    'Don''t start automatically',   //10
+    'Time in seconds',    //11
+    'Minimized'           //12
     //'Cannot find program to send e-mail.'
   );
 function LoadArray(Ini: TMemIniFile): Boolean;

@@ -105,6 +105,7 @@ type
     pmniShow: TMenuItem;
     mniBreak: TMenuItem;
     mniPluginsNotFound: TMenuItem;
+    mniHelp: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure RGActionListClick(Sender: TObject);
     procedure BRigthNowClick(Sender: TObject);
@@ -157,6 +158,7 @@ type
     procedure mniSaveAsLangFileClick(Sender: TObject);
     procedure PluginMenuOnClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure mniHelpClick(Sender: TObject);
   private
     function DoAction(): Boolean;
     procedure SetEnabledMode();
@@ -693,6 +695,16 @@ begin
     if mode.enabled then
     begin
     RGActionList.ItemIndex := mode.mode;
+    if mode.mode = 5 then
+    begin
+    if Length(mode.extparam) > 3 then
+      gvFilePath := mode.extparam;
+    end;
+    if mode.mode = 6 then
+    begin
+    if Length(mode.extparam) > 3 then
+      gvSoundPath := mode.extparam;
+    end;
     if mode.mode = 7 then
     begin
       gvTextMessage := mode.extparam;
@@ -946,9 +958,9 @@ begin
   end;
   gvMainWindowHandle := MainFormSD.handle;
   pbTotalProgress.Step := 1;
-  //FormatText(EHourAfter);
-  //FormatText(EHourAt);
-  //FormatText(EHourEvery);
+  FormatText(EHourAfter);
+  FormatText(EHourAt);
+  FormatText(EHourEvery);
   FormatText(EMinuteAfter);
   FormatText(EMinuteAt);
   FormatText(EMinuteEvery);
@@ -1078,6 +1090,22 @@ begin
   Close;
 end;
 
+procedure TMainFormSD.mniHelpClick(Sender: TObject);
+var
+HelpText: UnicodeString;
+I: Integer;
+const
+params: array [0..10] of string = ('/s'#9#9, '/r  '#9#9, '/l'#9#9, '/sm'#9#9, '/som'#9#9, '/rp[=path]'#9, '/ra[=path]'#9#9, '/m[=text]'#9#9, '/w'#9#9, '/t=sec'#9#9, '/min'#9#9);
+begin
+for I:= 0 to 7 do
+HelpText := Format('%s%s - %s'#13#10, [HelpText ,params[I], RGActionList.Items[I]]);
+HelpText := Format('%s%s', [HelpText ,'______________________________________________________']);
+HelpText := Format('%s'#13#10'%s - %s', [HelpText ,params[8], langs[10]]);
+HelpText := Format('%s'#13#10'%s - %s', [HelpText ,params[9], langs[11]]);
+HelpText := Format('%s'#13#10'%s - %s', [HelpText ,params[10], langs[12]]);
+MessageBox(Handle, PWideChar(helptext), PWideChar(langs[9]), MB_ICONINFORMATION);
+end;
+
 procedure TMainFormSD.mniSaveAsLangFileClick(Sender: TObject);
 var
   Localizer: TMultiLocalizer;
@@ -1161,9 +1189,9 @@ begin
   try
     with SettingFile do
     begin
-      WriteString('Other', 'FilePath', UnicodeString(gvFilePath));
-      WriteString('Other', 'Parameters', UnicodeString(gvParameters));
-      WriteString('Other', 'SoundPath', UnicodeString(gvSoundPath));
+      WriteString('Other', 'FilePath', (gvFilePath));
+      WriteString('Other', 'Parameters', (gvParameters));
+      WriteString('Other', 'SoundPath', (gvSoundPath));
       WriteBool('Other', 'SoundLoop', gvSoundLoop);
       UpdateFile;
     end;
