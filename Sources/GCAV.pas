@@ -78,44 +78,44 @@ var
   // mbtext_ThisPluginHasNoSettings: string = 'This plugin has no settings.';
   // mbtext_UnableToSaveSettings: string = 'Can''t save the settings.';
   // mbtext_FileIsWriteProtected: string = 'Can''t rewrite file.';
-  // mbtext_ChoosePlugin: string = 'Shoose plugin';
+  // mbtext_ChoosePlugin: string = 'Choose plugin';
   // mbtext_SysTimeChanged: string = 'System time was changed';
   // update_timer: string = 'Update timer?';
   // close_pshutdown: string = 'close PShutDown?';
 
-  langs: array [0 .. 9] of string = (
+  langs: array [0 .. 8] of string = (
     'Do you really want',
     'This plugin has no settings.',
     'Can''t save the settings.',
     'Can''t rewrite file.',
-    'Shoose plugin',
+    'Choose plugin',
     'System time was changed',
     'Update timer?',
     'close PShutDown?',
-    'Set the Timer',
-    'Cannot find program to send e-mail.'
+    'Set the Timer'
+    //'Cannot find program to send e-mail.'
   );
-function LoadArray(Ini: TIniFile): Boolean;
-function SaveArray(Ini: TIniFile): Boolean;
+function LoadArray(Ini: TMemIniFile): Boolean;
+function SaveArray(Ini: TMemIniFile): Boolean;
 
 implementation
 
-function LoadArray(Ini: TIniFile): Boolean;
+function LoadArray(Ini: TMemIniFile): Boolean;
 var
   I: Integer;
 begin
   for I := Low(langs) to high(langs) do
-    langs[I] := UTF8ToString(Trim(Ini.ReadString('Messages', 'Item_' + IntToStr(I),
-      langs[I])));
+    langs[I] := StringReplace(Trim(Ini.ReadString('Messages', 'Item_' + IntToStr(I),
+      langs[I])), '{!nl}', #13#10, [rfReplaceAll]);
   Result := False;
 end;
 
-function SaveArray(Ini: TIniFile): Boolean;
+function SaveArray(Ini: TMemIniFile): Boolean;
 var
   I: Integer;
 begin
   for I := Low(langs) to high(langs) do
-    Ini.WriteString('Messages', 'Item_' + IntToStr(I), langs[I]);
+    Ini.WriteString('Messages', 'Item_' + IntToStr(I), StringReplace(langs[I], #13#10, '{!nl}', [rfReplaceAll]));
   Result := False;
 end;
 

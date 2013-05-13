@@ -3,13 +3,26 @@ unit CmnFunct;
 interface
 uses
   Windows, SysUtils;
+type
+  TCMDParams = record
+    enabled: Boolean;
+    mode: Byte;
+    time: Int64;
+    started: Boolean;
+    minimized: Boolean;
+    extparam: string;
+  end;
+
+
   function GetParamStr(const P: PChar; var Param: String): PChar;
-  procedure ProcessCommandLine;
+  function ProcessCommandLine():TCMDParams;
   procedure SplitNewParamStr(const Index: Integer; var AName, AValue: String);
   function PathPos(Ch: Char; const S: String): Integer;
   function PathCharLength(const S: String; const Index: Integer): Integer;
   function NewParamStr(Index: Integer): string;
   function NewParamCount: Integer;
+
+
 implementation
 
 function GetParamStr(const P: PChar; var Param: String): PChar;
@@ -144,19 +157,74 @@ begin
   AValue := '';
 end;
 
-procedure ProcessCommandLine;
+function ProcessCommandLine():TCMDParams;
 var
   WantToSuppressMsgBoxes: Boolean;
   I: Integer;
   ParamName, ParamValue: String;
 begin
-  WantToSuppressMsgBoxes := False;
-
-  for I := 0 to NewParamCount do begin
+  Result.enabled := False;
+  Result.mode := 254;
+  Result.time := 0;
+  Result.started := True;
+  Result.minimized := False;
+  for I := 1 to NewParamCount do
+  begin
     SplitNewParamStr(I, ParamName, ParamValue);
-    OutputDebugString(PChar(ParamName + ParamValue));
-    if CompareText(ParamName, '/Log') = 0 then begin
+    if CompareText(ParamName, '/s') = 0 then
+    begin
+      Result.mode := 0;
     end
+    else
+    if CompareText(ParamName, '/r') = 0 then
+    begin
+      Result.mode := 1;
+    end
+    else
+    if CompareText(ParamName, '/l') = 0 then
+    begin
+      Result.mode := 2;
+    end
+    else
+    if CompareText(ParamName, '/sm') = 0 then
+    begin
+      Result.mode := 3;
+    end
+    else
+    if CompareText(ParamName, '/som') = 0 then
+    begin
+      Result.mode := 4;
+    end
+    else
+    if CompareText(ParamName, '/ms=') = 0 then
+    begin
+      Result.mode := 7;
+      Result.extparam := ParamValue;
+    end
+    else
+    if CompareText(ParamName, '/ms') = 0 then
+    begin
+      Result.mode := 7;
+    end
+    else
+    if CompareText(ParamName, '/p') = 0 then
+    begin
+      Result.started := False;
+    end
+    else
+    if CompareText(ParamName, '/min') = 0 then
+    begin
+      Result.minimized := True;
+    end
+    else
+    if CompareText(ParamName, '/t=') = 0 then
+    begin
+      if not TryStrToInt64(ParamValue, Result.time) then
+      begin
+        Result.time := 0;
+      end;
+    end;
   end;
+  Result.enabled := Result.mode < 254;
 end;
 end.

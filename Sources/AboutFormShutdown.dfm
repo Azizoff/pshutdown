@@ -998,9 +998,6 @@ object About: TAbout
     Font.Style = []
     ParentColor = False
     ParentFont = False
-    OnClick = lblAboutEmailDescriptionClick
-    OnMouseEnter = lblAboutEmailDescriptionMouseEnter
-    OnMouseLeave = lblAboutEmailDescriptionMouseLeave
   end
   object lblSite: TLabel
     Left = 15
@@ -1077,5 +1074,21 @@ object About: TAbout
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 2
+  end
+  object tbAboutEmailDescription: TEdit
+    Left = 87
+    Top = 132
+    Width = 121
+    Height = 21
+    BorderStyle = bsNone
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 3
+    Text = 'AzizovReg@gmail.com'
   end
 end

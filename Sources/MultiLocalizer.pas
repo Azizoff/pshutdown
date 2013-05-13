@@ -9,10 +9,11 @@ uses Forms,
   SysUtils,
   Menus,
   ComCtrls,
+  Classes,
   GCAV;
 
 type
-  TUserFunc = function(Ini: TIniFile): Boolean;
+  TUserFunc = function(Ini: TMemIniFile): Boolean;
 
 type
   TForms = record
@@ -70,22 +71,22 @@ procedure TMultiLocalizer.LoadFromFile;
 var
   I, J, K: Integer;
   OldIndex: Integer;
-  LngFile: TIniFile;
+  LngFile: TMemIniFile;
 begin
-  LngFile := TIniFile.Create(fFilePath);
+  LngFile := TMemIniFile.Create(fFilePath, TEncoding.UTF8);
   try
     for I := 0 to fFormsCount - 1 do
     begin
       with fFormsList[I].fForm do
       begin
-        Caption := UTF8ToString(LngFile.ReadString(Name, 'Caption', Caption));
+        Caption := (LngFile.ReadString(Name, 'Caption', Caption));
         for J := 0 to ComponentCount - 1 do
         begin
 {$REGION 'TButton'}
           if Components[J] is TButton then
           begin
             (Components[J] as TButton).Caption :=
-              UTF8ToString(LngFile.ReadString(Name + '_' + Components[J]
+              (LngFile.ReadString(Name + '_' + Components[J]
               .ClassName, (Components[J] as TButton).Name,
               (Components[J] as TButton).Caption));
           end;
@@ -93,15 +94,18 @@ begin
 {$REGION 'TMemo'}
           if Components[J] is TMemo then
           begin
-            (Components[J] as TMemo).Text := UTF8ToString(
+            (Components[J] as TMemo).Text := (
+            StringReplace(
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
-              (Components[J] as TMemo).Name, (Components[J] as TMemo).Text));
+              (Components[J] as TMemo).Name, (Components[J] as TMemo).Text),
+              '{!nl}', #13#10, [rfReplaceAll])
+              );
           end;
 {$ENDREGION}
 {$REGION 'TCheckBox'}
           if Components[J] is TCheckBox then
           begin
-            (Components[J] as TCheckBox).Caption := UTF8ToString(
+            (Components[J] as TCheckBox).Caption := (
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
               (Components[J] as TCheckBox).Name,
               (Components[J] as TCheckBox).Caption));
@@ -113,7 +117,7 @@ begin
             OldIndex := (Components[J] as TComboBox).ItemIndex;
             for K := 0 to (Components[J] as TComboBox).Items.Count - 1 do
             begin
-              (Components[J] as TComboBox).Items[K] := UTF8ToString(
+              (Components[J] as TComboBox).Items[K] := (
                 LngFile.ReadString(Name + '_' + Components[J].Name + '_' +
                 Components[J].ClassName, 'Item_' + IntToStr(K),
                 (Components[J] as TComboBox).Items[K]));
@@ -124,7 +128,7 @@ begin
 {$REGION 'TGroupBox'}
           if Components[J] is TGroupBox then
           begin
-            (Components[J] as TGroupBox).Caption := UTF8ToString(
+            (Components[J] as TGroupBox).Caption := (
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
               (Components[J] as TGroupBox).Name,
               (Components[J] as TGroupBox).Caption));
@@ -133,7 +137,7 @@ begin
 {$REGION 'TLabel'}
           if Components[J] is TLabel then
           begin
-            (Components[J] as TLabel).Caption := UTF8ToString(
+            (Components[J] as TLabel).Caption := (
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
               (Components[J] as TLabel).Name, (Components[J] as TLabel)
               .Caption));
@@ -142,7 +146,7 @@ begin
 {$REGION 'TRadioButton'}
           if Components[J] is TRadioButton then
           begin
-            (Components[J] as TRadioButton).Caption := UTF8ToString(
+            (Components[J] as TRadioButton).Caption := (
               LngFile.ReadString(Name + '_' + Components[J].ClassName,
               (Components[J] as TRadioButton).Name,
               (Components[J] as TRadioButton).Caption));
@@ -151,13 +155,13 @@ begin
 {$REGION 'TRadioGroup'}
           if Components[J] is TRadioGroup then
           begin
-            (Components[J] as TRadioGroup).Caption := UTF8ToString(
+            (Components[J] as TRadioGroup).Caption := (
               LngFile.ReadString(Name + '_' + Components[J]
               .ClassName, (Components[J] as TRadioGroup).Name,
               (Components[J] as TRadioGroup).Caption));
             for K := 0 to (Components[J] as TRadioGroup).Items.Count - 1 do
             begin
-              (Components[J] as TRadioGroup).Items[K] := UTF8ToString(
+              (Components[J] as TRadioGroup).Items[K] := (
                 LngFile.ReadString(Name + '_' + Components[J].Name +
                 '_' + Components[J].ClassName, 'Item_' + IntToStr(K),
                 (Components[J] as TRadioGroup).Items[K]));
@@ -168,7 +172,7 @@ begin
           if Components[J] is TMenuItem then
           begin
             (Components[J] as TMenuItem).Caption :=
-              UTF8ToString(LngFile.ReadString(Name + '_' + Components[J]
+              (LngFile.ReadString(Name + '_' + Components[J]
               .ClassName, (Components[J] as TMenuItem).Name,
               (Components[J] as TMenuItem).Caption));
           end;
@@ -179,7 +183,7 @@ begin
             for K := 0 to (Components[J] as TListView).Columns.Count - 1 do
             begin
               (Components[J] as TListView).Columns[K].Caption :=
-                UTF8ToString(LngFile.ReadString(Name + '_' + Components[J]
+                (LngFile.ReadString(Name + '_' + Components[J]
                 .ClassName, (Components[J] as TListView).Columns[K].ClassName +
                 '_' + IntToStr(K), (Components[J] as TListView).Columns[K]
                 .Caption));
@@ -192,7 +196,7 @@ begin
             for K := 0 to (Components[J] as TTreeView).Items.Count - 1 do
             begin
               (Components[J] as TTreeView).Items[K].Text :=
-                UTF8ToString(LngFile.ReadString(Name + '_' + Components[J].Name +
+                (LngFile.ReadString(Name + '_' + Components[J].Name +
                 '_' + Components[J].ClassName, 'Item_' + IntToStr(K),
                 (Components[J] as TTreeView).Items[K].Text));
             end;
@@ -202,7 +206,7 @@ begin
           if Components[J] is TTabSheet then
           begin
             (Components[J] as TTabSheet).Caption :=
-              UTF8ToString(LngFile.ReadString(Name + '_' + Components[J]
+              (LngFile.ReadString(Name + '_' + Components[J]
               .ClassName, (Components[J] as TTabSheet).Name,
               (Components[J] as TTabSheet).Caption));
           end;
@@ -221,9 +225,10 @@ end;
 procedure TMultiLocalizer.SaveToFile;
 var
   I, J, K: Integer;
-  LngFile: TIniFile;
+  LngFile: TMemIniFile;
+  Value: UnicodeString;
 begin
-  LngFile := TIniFile.Create(fFilePath);
+  LngFile := TMemIniFile.Create(fFilePath,  TEncoding.UTF8);
   LngFile.WriteString('Language_File', 'Language', 'LanguageName');
   LngFile.WriteString('Language_File', 'Author', 'AuthorsName');
   try
@@ -236,6 +241,14 @@ begin
         begin
           if not fFormsList[I].IsFiltered(Components[J].Name) then
           begin
+{$REGION 'TMemo'}
+            if Components[J] is TMemo then
+            begin
+              Value := StringReplace((Components[J] as TMemo).Text, #13#10, '{!nl}', [rfReplaceAll]);
+              LngFile.WriteString(Name + '_' + Components[J].ClassName,
+                Components[J].Name, Value);
+            end;
+{$ENDREGION}
 {$REGION 'Tlabel'}
             if Components[J] is TLabel then
             begin
@@ -288,9 +301,10 @@ begin
                 Components[J].Name, (Components[J] as TRadioGroup).Caption);
               for K := 0 to (Components[J] as TRadioGroup).Items.Count - 1 do
               begin
+              Value := (Components[J] as TRadioGroup).Items[K];
                 LngFile.WriteString(Name + '_' + Components[J].Name + '_' +
-                  Components[J].ClassName, 'Item_' + IntToStr(K),
-                  (Components[J] as TRadioGroup).Items[K]);
+                  Components[J].ClassName, 'Item_' + IntToStr(K), Value
+                  );
               end;
             end;
 {$ENDREGION}
@@ -347,6 +361,7 @@ begin
     end; // for I
     if (@UserSave <> nil) then
       UserSave(LngFile);
+      LngFile.UpdateFile;
   finally
     FreeAndNil(LngFile);
   end;

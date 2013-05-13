@@ -18,14 +18,14 @@ type
     pcSettings: TPageControl;
     tsGeneral: TTabSheet;
     tsInterface: TTabSheet;
-    GroupBox1: TGroupBox;
+    GBMessaging: TGroupBox;
     CBSShowMessageIfNow: TCheckBox;
     CBSShowMessageOnlyForCrytical: TCheckBox;
     CBAskIfClose: TCheckBox;
     CBOnlyIfTimerRunning: TCheckBox;
-    GroupBox2: TGroupBox;
+    GBPowerManagement: TGroupBox;
     CBSForceAction: TCheckBox;
-    GroupBox3: TGroupBox;
+    GBSoundBeeping: TGroupBox;
     CBBeepLastTen: TCheckBox;
     GBLanguage: TGroupBox;
     LBLngFile: TLabel;
@@ -87,7 +87,7 @@ end;
 
 procedure TSettings.FormActivate(Sender: TObject);
 var
-  LangFile: TiniFile;
+  LangFile: TMemIniFile;
   SearchRec: TSearchRec;
   LIT: TListItem;
 begin
@@ -96,24 +96,24 @@ begin
     LVLanguage.Items.BeginUpdate;
     LVLanguage.Items.Clear;
 
-    LangFile := TiniFile.Create(gvLanguagesPath + SearchRec.Name);
+    LangFile := TMemIniFile.Create(gvLanguagesPath + SearchRec.Name);
     if LangFile.SectionExists('Language_File') then
     begin
       LIT := LVLanguage.Items.Add;
-      LIT.Caption := UTF8ToString(LangFile.ReadString('Language_File', 'Language', 'Lang'));
+      LIT.Caption := (LangFile.ReadString('Language_File', 'Language', 'Lang'));
       LIT.SubItems.Add(SearchRec.Name);
-      LIT.SubItems.Add(UTF8ToString(LangFile.ReadString('Language_File', 'Author', 'Auth')));
+      LIT.SubItems.Add((LangFile.ReadString('Language_File', 'Author', 'Auth')));
     end;
     FreeAndNil(LangFile);
     while FindNext(SearchRec) = 0 do
     begin
-      LangFile := TiniFile.Create(gvLanguagesPath + SearchRec.Name);
+      LangFile := TMemIniFile.Create(gvLanguagesPath + SearchRec.Name);
       if LangFile.SectionExists('Language_File') then
       begin
         LIT := LVLanguage.Items.Add;
-        LIT.Caption := UTF8ToString(LangFile.ReadString('Language_File', 'Language', 'Lang'));
+        LIT.Caption := (LangFile.ReadString('Language_File', 'Language', 'Lang'));
         LIT.SubItems.Add(SearchRec.Name);
-        LIT.SubItems.Add(UTF8ToString(LangFile.ReadString('Language_File', 'Author', 'Auth')));
+        LIT.SubItems.Add((LangFile.ReadString('Language_File', 'Author', 'Auth')));
       end;
       FreeAndNil(LangFile);
     end;

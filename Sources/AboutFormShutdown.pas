@@ -20,9 +20,7 @@ type
     lblSite: TLabel;
     lblSiteLink: TLabel;
     lblVersion: TLabel;
-    procedure lblAboutEmailDescriptionClick(Sender: TObject);
-    procedure lblAboutEmailDescriptionMouseEnter(Sender: TObject);
-    procedure lblAboutEmailDescriptionMouseLeave(Sender: TObject);
+    tbAboutEmailDescription: TEdit;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BCancelKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -70,26 +68,6 @@ procedure TAbout.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key = VK_ESCAPE then
     BCancel.Click;
-end;
-
-procedure TAbout.lblAboutEmailDescriptionClick(Sender: TObject);
-var
-RetVal: NativeUInt;
-begin
-  RetVal := ShellExecute(Handle, 'open', PChar('mailto:AzizovReg@gmail.com?subject=PShutDown'), nil,
-    nil, SW_SHOWNORMAL); // написать мне письмо
- if RetVal <= 32 then
-    MessageDlg(langs[9], mtWarning, [mbOK], 0);
-end;
-
-procedure TAbout.lblAboutEmailDescriptionMouseEnter(Sender: TObject);
-begin
-  lblAboutEmailDescription.Font.Style := [fsUnderline];
-end;
-
-procedure TAbout.lblAboutEmailDescriptionMouseLeave(Sender: TObject);
-begin
-  lblAboutEmailDescription.Font.Style := [];
 end;
 
 procedure TAbout.lblSiteLinkClick(Sender: TObject);

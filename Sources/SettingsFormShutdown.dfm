@@ -144,7 +144,7 @@ object Settings: TSettings
     object tsGeneral: TTabSheet
       Caption = 'General'
       TabVisible = False
-      object GroupBox1: TGroupBox
+      object GBMessaging: TGroupBox
         Left = 8
         Top = 8
         Width = 385
@@ -183,13 +183,13 @@ object Settings: TSettings
         object CBOnlyIfTimerRunning: TCheckBox
           Left = 32
           Top = 96
-          Width = 169
+          Width = 329
           Height = 17
           Caption = 'Only if timer is running'
           TabOrder = 3
         end
       end
-      object GroupBox2: TGroupBox
+      object GBPowerManagement: TGroupBox
         Left = 8
         Top = 138
         Width = 385
@@ -206,7 +206,7 @@ object Settings: TSettings
           OnClick = ChangeSetting
         end
       end
-      object GroupBox3: TGroupBox
+      object GBSoundBeeping: TGroupBox
         Left = 8
         Top = 208
         Width = 385
@@ -314,9 +314,9 @@ object Settings: TSettings
       ImageIndex = 2
       TabVisible = False
       object CBShowFormInLastTenSec: TCheckBox
-        Left = 4
-        Top = 3
-        Width = 325
+        Left = 12
+        Top = 11
+        Width = 317
         Height = 17
         Caption = 'Show window in last ten seconds'
         TabOrder = 0

@@ -25,15 +25,15 @@ type
     fBeepLastTen: Boolean;
     fBeepOnB: Boolean;
     fShowTimerWindow: Boolean;
-    fExeFilePath: string;
-    fParameters: string;
-    fSoundPath: string;
+    fExeFilePath: UTF8String;
+    fParameters: UTF8String;
+    fSoundPath: UTF8String;
     fSoundLoop: Boolean;
     fShowFormInLastTenSec: Boolean;
   public
-    property ExeFilePath: string read fExeFilePath write fExeFilePath;
-    property Parameters: string read fParameters write fParameters;
-    property SoundPath: string read fSoundPath write fSoundPath;
+    property ExeFilePath: UTF8String read fExeFilePath write fExeFilePath;
+    property Parameters: UTF8String read fParameters write fParameters;
+    property SoundPath: UTF8String read fSoundPath write fSoundPath;
     property SoundLoop: Boolean read fSoundLoop write fSoundLoop;
     function SaveToFile(const Path: string; const FileName: string): Boolean;
     function LoadFromFile(const Path: string; const FileName: string): Boolean;
@@ -82,11 +82,11 @@ end;
 
 function TSettingsManager.LoadFromFile(const Path: string; const FileName: string): Boolean;
 var
-  SettingFile: TIniFile;
+  SettingFile: TMemIniFile;
 begin
   Result := True;
   try
-    SettingFile := TIniFile.Create(Path + FileName + '.ini');
+    SettingFile := TMemIniFile.Create(Path + FileName + '.ini', TEncoding.UTF8);
     try
       with SettingFile do
       begin
@@ -100,14 +100,13 @@ begin
         BeepOnI := ReadInteger('General', 'BeepOnI', 2);
         MinimizeToTray := ReadBool('Interface', 'MinimizeToTray', False);
         MinimizeOnEscape := ReadBool('Interface', 'MinimizeOnEscape', False);
-        LanguageFile := UTF8ToString(ReadString('Interface', 'LanguageFile', ''));
-        ExeFilePath := UTF8ToString(ReadString('Other', 'FilePath', ''));
-        Parameters := UTF8ToString(ReadString('Other', 'Parameters', ''));
-        SoundPath := UTF8ToString(ReadString('Other', 'SoundPath', ''));
+        LanguageFile := (ReadString('Interface', 'LanguageFile', ''));
+        ExeFilePath := (ReadString('Other', 'FilePath', ''));
+        Parameters := (ReadString('Other', 'Parameters', ''));
+        SoundPath := (ReadString('Other', 'SoundPath', ''));
         SoundLoop := ReadBool('Other', 'SoundLoop', False);
         ShowFormInLastTenSec := ReadBool('Other', 'ShowWindowInLastTenSec', True);
         ProgressBarDisplayMode := ReadInteger('Interface', 'ProgressBarDisplayMode', 0);
-
       end;
     except
       Result := False;
@@ -119,11 +118,11 @@ end;
 
 function TSettingsManager.SaveToFile(const Path: string; const FileName: string): Boolean;
 var
-  SettingFile: TIniFile;
+  SettingFile: TMemIniFile;
 begin
   Result := True;
   try
-    SettingFile := TIniFile.Create(Path + FileName + '.ini');
+    SettingFile := TMemIniFile.Create(Path + FileName + '.ini', TEncoding.UTF8);
     try
       with SettingFile do
       begin
@@ -140,6 +139,7 @@ begin
         WriteBool('Interface', 'MinimizeOnEscape', MinimizeOnEscape);
         WriteString('Interface', 'LanguageFile', LanguageFile);
         WriteInteger('Interface', 'ProgressBarDisplayMode', ProgressBarDisplayMode);
+        UpdateFile;
       end;
     except
       Result := False;

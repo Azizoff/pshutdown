@@ -190,7 +190,7 @@ var
   ShowMessageOnes: Boolean = False;
   pbHintLabel: TLabel;
   CloseProgramm: Boolean = False;
-
+  RunOnce: Boolean = True;
 const
   ShiftWeek: array [0 .. 6] of Byte = (6, 0, 1, 2, 3, 4, 5);
   DBG_MODE = False;
@@ -213,10 +213,23 @@ begin
 
       if GlobalSettings.ShowFormInLastTenSec then
       begin
-        if (Counter.TotalSeconds <= 10) and (MainFormSD.Visible = False) then
+        if (Counter.TotalSeconds <= 10) then
+        begin
+         if (MainFormSD.Visible = False) then
         begin
           MainFormSD.TrayIcon.Visible := False;
           MainFormSD.Show;
+        end
+        else
+        begin
+        //tWindowPlacement(MainFormSD.Handle, WP);
+          //if (WP.showCmd = SW_SHOWMINIMIZED) then
+          if MainFormSD.WindowState = wsMinimized then
+          begin
+            Application.Restore;
+            Application.BringToFront;
+          end;
+        end;
         end;
 
       end;
@@ -240,6 +253,7 @@ begin
         2: pbHintLabel.Caption := Counter.AsString(false);
       end;
       end;
+
       EHourAfter.Text := Counter.sHours;
       EMinuteAfter.Text := Counter.sMinutes;
       ESecondAfter.Text := Counter.sSeconds;
@@ -277,10 +291,10 @@ end;
 
 function TMainFormSD.LoadSettings(): Boolean;
 var
-  SettingFile: TIniFile;
+  SettingFile: TMemIniFile;
 begin
   Result := True;
-  SettingFile := TIniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE + '.ini');
+  SettingFile := TMemIniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE + '.ini', TEncoding.UTF8);
   try
     with SettingFile do
     begin
@@ -295,7 +309,7 @@ begin
       GlobalSettings.MinimizeToTray := ReadBool('Interface', 'MinimizeToTray', False);
       GlobalSettings.MinimizeOnEscape := ReadBool('Interface', 'MinimizeOnEscape', False);
       GlobalSettings.ProgressBarDisplayMode := ReadInteger('Interface', 'ProgressBarDisplayMode', 0);
-      GlobalSettings.LanguageFile := UTF8ToString(ReadString('Interface', 'LanguageFile', ''));
+      GlobalSettings.LanguageFile := (ReadString('Interface', 'LanguageFile', ''));
       GlobalSettings.ShowFormInLastTenSec := ReadBool('Other', 'ShowWindowInLastTenSec', True);
       gvFilePath := (ReadString('Other', 'FilePath', ''));
       gvParameters := (ReadString('Other', 'Parameters', ''));
@@ -669,9 +683,47 @@ begin
 end;
 
 procedure TMainFormSD.FormActivate(Sender: TObject);
+var mode: TCMDParams;
 begin
   ApplyVisualSettings();
   CBDaysAt.ItemIndex := ShiftWeek[DayOfWeek(Date) - 1];
+  if RunOnce then
+  begin
+    mode := ProcessCommandLine;
+    if mode.enabled then
+    begin
+    RGActionList.ItemIndex := mode.mode;
+    if mode.mode = 7 then
+    begin
+      gvTextMessage := mode.extparam;
+    end;
+    if (mode.time > 0) then
+    begin
+    Counter.SetFields(mode.time);
+    CBDaysAfter.ItemIndex := StrToInt(Counter.sDays);
+    EHourAfter.Text := Counter.sHours;
+    EMinuteAfter.Text := Counter.sMinutes;
+    ESecondAfter.Text := Counter.sSeconds;
+    if (mode.minimized) then
+    begin
+      PostMessage(Handle, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+    end;
+    if mode.started then
+    begin
+      BStartClick(Sender);
+    end;
+    end
+    else
+    begin
+      if mode.started then
+      begin
+        BRigthNowClick(Sender);
+      end;
+    end;
+
+    end;
+    RunOnce := False;
+  end;
 end;
 
 procedure TMainFormSD.FormatText(Sender: TObject);
@@ -786,7 +838,7 @@ procedure TMainFormSD.WindowMessage(var Msg: TMessage);
 begin
   if Msg.WParam = SC_MINIMIZE then
   begin
-  if GlobalSettings.ShowFormInLastTenSec and  (Counter.TotalSeconds <= 10) then
+  if (GlobalSettings.ShowFormInLastTenSec) and  (Counter.TotalSeconds <= 10) and (TimerID > 0) then
   begin
   end
   else
@@ -797,7 +849,10 @@ begin
       Hide;
     end
     else
-      Application.Minimize;
+    begin
+    //MainFormSD.WindowState := wsMinimized;
+      inherited;
+    end;
   end;
 
   end
@@ -860,7 +915,7 @@ begin
   gvPluginsPath := gvApplicationPath + PLUGIN_PATH;
   Counter := TCounter.Create();
   LoadSettings();
-  PluginList := TPluginList.Create;
+  //PluginList := TPluginList.Create;
   //LoadPlugIns();
   TimerID := 0;
   mniSaveAsLangFile.Visible := DebugHook = 1;
@@ -869,7 +924,7 @@ begin
   CreateProgressBarHint;
   ShowWindowAsync(BStopAlarm.handle, SW_HIDE);
 
-ProcessCommandLine;
+
 
 end;
 
@@ -891,9 +946,9 @@ begin
   end;
   gvMainWindowHandle := MainFormSD.handle;
   pbTotalProgress.Step := 1;
-  FormatText(EHourAfter);
-  FormatText(EHourAt);
-  FormatText(EHourEvery);
+  //FormatText(EHourAfter);
+  //FormatText(EHourAt);
+  //FormatText(EHourEvery);
   FormatText(EMinuteAfter);
   FormatText(EMinuteAt);
   FormatText(EMinuteEvery);
@@ -917,6 +972,8 @@ var
   I: Integer;
   NewMenuItem: TMenuItem;
 begin
+if PluginList is TPluginList then
+begin
   for I := 0 to PluginList.Count - 1 do
   begin
     with PluginList.Items[I] do
@@ -932,6 +989,7 @@ begin
     end;
   end;
   mniPluginsNotFound.Visible := PluginList.Count = 0;
+end;
 end;
 
 procedure TMainFormSD.mniSettingsClick(Sender: TObject);
@@ -949,11 +1007,11 @@ begin
 end;
 
 procedure TMainFormSD.OnSelectPlugin(var Msg: TMessage);
-//var
-  //I: Integer;
+var
+  I: Integer;
 begin
-  {
-
+if (PluginList is TPluginList) then
+begin
   if (Msg.WParam >=0 ) then
   begin
     pmPluginChoise.Items[Msg.WParam + 1].Checked := True;
@@ -969,8 +1027,7 @@ begin
       Dec(I);
     end;
   end;
-
-  }
+end;
 end;
 
 procedure TMainFormSD.OnTimeChange(var Message: TWMTimeChange);
@@ -1041,9 +1098,11 @@ begin
     Localizer.AddFilter(I, 'mniSaveAsLangFile');
     Localizer.AddFilter(I, 'pbHintLabel');
     Localizer.AddFilter(I, 'mniPluginsNotFound');
+
     I := Localizer.AddForm(About);
     Localizer.AddFilter(I, 'lblAboutAuhtorDescription');
     Localizer.AddFilter(I, 'lblAboutEmailDescription');
+    Localizer.AddFilter(I, 'tbAboutEmailDescription');
     Localizer.AddFilter(I, 'lblAboutProgramName');
     Localizer.AddFilter(I, 'lblSiteLink');
     Localizer.AddFilter(I, 'lblVersion');
@@ -1051,10 +1110,19 @@ begin
     I := Localizer.AddForm(Settings);
     Localizer.AddFilter(I, 'Label1');
     Localizer.AddFilter(I, 'pcSettings');
-    Localizer.AddForm(SelectPlugin);
-    Localizer.AddForm(SelectSound);
-    Localizer.AddForm(SelectProgramm);
-    Localizer.AddForm(MessageText);
+    Localizer.AddFilter(I, 'tsGeneral');
+    Localizer.AddFilter(I, 'tsInterface');
+    Localizer.AddFilter(I, 'tsOther');
+
+    I := Localizer.AddForm(SelectPlugin);
+
+    Localizer.AddFilter(I, 'MPluginInfo');
+    I := Localizer.AddForm(SelectSound);
+
+    I := Localizer.AddForm(SelectProgramm);
+
+    I := Localizer.AddForm(MessageText);
+    Localizer.AddFilter(I, 'MMessageText');
     Localizer.SaveToFile;
   finally
     FreeAndNil(Localizer);
@@ -1086,10 +1154,10 @@ end;
 
 function TMainFormSD.SaveOtherSettings: Boolean;
 var
-  SettingFile: TIniFile;
+  SettingFile: TMemIniFile;
 begin
   Result := True;
-  SettingFile := TIniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE + '.ini');
+  SettingFile := TMemIniFile.Create(gvApplicationPath + DEF_SETTINGS_FILE + '.ini', TEncoding.UTF8);
   try
     with SettingFile do
     begin
@@ -1097,6 +1165,7 @@ begin
       WriteString('Other', 'Parameters', UnicodeString(gvParameters));
       WriteString('Other', 'SoundPath', UnicodeString(gvSoundPath));
       WriteBool('Other', 'SoundLoop', gvSoundLoop);
+      UpdateFile;
     end;
   except
     MessageBox(handle, PChar(langs[2] + NEW_LINE + langs[3]), GLOBAL_PROJECT_NAME, MB_ICONINFORMATION);

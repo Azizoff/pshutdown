@@ -76,7 +76,6 @@
 			<VerInfo_MinorVer>1</VerInfo_MinorVer>
 			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.1.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
 			<VerInfo_Release>0</VerInfo_Release>
-			<Debugger_RunParams>/log=123 /test=&quot;321&quot;</Debugger_RunParams>
 		</PropertyGroup>
 		<ItemGroup>
 			<DelphiCompile Include="$(MainSource)">
