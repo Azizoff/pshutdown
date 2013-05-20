@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, GCAV, ExtCtrls;
+  Dialogs, StdCtrls, GCAV, ExtCtrls, PathUtils;
 
 type
   TSelectProgramm = class(TForm)
@@ -17,10 +17,12 @@ type
     BCancel: TButton;
     ProgramBrowser: TOpenDialog;
     PanelHLine: TPanel;
+    BToRelative: TButton;
     procedure BBrowseClick(Sender: TObject);
     procedure BOKClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BToRelativeClick(Sender: TObject);
   private
 
     { Private declarations }
@@ -50,6 +52,11 @@ procedure TSelectProgramm.BOKClick(Sender: TObject);
 begin
   gvFilePath := eFilePath.Text;
   gvParameters := eParameters.Text;
+end;
+
+procedure TSelectProgramm.BToRelativeClick(Sender: TObject);
+begin
+  eFilePath.Text := AbsolutePathToRelative(gvApplicationPath, eFilePath.Text);
 end;
 
 procedure TSelectProgramm.FormActivate(Sender: TObject);

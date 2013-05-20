@@ -27,7 +27,8 @@ uses
   SettingsManager in 'SettingsManager.pas',
   CmnFunct in 'CmnFunct.pas',
   MNGAlarm_bass in 'Managers\MNGAlarm_bass.pas',
-  bass in 'bass\bass.pas';
+  bass in 'bass\bass.pas',
+  PathUtils in 'PathUtils.pas';
 
 {$R *.res}
 

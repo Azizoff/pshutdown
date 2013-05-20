@@ -4,22 +4,24 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, GCAV, ExtCtrls;
+  Dialogs, StdCtrls, GCAV, ExtCtrls, PathUtils;
 
 type
   TSelectSound = class(TForm)
     ESoundPath: TEdit;
     BBrowseSound: TButton;
-    Label1: TLabel;
+    lblPath: TLabel;
     CBSoundLoop: TCheckBox;
     BOK: TButton;
     BCancel: TButton;
     SoundBrowser: TOpenDialog;
     PanelHLine: TPanel;
+    BToRelative: TButton;
     procedure BOKClick(Sender: TObject);
     procedure BBrowseSoundClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BToRelativeClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -51,6 +53,11 @@ begin
   else
     gvSoundPath := '';
   gvSoundLoop := CBSoundLoop.Checked;
+end;
+
+procedure TSelectSound.BToRelativeClick(Sender: TObject);
+begin
+ESoundPath.Text := AbsolutePathToRelative(gvApplicationPath, ESoundPath.Text);
 end;
 
 procedure TSelectSound.FormKeyDown(Sender: TObject; var Key: Word;

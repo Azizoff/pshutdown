@@ -120,6 +120,7 @@
 			<DCCReference Include="CmnFunct.pas"/>
 			<DCCReference Include="Managers\MNGAlarm_bass.pas"/>
 			<DCCReference Include="bass\bass.pas"/>
+			<DCCReference Include="PathUtils.pas"/>
 			<RcItem Include="..\Icons\NewShutDown.ico">
 				<ResourceType>Icon</ResourceType>
 				<ResourceId>Icon_1</ResourceId>

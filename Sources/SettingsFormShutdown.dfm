@@ -238,7 +238,7 @@ object Settings: TSettings
         object LBLngFile: TLabel
           Left = 16
           Top = 18
-          Width = 70
+          Width = 105
           Height = 13
           Caption = 'Language File:'
         end
@@ -278,7 +278,7 @@ object Settings: TSettings
         object CBMinimizeToTray: TCheckBox
           Left = 16
           Top = 47
-          Width = 121
+          Width = 225
           Height = 17
           Caption = 'Minimize to tray'
           TabOrder = 1
@@ -287,7 +287,7 @@ object Settings: TSettings
         object CBMinimizeOnEscape: TCheckBox
           Left = 16
           Top = 24
-          Width = 185
+          Width = 225
           Height = 17
           Caption = 'Minimize on Escape'
           TabOrder = 0

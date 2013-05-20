@@ -55,7 +55,7 @@ object SelectSound: TSelectSound
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
+  object lblPath: TLabel
     Left = 8
     Top = 8
     Width = 26
@@ -65,13 +65,13 @@ object SelectSound: TSelectSound
   object ESoundPath: TEdit
     Left = 8
     Top = 24
-    Width = 360
+    Width = 318
     Height = 21
     ReadOnly = True
     TabOrder = 0
   end
   object BBrowseSound: TButton
-    Left = 374
+    Left = 332
     Top = 24
     Width = 36
     Height = 21
@@ -115,6 +115,18 @@ object SelectSound: TSelectSound
     BevelKind = bkSoft
     BevelOuter = bvNone
     TabOrder = 5
+  end
+  object BToRelative: TButton
+    Left = 374
+    Top = 24
+    Width = 36
+    Height = 21
+    Hint = 'Convert to relative'
+    Caption = 'R'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 6
+    OnClick = BToRelativeClick
   end
   object SoundBrowser: TOpenDialog
     Filter = 'MP3/WAV|*.wav;*.mp3'

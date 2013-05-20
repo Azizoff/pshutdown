@@ -35,7 +35,7 @@ object SelectProgramm: TSelectProgramm
   object eFilePath: TEdit
     Left = 8
     Top = 24
-    Width = 360
+    Width = 318
     Height = 21
     ReadOnly = True
     TabOrder = 0
@@ -48,7 +48,7 @@ object SelectProgramm: TSelectProgramm
     TabOrder = 1
   end
   object BBrowse: TButton
-    Left = 374
+    Left = 332
     Top = 24
     Width = 36
     Height = 21
@@ -84,6 +84,18 @@ object SelectProgramm: TSelectProgramm
     BevelKind = bkSoft
     BevelOuter = bvNone
     TabOrder = 5
+  end
+  object BToRelative: TButton
+    Left = 374
+    Top = 24
+    Width = 36
+    Height = 21
+    Hint = 'Convert to relative'
+    Caption = 'R'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 6
+    OnClick = BToRelativeClick
   end
   object ProgramBrowser: TOpenDialog
     Filter = #1048#1089#1087#1086#1083#1085#1103#1077#1084#1099#1077' '#1092#1072#1081#1083#1099'|*.exe'

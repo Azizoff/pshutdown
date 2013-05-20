@@ -89,6 +89,10 @@ begin
               (LngFile.ReadString(Name + '_' + Components[J]
               .ClassName, (Components[J] as TButton).Name,
               (Components[J] as TButton).Caption));
+            (Components[J] as TButton).Hint :=
+              (LngFile.ReadString(Name + '_' + Components[J]
+              .ClassName, (Components[J] as TButton).Name + '_Hint',
+              (Components[J] as TButton).Hint));
           end;
 {$ENDREGION}
 {$REGION 'TMemo'}
@@ -266,6 +270,15 @@ begin
             begin
               LngFile.WriteString(Name + '_' + Components[J].ClassName,
                 Components[J].Name, (Components[J] as TButton).Caption);
+              if ((Components[J] as TButton).ShowHint) then
+              begin
+              if (Length((Components[J] as TButton).Hint) > 0) then
+              begin
+              LngFile.WriteString(Name + '_' + Components[J].ClassName,
+                Components[J].Name + '_Hint', (Components[J] as TButton).Hint);
+
+              end;
+              end;
             end;
 {$ENDREGION}
 {$REGION 'TRadioButton'}

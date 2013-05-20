@@ -694,15 +694,15 @@ BEGIN
 	System_SysConst_SInvalidOp,	L"Invalid floating point operation"
 END
 
-/* c:\program files (x86)\embarcadero\rad studio\9.0\lib\Win32\release\Controls.res */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\SelectProgramFormShutdown.dfm */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\SettingsFormShutdown.dfm */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\AboutFormShutdown.dfm */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\SelectSoundFormShutdown.dfm */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\SelectPluginFormShutdown.dfm */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\MessageTextFormShutdown.dfm */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\MainFormShutdown.dfm */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\TimerForm.dfm */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\ProjectShutdown.dres */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\ProjectShutdown.res */
-/* C:\Users\Azizoff\Documents\RAD Studio\Projects\Pshutdown\Sources\ProjectShutdown.drf */
+/* d:\program1\embarcadero\rad studio\9.0\lib\Win32\release\Controls.res */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\SelectProgramFormShutdown.dfm */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\SettingsFormShutdown.dfm */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\AboutFormShutdown.dfm */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\SelectSoundFormShutdown.dfm */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\SelectPluginFormShutdown.dfm */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\MessageTextFormShutdown.dfm */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\MainFormShutdown.dfm */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\TimerForm.dfm */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\ProjectShutdown.dres */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\ProjectShutdown.res */
+/* C:\Users\Azizoff\Documents\RAD Studio\Projects\PSHUTDOWN\Sources\ProjectShutdown.drf */
