@@ -30,7 +30,7 @@ const
   NEW_LINE = #13#10;
 
   GLOBAL_PROJECT_NAME = 'PShutDown';
-  GLOBAL_PROGECT_VERSION = '1.2.0';
+  GLOBAL_PROGECT_VERSION = '1.2.1';
 
 
   {
