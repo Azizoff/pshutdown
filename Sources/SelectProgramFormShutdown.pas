@@ -63,6 +63,7 @@ procedure TSelectProgramm.FormActivate(Sender: TObject);
 begin
   eFilePath.Text := gvFilePath;
   eParameters.Text := gvParameters;
+  ProgramBrowser.Filter := langs[13]+'|*.exe';
 end;
 
 procedure TSelectProgramm.FormKeyDown(Sender: TObject; var Key: Word;

@@ -22,7 +22,7 @@ uses
   MNGPlugins in 'Managers\MNGPlugins.pas',
   MNGMessage in 'Managers\MNGMessage.pas',
   MainFrame in 'MainFrame.pas',
-  GCAV,
+  GCAV in 'GCAV.pas',
   TimerForm in 'TimerForm.pas' {TimerFormSD},
   SettingsManager in 'SettingsManager.pas',
   CmnFunct in 'CmnFunct.pas',

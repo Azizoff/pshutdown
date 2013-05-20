@@ -84,7 +84,7 @@ var
   // update_timer: string = 'Update timer?';
   // close_pshutdown: string = 'close PShutDown?';
 
-  langs: array [0 .. 12] of string = (
+  langs: array [0 .. 13] of string = (
     'Do you really want',
     'This plugin has no settings.',
     'Can''t save the settings.',
@@ -98,7 +98,8 @@ var
     'Parameters',         //9
     'Don''t start automatically',   //10
     'Time in seconds',    //11
-    'Minimized'           //12
+    'Minimized',           //12
+    'Executables Files'
     //'Cannot find program to send e-mail.'
   );
 function LoadArray(Ini: TMemIniFile): Boolean;
