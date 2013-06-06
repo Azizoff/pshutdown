@@ -25,15 +25,15 @@ type
     fBeepLastTen: Boolean;
     fBeepOnB: Boolean;
     fShowTimerWindow: Boolean;
-    fExeFilePath: UTF8String;
-    fParameters: UTF8String;
-    fSoundPath: UTF8String;
+    fExeFilePath: UnicodeString;
+    fParameters: UnicodeString;
+    fSoundPath: UnicodeString;
     fSoundLoop: Boolean;
     fShowFormInLastTenSec: Boolean;
   public
-    property ExeFilePath: UTF8String read fExeFilePath write fExeFilePath;
-    property Parameters: UTF8String read fParameters write fParameters;
-    property SoundPath: UTF8String read fSoundPath write fSoundPath;
+    property ExeFilePath: UnicodeString read fExeFilePath write fExeFilePath;
+    property Parameters: UnicodeString read fParameters write fParameters;
+    property SoundPath: UnicodeString read fSoundPath write fSoundPath;
     property SoundLoop: Boolean read fSoundLoop write fSoundLoop;
     function SaveToFile(const Path: string; const FileName: string): Boolean;
     function LoadFromFile(const Path: string; const FileName: string): Boolean;
@@ -145,7 +145,7 @@ begin
       Result := False;
     end;
   finally
-    SettingFile.Free;
+    FreeAndNil(SettingFile);
   end;
 end;
 

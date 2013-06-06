@@ -884,6 +884,7 @@ var
   I: Integer;
 begin
   timeKillEvent(TimerID);
+  TimerID := 0;
   if not(Actor is TManagerOfPlugin) then
     FreeAndNil(Actor);
   FreeAndNil(PluginList);
@@ -1050,6 +1051,8 @@ begin
   begin
     if (RBAt.Checked) then
     begin
+      if (Counter.TotalSeconds > 1) then
+      begin
       if not ShowMessageOnes then
       begin
         ShowMessageOnes := True;
@@ -1060,6 +1063,7 @@ begin
           BStart.Click;
         end;
         ShowMessageOnes := False;
+      end;
       end;
     end;
   end;
