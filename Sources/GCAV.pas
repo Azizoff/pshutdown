@@ -48,41 +48,9 @@ var
   gvSoundLoop: Boolean = False;
   gvTextMessage: string = ''; // Текст сообщения
 
-  { GENERAL }
-  {gvsShowMessageIfNow: Boolean = True;
-  // Выводить запрос при выполнении функции немедленно
-  gvsShowMessageOnlyForCrytical: Boolean = False;
-  // Выводить запрос подтвержднеия только для критических заданий
-  gvsForceAction: Boolean = False;
-  // True = компьютер будет выключаться принудительно, даже если не отвечают программы
-  gvsBeepLastTen: Boolean = False;
-  gvsBeepOnB: Boolean = False;
-  gvsShowTimerWindow: Boolean = True;
-  }
-
-  // Выводить звуковой сигнал в минуты кратные {gvsBeepOnI}
-  {gvsBeepOnI: Integer = 2; // Единица измерения минуты
-  gvsAskIfClose: Boolean = True;
-  gvsOnlyIfTimerRunning: Boolean = True;
-  }
-  { INTERFACE }
- // gvsMinimizeToTray: Boolean = False; // True = Сворачивать окно в трей
- // gvsMinimizeOnEscape: Boolean = False; // True = Сворачивать по ESCAPE
- // gvsLanguageFile: string;
-  { PASSWORD }
-
   gvApplicationPath: string = '';
   gvLanguagesPath: string = '';
   gvPluginsPath: string = '';
-
-  // mbtext_AreYouShoreWantTo: string = 'Do you really want ';
-  // mbtext_ThisPluginHasNoSettings: string = 'This plugin has no settings.';
-  // mbtext_UnableToSaveSettings: string = 'Can''t save the settings.';
-  // mbtext_FileIsWriteProtected: string = 'Can''t rewrite file.';
-  // mbtext_ChoosePlugin: string = 'Choose plugin';
-  // mbtext_SysTimeChanged: string = 'System time was changed';
-  // update_timer: string = 'Update timer?';
-  // close_pshutdown: string = 'close PShutDown?';
 
   langs: array [0 .. 13] of string = (
     'Do you really want',
