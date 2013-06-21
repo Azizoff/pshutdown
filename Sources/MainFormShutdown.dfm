@@ -330,7 +330,7 @@ object MainFormSD: TMainFormSD
       object RBAt: TRadioButton
         Left = 217
         Top = 77
-        Width = 31
+        Width = 50
         Height = 17
         Caption = 'At:'
         TabOrder = 7
